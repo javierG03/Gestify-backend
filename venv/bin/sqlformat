@@ -1,4 +1,4 @@
-#!/home/sececa/portfolioProyects/Gestify/Gestify-backend/venv/bin/python3
+#!/home/sececa/portfolioProyects/Gestify-backend/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
