@@ -18,8 +18,7 @@ class Evento(models.Model):
         # permisos personalizados que Django crea al migrar
         permissions = [
             ("cancelar_evento", "Puede cancelar evento"),
-            ("modificar_evento", "Puede modificar evento"),
-            ("unirse_evento", "Puede unirse a evento"),
+            ("inscribirse_evento", "Puede inscribirse a un evento"),            
         ]
     
     def __str__(self):

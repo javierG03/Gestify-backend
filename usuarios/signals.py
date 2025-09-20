@@ -12,15 +12,11 @@ def create_user_groups(sender, **kwargs):
     """
     # Mapas grupo -> lista de codenames de permisos
     groups_permissions = {
-        "Administrador": [
-            "añadir_evento", "cambiar_evento", "eliminar_evento",
-            "ver_evento", "cancelar_evento", "administrar_pagos"
-        ],
         "Organizador": [
-            "cambiar_evento", "ver_evento", "administrar_pagos"
+            "change_evento", "view_evento", "administrar_pagos"
         ],
         "Participante": [
-            "ver_evento", "unirse_evento"
+            "view_evento", "inscribirse_evento"
         ],
     }
 
@@ -34,3 +30,8 @@ def create_user_groups(sender, **kwargs):
                 # si la permission no existe aún (por ejemplo no migró el app), la ignoramos por ahora
                 # Podrías registrar/loggear aquí para comprobarlo
                 pass
+
+    # Asignación especial para Administrador: todos los permisos
+    admin_group, created = Group.objects.get_or_create(name="Administrador")
+    all_permissions = Permission.objects.all()  # Obtiene TODOS los permisos (default y custom)
+    admin_group.permissions.add(*all_permissions)  # Asigna todos en bloque

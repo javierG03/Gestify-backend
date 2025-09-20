@@ -6,8 +6,8 @@ from .models import CustomUser  # importa tu modelo
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('username', 'email', 'is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active')
+    list_display = ('username', 'email', 'is_staff', 'is_active', 'get_groups')
+    list_filter = ('is_staff', 'is_active', 'groups')
     search_fields = ('username', 'email')
     ordering = ('username',)
 
@@ -23,6 +23,7 @@ class CustomUserAdmin(UserAdmin):
             "fields": ("username", "email", "name", "password1", "password2", "is_staff", "is_active", "groups", "user_permissions"),
         }),
     )
-
-    search_fields = ("username", "email")
-    ordering = ("username",)
+    
+    def get_groups(self, obj):
+        return ", ".join(group.name for group in obj.groups.all())
+    get_groups.short_description = "Roles"
