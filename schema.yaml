@@ -1,0 +1,647 @@
+openapi: 3.0.3
+info:
+  title: Mi API
+  version: 1.0.0
+  description: Documentación de mi API con Swagger y DRF
+paths:
+  /api/events/:
+    get:
+      operationId: events_list
+      tags:
+      - events
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Evento'
+          description: ''
+    post:
+      operationId: events_create
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Evento'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+  /api/events/{id}/:
+    get:
+      operationId: events_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+    put:
+      operationId: events_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Evento'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+    patch:
+      operationId: events_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEvento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEvento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEvento'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+    delete:
+      operationId: events_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/events/{id}/cancel/:
+    post:
+      operationId: events_cancel_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Evento'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+  /api/events/{id}/inscription/:
+    post:
+      operationId: events_inscription_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Evento'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+  /api/events/{id}/pay/:
+    post:
+      operationId: events_pay_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Evento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Evento'
+        required: true
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evento'
+          description: ''
+  /api/events/payu/confirmation/:
+    post:
+      operationId: events_payu_confirmation_create
+      tags:
+      - events
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/:
+    get:
+      operationId: users_list
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomUser'
+          description: ''
+  /api/users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomUser'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/{id}/assign-role/:
+    post:
+      operationId: users_assign_role_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssignRole'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignRole'
+          description: ''
+  /api/users/{id}/remove-role/:
+    delete:
+      operationId: users_remove_role_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoveRole'
+          description: ''
+  /api/users/change-password/:
+    post:
+      operationId: users_change_password_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: users_login_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    AssignRole:
+      type: object
+      properties:
+        role:
+          type: string
+          writeOnly: true
+      required:
+      - role
+    CustomUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        role:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        eventos_inscritos:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleEvento'
+          readOnly: true
+      required:
+      - email
+      - eventos_inscritos
+      - id
+      - name
+      - password
+      - role
+    EstadoEnum:
+      enum:
+      - activo
+      - cancelado
+      type: string
+      description: |-
+        * `activo` - Activo
+        * `cancelado` - Cancelado
+    Evento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        inscritos:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInscripcion'
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        fecha:
+          type: string
+          format: date
+        ubicacion:
+          type: string
+          maxLength: 200
+        aforo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+      required:
+      - aforo
+      - descripcion
+      - fecha
+      - id
+      - inscritos
+      - nombre
+      - precio
+      - ubicacion
+    PatchedCustomUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        role:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        eventos_inscritos:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleEvento'
+          readOnly: true
+    PatchedEvento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        inscritos:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInscripcion'
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 200
+        descripcion:
+          type: string
+        fecha:
+          type: string
+          format: date
+        ubicacion:
+          type: string
+          maxLength: 200
+        aforo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        precio:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+    RemoveRole:
+      type: object
+      properties:
+        role:
+          type: string
+      required:
+      - role
+    SimpleEvento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nombre:
+          type: string
+          maxLength: 200
+        fecha:
+          type: string
+          format: date
+        estado:
+          $ref: '#/components/schemas/EstadoEnum'
+      required:
+      - fecha
+      - id
+      - nombre
+    UserInscripcion:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      required:
+      - email
+      - id
+      - name
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

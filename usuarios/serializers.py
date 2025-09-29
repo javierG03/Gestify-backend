@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from eventos.models import Evento
+from drf_spectacular.utils import extend_schema_field
 
 User = get_user_model()
 
@@ -43,6 +44,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             validated_data['password'] = make_password(validated_data['password'])
         return super().update(instance, validated_data)
     
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_role (self, obj):
         return list(obj.groups.values_list('name',flat=True))
 
@@ -71,4 +73,21 @@ class RemoveRoleSerializer(serializers.Serializer):
         instance.groups.remove(*instance.groups.filter(name=role_name))
         return instance
     
+# Serializers nuevos para las vistas de auth (para documentación)
+class UserRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'email', 'password']  # Ajusta según los campos requeridos
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        return CustomUser.objects.create_user(**validated_data)  # Usa create_user si existe, o ajusta
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
 
