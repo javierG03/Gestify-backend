@@ -19,7 +19,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'name', 'email', 'password', 'role', 'eventos_inscritos']
+        fields = ['id', 'username', 'name', 'email', 'password', 'role', 'eventos_inscritos']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -77,11 +77,26 @@ class RemoveRoleSerializer(serializers.Serializer):
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['name', 'email', 'password']  # Ajusta según los campos requeridos
+        fields = ['username', 'name', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        return CustomUser.objects.create_user(**validated_data)  # Usa create_user si existe, o ajusta
+        # Extraer el password
+        password = validated_data.pop('password')
+        
+        # Crear el usuario
+        user = CustomUser.objects.create(**validated_data)
+        user.set_password(password)  # Hashear el password correctamente
+        user.save()
+        
+        # Asignar grupo por defecto
+        try:
+            group = Group.objects.get(name="Participante")
+            user.groups.add(group)
+        except Group.DoesNotExist:
+            pass
+        
+        return user
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -90,4 +105,3 @@ class UserLoginSerializer(serializers.Serializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True)
-
