@@ -3,19 +3,19 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from eventos.models import Evento
+from eventos.models import Event
 from drf_spectacular.utils import extend_schema_field
 
 User = get_user_model()
 
-class SimpleEventoSerializer(serializers.ModelSerializer):
+class SimpleEventSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Evento
+        model = Event
         fields = ['id', 'nombre', 'fecha', 'estado']
 
 class CustomUserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
-    eventos_inscritos = SimpleEventoSerializer(many=True, read_only=True)
+    eventos_inscritos = SimpleEventSerializer(many=True, read_only=True)
 
     class Meta:
         model = CustomUser

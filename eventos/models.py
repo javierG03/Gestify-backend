@@ -3,33 +3,33 @@ from usuarios.models import CustomUser
 from django.conf import settings
 
 # Modelo para tipos de boletos comunes (puede reutilizarse entre eventos)
-class TipoBoleta(models.Model):
-    nombre = models.CharField(max_length=50)
-    descripcion = models.TextField(blank=True, help_text="Beneficios o detalles del tipo de boleta.")
-    precio_base = models.DecimalField(max_digits=10, decimal_places=2, help_text="Precio por unidad.")
+class TicketType(models.Model):
+    ticket_name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, help_text="Benefits or details of ticket type.")
+ 
 
     class Meta:
-        verbose_name = "Tipo de Boleta"
-        verbose_name_plural = "Tipos de Boletos"
+        verbose_name = "Ticket type"
+        verbose_name_plural = "Ticket Types"
 
     def __str__(self):
-        return self.nombre
+        return self.ticket_name
 
-class Evento(models.Model): 
-    nombre = models.CharField(max_length=200)
-    descripcion = models.TextField()
-    fecha = models.DateField()
-    ciudad = models.CharField(max_length=100) 
-    pais = models.CharField(max_length=100)
-    estado = models.CharField(max_length=520, choices=(("activo","Activo"),("cancelado","Cancelado")), default="activo")
+class Event(models.Model): 
+    event_name = models.CharField(max_length=200)
+    description = models.TextField()
+    date = models.DateField()
+    city = models.CharField(max_length=100) 
+    country = models.CharField(max_length=100)
+    status = models.CharField(max_length=520, choices=(("activo","Activo"),("cancelado","Cancelado")), default="activo")
 
 
     # Relación con tipos de boletos disponibles para este evento
-    tipos_disponibles = models.ManyToManyField(
-        TipoBoleta,
-        through='TipoBoletaEvento',  # Intermediario para capacidades y precios específicos
+    types_of_tickets_available = models.ManyToManyField(
+        TicketType,
+        through='TicketTypeEvent',  # Intermediario para capacidades y precios específicos
         blank=True,
-        related_name="eventos"
+        related_name="event"
     )
 
     class Meta:
@@ -40,52 +40,52 @@ class Evento(models.Model):
         ]
     
     def __str__(self):
-        return self.nombre
+        return self.event_name
     
-    def boletos_vendidos(self):
+    def tickets_solds(self):
             """Método helper para contar boletos totales vendidos."""
-            return sum(boleta.cantidad for boleta in self.boletas.all())
+            return sum(ticket.amount for ticket in self.tickets.all())
 
 # Intermediario para configurar capacidades y precios por tipo por evento
-class TipoBoletaEvento(models.Model):
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    tipo_boleta = models.ForeignKey(TipoBoleta, on_delete=models.CASCADE)
-    precio = models.DecimalField(max_digits=10, decimal_places=2, help_text="Precio específico para este evento.")
-    aforo_maximo = models.PositiveIntegerField(help_text="Capacidad máxima para este tipo de boleta.")
-    aforo_vendido = models.PositiveIntegerField(default=0, editable=False)  # Actualízalo en views
+class TicketTypeEvent(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    ticket_type = models.ForeignKey(TicketType, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Specfic price for this event.")
+    maximun_capacity = models.PositiveIntegerField(help_text="Maximun capacity for this event.")
+    capacity_sold = models.PositiveIntegerField(default=0, editable=False)  # Actualízalo en views
 
     class Meta:
-        unique_together = ('evento', 'tipo_boleta')  # Un tipo por evento
-        verbose_name = "Configuración de Tipo de Boleta por Evento"
+        unique_together = ('event', 'ticket_type')  # Un tipo por evento
+        verbose_name = "Settings of ticket type per event"
 
     def __str__(self):
-        return f"{self.tipo_boleta.nombre} para {self.evento.nombre}"
+        return f"{self.ticket_type.ticket_name} para {self.event.event_name}"
 
 # Modelo para boletas individuales (reemplaza o suplementa inscritos)
-class Boleta(models.Model):
-    usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="boletas")
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name="boletas")
-    tipo_config = models.ForeignKey(TipoBoletaEvento, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=1, help_text="Número de boletos comprados.")
-    fecha_compra = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(
+class Ticket(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_tickets")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="tickets")
+    config_type = models.ForeignKey(TicketTypeEvent, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField(default=1, help_text="Number of tickets purchased.")
+    date_of_purchase = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
         max_length=20,
-        choices=[("comprada", "Comprada"), ("usada", "Usada"), ("cancelada", "Cancelada")],
-        default="comprada"
+        choices=[("comprada", "Comprada"), ("usada", "Usada"), ("pendiente", "Pendiente por pagar"), ("cancelada", "Cancelada")],
+        default="pendiente"
     )
     # Campo para código QR o ID único si se integra con escaneo
-    codigo_unico = models.CharField(max_length=100, unique=True, blank=True)
+    unique_code = models.CharField(max_length=100, unique=True, blank=True)
 
     class Meta:
-        verbose_name = "Boleta"
-        verbose_name_plural = "Boletas"
+        verbose_name = "ticket per user"
+        verbose_name_plural = "Tickets per users"
 
     def __str__(self):
-        return f"Boleta {self.codigo_unico} para {self.evento.nombre} ({self.tipo_config.tipo_boleta.nombre})"
+        return f"Boleta {self.unique_code} para {self.event.event_name} ({self.config_type.ticket_type.ticket_name})"
 
     def save(self, *args, **kwargs):
         # Lógica para actualizar aforo_vendido en TipoBoletaEvento al comprar
-        if self.estado == "comprada" and not self.pk:  # Nueva compra
-            self.tipo_config.aforo_vendido += self.cantidad
-            self.tipo_config.save()
+        if self.status == "comprada" and not self.pk:  # Nueva compra
+            self.config_type.capacity_sold += self.amount
+            self.config_type.save()
         super().save(*args, **kwargs)

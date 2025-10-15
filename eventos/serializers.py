@@ -1,4 +1,4 @@
-from .models import Evento, TipoBoleta, TipoBoletaEvento, Boleta
+from .models import Event, TicketType, TicketTypeEvent, Ticket
 from rest_framework import serializers
 from usuarios.models import CustomUser
 from drf_spectacular.utils import extend_schema_field
@@ -12,86 +12,93 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'name', 'email']
 
-class TipoBoletaSerializer(serializers.ModelSerializer):
+class TicketTypeSerializer(serializers.ModelSerializer):
     """
     Serializer para tipos de boletos comunes (e.g., GA, VIP).
     """
     class Meta:
-        model = TipoBoleta
-        fields = ['id', 'nombre', 'descripcion', 'precio_base']
+        model = TicketType
+        fields = ['id', 'ticket_name', 'description']
         read_only_fields = ['id']
 
     @extend_schema_field(str)  # Documenta el campo __str__ si se usa en responses
-    def get_nombre_display(self, obj):
-        return f"{obj.nombre} ({obj.precio_base})"
+    def get_display_name(self, obj):
+        return f"{obj.ticket_name}"
 
-class TipoBoletaEventoSerializer(serializers.ModelSerializer):
+class TicketTypeEventSerializer(serializers.ModelSerializer):
     """
     Serializer para configuraciones específicas por evento (incluye aforo restante).
     """
-    tipo_boleta = TipoBoletaSerializer(read_only=True)
-    aforo_restante = serializers.SerializerMethodField()
+    ticket_type = TicketTypeSerializer(read_only=True)
+    remaining_capacity = serializers.SerializerMethodField()
 
     class Meta:
-        model = TipoBoletaEvento
-        fields = ['id', 'tipo_boleta', 'precio', 'aforo_maximo', 'aforo_vendido', 'aforo_restante']
-        read_only_fields = ['id', 'aforo_vendido', 'aforo_restante']
+        model = TicketTypeEvent
+        fields = ['id', 'ticket_type', 'price', 'maximun_capacity', 'capacity_sold', 'remaining_capacity']
+        read_only_fields = ['id', 'capacity_sold', 'remaining_capacity']
 
-    def get_aforo_restante(self, obj):
-        return obj.aforo_maximo - obj.aforo_vendido
+    def get_remaining_capacity(self, obj):
+        return obj.maximun_capacity - obj.capacity_sold
 
-    def validate_aforo_maximo(self, value):
+    def validate_maximun_capacity(self, value):
         if value <= 0:
             raise serializers.ValidationError("El aforo máximo debe ser mayor a 0.")
         return value
 
-class BoletaSerializer(serializers.ModelSerializer):
+class TicketSerializer(serializers.ModelSerializer):
     """
-    Serializer para boletas individuales compradas por usuarios.
+    Serializer para Tickets individuales compradas por usuarios.
     """
-    usuario = UserSerializer(read_only=True)
-    evento = serializers.StringRelatedField()  # Muestra nombre del evento
-    tipo_config = TipoBoletaEventoSerializer(read_only=True)
-    usuario_id = serializers.PrimaryKeyRelatedField(
-        queryset=CustomUser.objects.all(), source='usuario', write_only=True, required=False
+    user = UserSerializer(read_only=True)
+    event = serializers.StringRelatedField()  # Muestra nombre del evento
+    config_type = TicketTypeEventSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all(), source='user', write_only=True, required=False
     )
 
     class Meta:
-        model = Boleta
+        model = Ticket
         fields = [
-            'id', 'usuario', 'usuario_id', 'evento', 'tipo_config', 'cantidad',
-            'fecha_compra', 'estado', 'codigo_unico'
+            'id', 'user', 'user_id', 'event', 'config_type', 'amount',
+            'date_of_purchase', 'status', 'unique_code'
         ]
-        read_only_fields = ['id', 'fecha_compra', 'codigo_unico']
+        read_only_fields = ['id', 'date_of_purchase', 'unique_code']
 
-    def validate_cantidad(self, value):
+    def validate_amount(self, value):
         if value <= 0:
             raise serializers.ValidationError("La cantidad debe ser mayor a 0.")
         return value
 
     def create(self, validated_data):
-        # Lógica personalizada: Crear boleta y actualizar aforo
-        tipo_config = validated_data.pop('tipo_config', None)
-        if tipo_config.aforo_vendido + validated_data['cantidad'] > tipo_config.aforo_maximo:
-            raise serializers.ValidationError("No hay suficiente aforo disponible para este tipo.")
-        boleta = Boleta.objects.create(**validated_data, tipo_config=tipo_config)
-        tipo_config.aforo_vendido += boleta.cantidad
-        tipo_config.save()
-        return boleta
+        # Lógica personalizada: Crear Ticket y actualizar aforo
+        config_type = self.context.get('config_type')
 
-class TipoConfigSerializer(serializers.Serializer):
+        if config_type.capacity_sold + validated_data['amount'] > config_type.maximun_capacity:
+            raise serializers.ValidationError("No hay suficiente aforo disponible para este tipo.")
+        
+        ticket = Ticket.objects.create(
+            **validated_data, 
+            event=config_type.event,
+            config_type=config_type
+        )
+        
+        config_type.capacity_sold += ticket.amount
+        config_type.save()
+        return ticket
+
+class ConfigTypeSerializer(serializers.Serializer):
     """
-    Serializer para una configuración individual de tipo de boleta en tipos_data.
+    Serializer para una configuración individual de tipo de Ticket en ticket_type.
     Tipos explícitos para parsing correcto de números; validaciones post-parsing.
     """
-    tipo_boleta_id = serializers.IntegerField(min_value=1, help_text="ID de un TipoBoleta existente.")
-    precio = serializers.DecimalField(
+    ticket_type_id = serializers.IntegerField(min_value=1, help_text="ID de un tipo de boleta existente.")
+    price = serializers.DecimalField(
         max_digits=10, decimal_places=2, min_value=0, required=False, default=Decimal('0.00'),
-        help_text="Precio específico (default 0 para gratuito)."
+        help_text="Precio específico por evento(default 0 para gratuito)."
     )
-    aforo_maximo = serializers.IntegerField(min_value=1, help_text="Capacidad máxima para este tipo (>0).")
+    maximun_capacity = serializers.IntegerField(min_value=1, help_text="Capacidad máxima para este tipo de boleta (>0).")
 
-    def validate_precio(self, value):
+    def validate_price(self, value):
         """
         Validación post-parsing para precio (ya es Decimal, pero mensaje custom).
         """
@@ -99,7 +106,7 @@ class TipoConfigSerializer(serializers.Serializer):
             raise serializers.ValidationError("El precio no puede ser negativo.")
         return value
 
-    def validate_aforo_maximo(self, value):
+    def validate_maximun_capacity(self, value):
         """
         Validación post-parsing para aforo (ya es int, pero chequeo extra y mensaje custom).
         """
@@ -109,103 +116,103 @@ class TipoConfigSerializer(serializers.Serializer):
 
     def validate(self, data):
         """
-        Validación cross-field en el inner serializer: Verifica existencia de TipoBoleta.
+        Validación cross-field en el inner serializer: Verifica existencia de TipoTicket.
         """
-        tipo_id = data['tipo_boleta_id']
+        tipo_id = data['ticket_type_id']
         try:
-            get_object_or_404(TipoBoleta, id=tipo_id)
+            get_object_or_404(TicketType, id=tipo_id)
         except:
-            raise serializers.ValidationError(f"Tipo de boleta con ID {tipo_id} no existe.")
+            raise serializers.ValidationError(f"El tipo de boleta con el ID {tipo_id} no existe.")
         return data
     
-class EventoSerializer(serializers.ModelSerializer):
+class EventSerializer(serializers.ModelSerializer):
     """
-    Serializer principal para eventos, incluyendo tipos disponibles y boletas vendidas.
-    Requiere 'tipos_data' al crear para configurar al menos un tipo de boleta.
+    Serializer principal para eventos, incluyendo tipos disponibles y Tickets vendidas.
+    Requiere 'ticket_type' al crear para configurar al menos un tipo de Ticket.
     """
-    boletas = BoletaSerializer(many=True, read_only=True)
-    tipos_disponibles = serializers.SerializerMethodField()  # CRÍTICO: MethodField para serializar TipoBoletaEvento directamente
-    aforo_total_restante = serializers.SerializerMethodField()
-    tipos_data = serializers.ListSerializer(
-        child=TipoConfigSerializer(),
+    tickets = TicketSerializer(many=True, read_only=True)
+    types_of_tickets_available = serializers.SerializerMethodField()  # CRÍTICO: MethodField para serializar TicketTypeEvent directamente
+    maximun_capacity_remaining = serializers.SerializerMethodField()
+    ticket_type = serializers.ListSerializer(
+        child=ConfigTypeSerializer(),
         write_only=True,
         min_length=1,
-        help_text="Array de configuraciones para tipos de boletas. Ej: [{'tipo_boleta_id': 1, 'precio': 50.00, 'aforo_maximo': 100}]"
+        help_text="Array de configuraciones para tipos de Tickets. Ej: [{'ticket_type_id': 1, 'price': 50.00, 'maximun_capacity': 100}]"
     )
 
     class Meta:
-        model = Evento
+        model = Event
         fields = [
-            'id', 'nombre', 'descripcion', 'fecha', 'ciudad', 'pais',
-            'estado', 'tipos_disponibles', 'boletas', 'aforo_total_restante', 'tipos_data'
+            'id', 'event_name', 'description', 'date', 'city', 'country',
+            'status', 'types_of_tickets_available', 'tickets', 'maximun_capacity_remaining', 'ticket_type'
         ]
-        read_only_fields = ['id', 'aforo_total_restante', 'tipos_disponibles']
+        read_only_fields = ['id', 'maximun_capacity_remaining', 'types_of_tickets_available']
 
     @extend_schema_field(dict)  # Documenta como array de dicts para Swagger
-    def get_tipos_disponibles(self, obj):
+    def get_types_of_tickets_available(self, obj):
         """
-        Query y serializa directamente las instancias de TipoBoletaEvento para este evento.
-        Esto evita el AttributeError al no usar ManyToMany directo (que retorna TipoBoleta).
+        Query y serializa directamente las instancias de TicketTypeEvent para este evento.
+        Esto evita el AttributeError al no usar ManyToMany directo (que retorna TipoTicket).
         """
-        tipos_evento = TipoBoletaEvento.objects.select_related('tipo_boleta').filter(evento=obj)
-        serializer = TipoBoletaEventoSerializer(tipos_evento, many=True, context=self.context)
+        event_type = TicketTypeEvent.objects.select_related('ticket_type').filter(event=obj)
+        serializer = TicketTypeEventSerializer(event_type, many=True, context=self.context)
         return serializer.data
 
     @extend_schema_field(int)
-    def get_aforo_total_restante(self, obj):
+    def get_maximun_capacity_remaining(self, obj):
         """
-        Calcula aforo desde TipoBoletaEvento para consistencia y eficiencia.
+        Calcula aforo desde TicketTypeEvent para consistencia y eficiencia.
         """
-        tipos_evento = TipoBoletaEvento.objects.filter(evento=obj)
-        total_maximo = sum(t.aforo_maximo for t in tipos_evento)
-        total_vendido = sum(b.cantidad for b in obj.boletas.all())
-        return max(0, total_maximo - total_vendido)
+        event_type = TicketTypeEvent.objects.filter(event=obj)
+        maximun_total = sum(t.maximun_capacity for t in event_type)
+        total_sold = sum(b.amount for b in obj.tickets.all())
+        return max(0, maximun_total - total_sold)
 
-    def validate_tipos_data(self, value):
+    def validate_ticket_type(self, value):
         """
         Validación a nivel de lista: Solo duplicados y consistencia (valores ya parseados por children).
         """
-        tipo_ids = [config['tipo_boleta_id'] for config in value]
-        if len(tipo_ids) != len(set(tipo_ids)):
-            raise serializers.ValidationError("No se permiten tipos de boleta duplicados en la lista.")
+        type_ids = [config['ticket_type_id'] for config in value]
+        if len(type_ids) != len(set(type_ids)):
+            raise serializers.ValidationError("No se permiten tipos de Ticket duplicados en la lista.")
         return value
 
     def validate(self, data):
-        if 'fecha' in data and data['fecha'] < datetime.date.today():
+        if 'date' in data and data['date'] < datetime.date.today():
             raise serializers.ValidationError("La fecha del evento no puede ser en el pasado.")
-        if 'tipos_data' not in data or len(data['tipos_data']) == 0:
-            raise serializers.ValidationError("Campo 'tipos_data' es requerido y debe tener al menos un ítem.")
+        if 'ticket_type' not in data or len(data['ticket_type']) == 0:
+            raise serializers.ValidationError("Campo 'ticket_type' es requerido y debe tener al menos un ítem.")
         return data
 
     def create(self, validated_data):
-        tipos_data = validated_data.pop('tipos_data')
-        evento = Evento.objects.create(**validated_data)
+        ticket_type = validated_data.pop('ticket_type')
+        event = Event.objects.create(**validated_data)
         
-        for config in tipos_data:
-            TipoBoletaEvento.objects.create(
-                evento=evento,
-                tipo_boleta_id=config['tipo_boleta_id'],
-                precio=config['precio'],  # Ya Decimal del serializer
-                aforo_maximo=config['aforo_maximo'],  # Ya int
-                aforo_vendido=0
+        for config in ticket_type:
+            TicketTypeEvent.objects.create(
+                event=event,
+                ticket_type_id=config['ticket_type_id'],
+                price=config['price'],  # Ya Decimal del serializer
+                maximun_capacity=config['maximun_capacity'],  # Ya int
+                capacity_sold=0
             )
         
         # NO uses refresh_from_db() aquí; en su lugar, la response usará get_tipos_disponibles para fresh data
-        return evento
+        return event
 
     def update(self, instance, validated_data):
-        tipos_data = validated_data.pop('tipos_data', None)
+        ticket_type = validated_data.pop('ticket_type', None)
         instance = super().update(instance, validated_data)
         
-        if tipos_data:
-            instance.tipos_disponibles.clear()  # Limpia ManyToMany (elimina through records)
-            for config in tipos_data:
-                TipoBoletaEvento.objects.create(
-                    evento=instance,
-                    tipo_boleta_id=config['tipo_boleta_id'],
-                    precio=config['precio'],
-                    aforo_maximo=config['aforo_maximo'],
-                    aforo_vendido=0
+        if ticket_type:
+            instance.types_available.clear()  # Limpia ManyToMany (elimina through records)
+            for config in ticket_type:
+                TicketTypeEvent.objects.create(
+                    event=instance,
+                    ticket_type_id=config['ticket_type_id'],
+                    price=config['price'],
+                    maximun_capacity=config['maximun_capacity'],
+                    capacity_sold=0
                 )
         
         # No refresh; method fields manejan data fresh en response

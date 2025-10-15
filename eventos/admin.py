@@ -1,16 +1,16 @@
 from django.contrib import admin
-from .models import TipoBoleta, TipoBoletaEvento, Boleta, Evento  # Incluye otros si quieres
+from .models import TicketType, TicketTypeEvent, Ticket, Event  # Incluye otros si quieres
 
-@admin.register(TipoBoleta)
-class TipoBoletaAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nombre', 'descripcion', 'precio_base']
-    list_filter = ['nombre']
-    search_fields = ['nombre', 'descripcion']
+@admin.register(TicketType)
+class TicketTypeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'ticket_name', 'description']
+    list_filter = ['ticket_name']
+    search_fields = ['ticket_name', 'description']
 
-@admin.register(Evento)
+@admin.register(Event)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'fecha', 'ciudad', 'estado']  
+    list_display = ['event_name', 'date', 'city', 'country', 'status']  
 
 # Registra los otros modelos si no lo has hecho
-admin.site.register(TipoBoletaEvento)
-admin.site.register(Boleta)
+admin.site.register(TicketTypeEvent)
+admin.site.register(Ticket)
