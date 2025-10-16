@@ -1,6 +1,34 @@
-# Auditoría de accesos a tickets
-from django.contrib.auth import get_user_model
 from django.db import models
+# Modelo para Departamento
+class Departamento(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = "Departamento"
+        verbose_name_plural = "Departamentos"
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return self.nombre
+
+# Modelo para Ciudad
+class Ciudad(models.Model):
+    nombre = models.CharField(max_length=100)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name="ciudades")
+
+    class Meta:
+        verbose_name = "Ciudad"
+        verbose_name_plural = "Ciudades"
+        unique_together = ("nombre", "departamento")
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return f"{self.nombre} ({self.departamento.nombre})"
+
+# Auditoría de accesos a tickets
+
+from django.db import models
+from django.contrib.auth import get_user_model
 
 class TicketAccessLog(models.Model):
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='access_logs')
@@ -11,7 +39,6 @@ class TicketAccessLog(models.Model):
 
     def __str__(self):
         return f"Acceso a ticket {self.ticket.id} por {self.accessed_by} en {self.access_time}"
-from django.db import models
 from usuarios.models import CustomUser
 from django.conf import settings
 
@@ -31,10 +58,29 @@ class TicketType(models.Model):
 class Event(models.Model): 
     event_name = models.CharField(max_length=200)
     description = models.TextField()
-    date = models.DateField()
-    city = models.CharField(max_length=100) 
-    country = models.CharField(max_length=100)
-    status = models.CharField(max_length=520, choices=(("activo","Activo"),("cancelado","Cancelado")), default="activo")
+    date = models.DateField(help_text="Fecha principal del evento (legacy, usar start_datetime y end_datetime)")
+    start_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de inicio del evento")
+    end_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de finalización del evento")
+    department = models.CharField(max_length=100, help_text="Departamento del evento")
+    city = models.CharField(max_length=100, help_text="Ciudad del evento")
+    country = models.CharField(max_length=20, default="Colombia", editable=False)
+    status = models.CharField(max_length=50, choices=(
+        ("programado", "Programado"),
+        ("activo", "Activo"),
+        ("cancelado", "Cancelado"),
+        ("finalizado", "Finalizado")
+    ), default="programado")
+    CATEGORY_CHOICES = [
+        ("musica", "Música"),
+        ("deporte", "Deporte"),
+        ("educacion", "Educación"),
+        ("tecnologia", "Tecnología"),
+        ("arte", "Arte"),
+        ("otros", "Otros")
+    ]
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default="otros", help_text="Categoría del evento")
+    image = models.ImageField(upload_to="event_images/", blank=True, null=True, help_text="Imagen del evento")
+    organizer = models.CharField(max_length=200, blank=True, null=True, help_text="Nombre del organizador")
 
 
     # Relación con tipos de boletos disponibles para este evento

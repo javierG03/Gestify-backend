@@ -1,4 +1,4 @@
-from .models import Event, TicketType, TicketTypeEvent, Ticket
+from .models import Event, TicketType, TicketTypeEvent, Ticket, Departamento, Ciudad
 from rest_framework import serializers
 from usuarios.models import CustomUser
 from drf_spectacular.utils import extend_schema_field
@@ -145,13 +145,31 @@ class EventSerializer(serializers.ModelSerializer):
         help_text="Array de configuraciones para tipos de Tickets. Ej: [{'ticket_type_id': 1, 'price': 50.00, 'maximun_capacity': 100}]"
     )
 
+    start_datetime = serializers.DateTimeField(required=True)
+    end_datetime = serializers.DateTimeField(required=True)
+    category = serializers.ChoiceField(choices=[
+        ("musica", "Música"),
+        ("deporte", "Deporte"),
+        ("educacion", "Educación"),
+        ("tecnologia", "Tecnología"),
+        ("arte", "Arte"),
+        ("otros", "Otros")
+    ], required=True)
+    country = serializers.CharField(default="Colombia", read_only=True)
+    department = serializers.CharField(required=True)
+    city = serializers.CharField(required=True)
+    image = serializers.ImageField(required=True)
+    organizer = serializers.CharField(required=True)
+    status = serializers.CharField(required=True)
+
     class Meta:
         model = Event
         fields = [
-            'id', 'event_name', 'description', 'date', 'city', 'country',
-            'status', 'types_of_tickets_available', 'tickets', 'maximun_capacity_remaining', 'ticket_type'
+            'id', 'event_name', 'description', 'date', 'start_datetime', 'end_datetime',
+            'city', 'department', 'country', 'status', 'category', 'image', 'organizer',
+            'types_of_tickets_available', 'tickets', 'maximun_capacity_remaining', 'ticket_type'
         ]
-        read_only_fields = ['id', 'maximun_capacity_remaining', 'types_of_tickets_available']
+        read_only_fields = ['id', 'types_of_tickets_available', 'tickets', 'maximun_capacity_remaining']
 
     @extend_schema_field(dict)  # Documenta como array de dicts para Swagger
     def get_types_of_tickets_available(self, obj):
@@ -183,10 +201,87 @@ class EventSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
-        if 'date' in data and data['date'] < datetime.date.today():
-            raise serializers.ValidationError("La fecha del evento no puede ser en el pasado.")
+        errors = {}
+        # Validar que todos los campos obligatorios estén presentes
+        required_fields = [
+            'event_name', 'description', 'date', 'start_datetime', 'end_datetime',
+            'city', 'department', 'country', 'status', 'category', 'image', 'organizer', 'ticket_type'
+        ]
+        for field in required_fields:
+            if field not in data or data[field] in [None, '', []]:
+                errors[field] = f"El campo '{field}' es obligatorio."
+
+        # Descripción mínima
+        if 'description' in data and len(data['description']) < 20:
+            errors['description'] = "La descripción debe tener al menos 20 caracteres."
+
+        # Validación de fechas
+        today = datetime.datetime.now()
+        if 'start_datetime' in data:
+            if data['start_datetime'] < today:
+                errors['start_datetime'] = "La fecha y hora de inicio no puede ser en el pasado."
+        if 'end_datetime' in data:
+            if data['end_datetime'] < today:
+                errors['end_datetime'] = "La fecha y hora de fin no puede ser en el pasado."
+        if 'start_datetime' in data and 'end_datetime' in data:
+            if data['end_datetime'] <= data['start_datetime']:
+                errors['end_datetime'] = "La fecha y hora de fin debe ser posterior a la de inicio."
+
+        # Validación de existencia de departamento y ciudad en la base de datos
+        from .models import Departamento, Ciudad, Event
+        if 'department' in data:
+            if not Departamento.objects.filter(nombre__iexact=data['department']).exists():
+                errors['department'] = "El departamento no existe en la base de datos."
+        if 'city' in data and 'department' in data:
+            departamento_obj = Departamento.objects.filter(nombre__iexact=data['department']).first()
+            if departamento_obj:
+                if not Ciudad.objects.filter(nombre__iexact=data['city'], departamento=departamento_obj).exists():
+                    errors['city'] = "La ciudad no existe en la base de datos para el departamento seleccionado."
+        # Evitar eventos duplicados (nombre, fecha, ciudad)
+        if 'event_name' in data and 'date' in data and 'city' in data:
+            if Event.objects.filter(event_name=data['event_name'], date=data['date'], city=data['city']).exists():
+                errors['event_name'] = "Ya existe un evento con el mismo nombre, fecha y ciudad."
+        # Validación de solapamiento de fechas/lugar
+        if 'city' in data and 'start_datetime' in data and 'end_datetime' in data:
+            overlapping = Event.objects.filter(
+                city=data['city'],
+                start_datetime__lt=data['end_datetime'],
+                end_datetime__gt=data['start_datetime']
+            )
+            if overlapping.exists():
+                errors['city'] = "Ya existe un evento en la ciudad con fechas que se solapan."
+
+        # Validación de ticket_type
         if 'ticket_type' not in data or len(data['ticket_type']) == 0:
-            raise serializers.ValidationError("Campo 'ticket_type' es requerido y debe tener al menos un ítem.")
+            errors['ticket_type'] = "Campo 'ticket_type' es requerido y debe tener al menos un ítem."
+        else:
+            # Capacidad total del evento (ejemplo: máximo 10000)
+            total_capacity = sum([config['maximun_capacity'] for config in data['ticket_type']])
+            if total_capacity > 10000:
+                errors['ticket_type'] = "La suma de aforos no puede exceder 10,000 personas."
+            # Precio mínimo/máximo por tipo
+            for config in data['ticket_type']:
+                if config['price'] < 1:
+                    errors['ticket_type'] = "El precio mínimo por ticket es $1."
+                if config['price'] > 10000000:
+                    errors['ticket_type'] = "El precio máximo por ticket es $10,000,000."
+
+        # Validación de imagen (formato y tamaño)
+        if 'image' in data and data['image']:
+            img = data['image']
+            if hasattr(img, 'size') and img.size > 2*1024*1024:
+                errors['image'] = "La imagen no debe superar los 2MB."
+            if hasattr(img, 'name') and not img.name.lower().endswith(('.jpg', '.jpeg', '.png')):
+                errors['image'] = "Solo se permiten imágenes JPG y PNG."
+
+        # Validación de organizador (si es usuario registrado)
+        # Si el campo organizer fuera FK, aquí se validaría existencia
+
+
+        # Validación ciudad-departamento: ya la garantiza el modelo FK
+
+        if errors:
+            raise serializers.ValidationError(errors)
         return data
 
     def create(self, validated_data):
