@@ -14,12 +14,44 @@ class SimpleEventSerializer(serializers.ModelSerializer):
         fields = ['id', 'nombre', 'fecha', 'estado']
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    def validate_document(self, value):
+        if value and not value.isdigit():
+            raise serializers.ValidationError("El número de documento debe ser numérico.")
+        if value and len(value) < 6:
+            raise serializers.ValidationError("El número de documento debe tener al menos 6 dígitos.")
+        return value
+
+    def validate_phone(self, value):
+        if value and not value.isdigit():
+            raise serializers.ValidationError("El teléfono debe ser numérico.")
+        if value and len(value) < 7:
+            raise serializers.ValidationError("El teléfono debe tener al menos 7 dígitos.")
+        return value
+
+    def validate_birth_date(self, value):
+        import datetime
+        if value and value > datetime.date.today():
+            raise serializers.ValidationError("La fecha de nacimiento no puede ser en el futuro.")
+        if value and (datetime.date.today().year - value.year) < 14:
+            raise serializers.ValidationError("El usuario debe tener al menos 14 años.")
+        return value
     role = serializers.SerializerMethodField()
-    eventos_inscritos = SimpleEventSerializer(many=True, read_only=True)
+    eventos_inscritos = serializers.SerializerMethodField()
+    def get_eventos_inscritos(self, obj):
+        from eventos.models import Ticket
+        eventos = Ticket.objects.filter(user=obj).select_related('event').values_list('event', flat=True).distinct()
+        from eventos.models import Event
+        eventos_qs = Event.objects.filter(id__in=eventos)
+        return SimpleEventSerializer(eventos_qs, many=True).data
+    document_type = serializers.StringRelatedField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'name', 'email', 'password', 'role', 'eventos_inscritos']
+        fields = [
+            'id', 'username', 'first_name', 'last_name', 'email', 'phone', 'birth_date',
+            'document_type', 'document', 'country', 'city', 'created_at', 'updated_at',
+            'password', 'role', 'eventos_inscritos'
+        ]
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -77,7 +109,10 @@ class RemoveRoleSerializer(serializers.Serializer):
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'name', 'email', 'password']
+        fields = [
+            'username', 'first_name', 'last_name', 'email', 'phone', 'birth_date',
+            'document_type', 'document', 'country', 'city', 'password'
+        ]
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
