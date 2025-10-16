@@ -71,17 +71,22 @@ class TicketSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Lógica personalizada: Crear Ticket y actualizar aforo
+        import uuid
         config_type = self.context.get('config_type')
 
         if config_type.capacity_sold + validated_data['amount'] > config_type.maximun_capacity:
             raise serializers.ValidationError("No hay suficiente aforo disponible para este tipo.")
-        
+
+        # Generar unique_code si no viene en validated_data
+        if not validated_data.get('unique_code'):
+            validated_data['unique_code'] = str(uuid.uuid4())
+
         ticket = Ticket.objects.create(
-            **validated_data, 
+            **validated_data,
             event=config_type.event,
             config_type=config_type
         )
-        
+
         config_type.capacity_sold += ticket.amount
         config_type.save()
         return ticket

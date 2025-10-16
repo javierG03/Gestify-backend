@@ -1,3 +1,5 @@
+# Endpoint para listar inscritos (tickets) de un evento
+from usuarios.serializers import CustomUserSerializer
 from django.shortcuts import render, get_object_or_404
 from .serializers import (
     EventSerializer, TicketTypeEventSerializer, TicketSerializer, TicketTypeSerializer
@@ -16,7 +18,56 @@ import hashlib
 from django.utils import timezone
 from decimal import Decimal
 
+class EventInscritosAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        tickets = Ticket.objects.filter(event=event)
+        data = []
+        for ticket in tickets:
+            data.append({
+                "ticket_id": ticket.id,
+                "user": CustomUserSerializer(ticket.user).data,
+                "ticket_type": ticket.config_type.ticket_type.ticket_name,
+                "amount": ticket.amount,
+                "status": ticket.status,
+                "unique_code": ticket.unique_code,
+                "date_of_purchase": ticket.date_of_purchase,
+                "price_paid": str(ticket.config_type.price)
+            })
+        return Response(data, status=status.HTTP_200_OK)
+class MyEventsAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_tickets = Ticket.objects.filter(user=request.user).select_related('event', 'config_type__ticket_type')
+        events_dict = {}
+        for ticket in user_tickets:
+            event_id = ticket.event.id
+            if event_id not in events_dict:
+                events_dict[event_id] = {
+                    'event': ticket.event.event_name,
+                    'event_id': event_id,
+                    'date': ticket.event.date,
+                    'city': ticket.event.city,
+                    'country': ticket.event.country,
+                    'status': ticket.event.status,
+                    'tickets': []
+                }
+            events_dict[event_id]['tickets'].append({
+                'ticket_id': ticket.id,
+                'type': ticket.config_type.ticket_type.ticket_name,
+                'amount': ticket.amount,
+                'status': ticket.status,
+                'unique_code': ticket.unique_code,
+                'qr_base64': ticket.get_qr_base64(),
+                'date_of_purchase': ticket.date_of_purchase,
+                'price_paid': ticket.config_type.price if hasattr(ticket.config_type, 'price') else None
+            })
+        return Response(list(events_dict.values()), status=status.HTTP_200_OK)
 class EventViewSet(viewsets.ModelViewSet):
     """
     API para gestionar events con tipos de boletos y compras.
@@ -47,6 +98,56 @@ class EventViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
         return [perm() for perm in permission_classes]
 
+# Endpoint para validar entrada por QR
+class TicketValidationView(APIView):
+    """
+    Recibe el unique_code (escaneado del QR), valida el ticket y actualiza su estado si corresponde.
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        unique_code = request.data.get('unique_code')
+        if not unique_code:
+            return Response({'valid': False, 'error': 'No se recibió el código.'}, status=400)
+        try:
+            ticket = Ticket.objects.select_related('event', 'user', 'config_type__ticket_type').get(unique_code=unique_code)
+        except Ticket.DoesNotExist:
+            return Response({'valid': False, 'error': 'Ticket no encontrado.'}, status=404)
+        # Validaciones
+        if ticket.status == 'usada':
+            return Response({'valid': False, 'error': 'Ticket ya fue usada.'}, status=400)
+        if ticket.status == 'cancelada':
+            return Response({'valid': False, 'error': 'Ticket cancelada.'}, status=400)
+        if ticket.status == 'pendiente':
+            return Response({'valid': False, 'error': 'Ticket pendiente de pago.'}, status=400)
+        # Marcar como usada
+        ticket.status = 'usada'
+        ticket.save()
+        # Auditoría: registrar acceso
+        from .models import TicketAccessLog
+        ip = request.META.get('REMOTE_ADDR', '')
+        device = request.META.get('HTTP_USER_AGENT', '')
+        TicketAccessLog.objects.create(
+            ticket=ticket,
+            accessed_by=request.user,
+            ip_address=ip,
+            device_info=device
+        )
+        return Response({
+            'valid': True,
+            'message': 'Ticket válida. Acceso permitido.',
+            'ticket_id': ticket.id,
+            'event': ticket.event.event_name,
+            'event_id': ticket.event.id,
+            'user': ticket.user.name,
+            'user_id': ticket.user.id,
+            'ticket_type': ticket.config_type.ticket_type.ticket_name,
+            'amount': ticket.amount,
+            'date_of_purchase': ticket.date_of_purchase,
+            'unique_code': ticket.unique_code
+        }, status=200)
+
     @extend_schema(
         description="Lista tipos de boletos disponibles para un event específico.",
         tags=['Events'],
@@ -63,118 +164,30 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @extend_schema(
-    description="Inicia compra de tickets para un event (crea ticket pendiente o gratuita).",
-    tags=['Events'],
-    parameters=[OpenApiParameter(name='pk', type=int, location='path')],
-    request={
-        'application/json': {
-            'example': {
-                'config_type_id': 7,
-                'amount': 1
+        description="Inicia compra de tickets para un event (crea ticket pendiente o gratuita).",
+        tags=['Events'],
+        parameters=[OpenApiParameter(name='pk', type=int, location='path')],
+        request={
+            'application/json': {
+                'example': {
+                    'config_type_id': 7,
+                    'amount': 1
+                }
             }
-        }
-    },
-    responses={
-        201: OpenApiResponse(description="ticket creada (gratuita o pendiente pago)."),
-        400: OpenApiResponse(description="Error: Aforo insuficiente o event inactivo.")
-    }
-)
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated]) 
-    def buy_ticket(self, request, pk=None):
-        event = self.get_object()
-        if event.status != "activo":
-            return Response({"error": "No se pueden comprar tickets para events inactivos."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        config_type_id = request.data.get('config_type_id')
-        amount = request.data.get('amount', 1)
-        
-        if not config_type_id:
-            return Response({"error": "Debe especificar config_type_id (ID de TicketTypeEvent)."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        try:
-            config_type = TicketTypeEvent.objects.get(id=config_type_id, event=event)
-        except TicketTypeEvent.DoesNotExist:
-            return Response({"error": "Tipo de ticket inválido para este event."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        remaining_capacity = config_type.maximun_capacity - config_type.capacity_sold
-        if amount > remaining_capacity:
-            return Response({"error": f"No hay suficiente aforo disponible. Quedan {remaining_capacity} boletos."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # CRÍTICO: Crea serializer y setea usuario automáticamente desde request.user
-        # No requiere 'usuario_id' en body
-        serializer = self.get_serializer(
-            data={
-            'config_type': config_type.id,
-            'amount': amount,
-            'status': 'comprada' if config_type.price == 0 else 'pendiente'  
-            },
-            context={'config_type': config_type, 'request': request}
-        )
-        serializer.is_valid(raise_exception=True)
-        
-        # Asigna usuario del request (autenticado)
-        ticket = serializer.save(user=request.user)  
-        
-        if config_type.price == 0:
-            # Gratuita: Actualiza aforo inmediatamente
-            config_type.capacity_sold += amount
-            config_type.save()
-            return Response({
-                "message": "ticket gratuita creada exitosamente.",
-                "ticket_id": ticket.id,
-                "unique_code": ticket.unique_code 
-            }, status=status.HTTP_201_CREATED)
-        
-        # Pagada: Retorna ID para proceder a /pay/
-        return Response({
-            "message": "boleta creada. Procede al pago.",
-            "ticket_id": ticket.id,
-            "config_type_id": config_type_id,
-            "amount": amount,
-            "total_a_pagar": f"{float(config_type.price) * amount:.2f}"
-        }, status=status.HTTP_201_CREATED)
-
-    @extend_schema(
-    operation_id='create_event',
-    description="Crea un event con al menos un tipo de ticket requerido en 'tipos_tickets'.",
-    tags=['Events'],
-    request={
-        'application/json': {
-            'example': {
-                'event_name': 'Proyecto X',
-                'description': 'fiesta de Locos',
-                'date': '2025-10-27',
-                'city': 'Neiva',
-                'country': 'Colombia',
-                'tickets_types': [
-                    {
-                        'ticket_type_id': 1,  # ID de un TicketType existente (e.g., GA)
-                        'price': 50.00,
-                        'maximun_capacity': 100
-                    },
-                    {
-                        'ticket_type_id': 2,  # ID de VIP
-                        'price': 100.00,
-                        'maximun_capacity': 20
-                    }
-                ]
-            }
-        }
-    },
-    responses={201: EventSerializer, 400: OpenApiExample('Falta tipos_tickets o validación fallida')}
+        },
+        responses={201: EventSerializer, 400: OpenApiExample('Falta tipos_tickets o validación fallida')}
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
     
-    @extend_schema(
-        description="Genera datos para pago de ticket con PayU (para tipos pagados).",
-        tags=['Pagos'],
-        parameters=[OpenApiParameter(name='pk', type=int, location='path'), OpenApiParameter(name='config_type_id', type=int, location='query')],
-        responses={200: OpenApiExample('Datos de PayU para formulario'), 400: OpenApiExample('Event gratuito o inactivo')}
-    )
-    @action(detail=True, methods=['post'])
-    def pay(self, request, pk=None):
-        event = self.get_object()
+
+# APIView independiente para pago
+class PayTicketAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
         config_type_id = request.data.get('config_type_id')
         config_type = get_object_or_404(TicketTypeEvent, id=config_type_id, event=event)
         if event.status != "activo":
@@ -187,7 +200,21 @@ class EventViewSet(viewsets.ModelViewSet):
         merchant_id = os.getenv("PAYU_MERCHANT_ID")
         account_id = os.getenv("PAYU_ACCOUNT_ID")
         sandbox = os.getenv("PAYU_SANDBOX", "1")
-        reference_code = f"ticket-{config_type_id}-USER-{request.user.id}"
+        # Convertir sandbox a booleano correctamente
+        if str(sandbox).lower() in ["true", "1"]:
+            sandbox_bool = True
+        else:
+            sandbox_bool = False
+        # Buscar el ticket pendiente del usuario para este evento y tipo
+        ticket = Ticket.objects.filter(
+            user=request.user,
+            event=event,
+            config_type=config_type,
+            status__in=["pendiente", "comprada"]
+        ).order_by('-date_of_purchase').first()
+        if not ticket:
+            return Response({"error": "No existe ticket pendiente para este usuario y tipo."}, status=status.HTTP_400_BAD_REQUEST)
+        reference_code = ticket.unique_code
 
         # Firma
         amount = str(config_type.price * int(request.data.get('amount', 1)))  # Multiplica por amount
@@ -195,7 +222,7 @@ class EventViewSet(viewsets.ModelViewSet):
         signature = hashlib.md5(signature_str.encode('utf-8')).hexdigest()
 
         return Response({
-            "sandbox": bool(int(sandbox)),
+            "sandbox": sandbox_bool,
             "merchantId": merchant_id,
             "accountId": account_id,
             "description": f"{event.event_name} - {config_type.ticket_type.ticket_name}",
@@ -232,6 +259,50 @@ class EventViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK
         )
 
+class BuyTicketAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        if event.status != "activo":
+            return Response({"error": "No se pueden comprar tickets para events inactivos."}, status=status.HTTP_400_BAD_REQUEST)
+        config_type_id = request.data.get('config_type_id')
+        amount = request.data.get('amount', 1)
+        if not config_type_id:
+            return Response({"error": "Debe especificar config_type_id (ID de TicketTypeEvent)."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            config_type = TicketTypeEvent.objects.get(id=config_type_id, event=event)
+        except TicketTypeEvent.DoesNotExist:
+            return Response({"error": "Tipo de ticket inválido para este event."}, status=status.HTTP_400_BAD_REQUEST)
+        remaining_capacity = config_type.maximun_capacity - config_type.capacity_sold
+        if amount > remaining_capacity:
+            return Response({"error": f"No hay suficiente aforo disponible. Quedan {remaining_capacity} boletos."}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = TicketSerializer(
+            data={
+                'config_type': config_type.id,
+                'amount': amount,
+                'status': 'comprada' if config_type.price == 0 else 'pendiente'
+            },
+            context={'config_type': config_type, 'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        ticket = serializer.save(user=request.user)
+        if config_type.price == 0:
+            config_type.capacity_sold += amount
+            config_type.save()
+            return Response({
+                "message": "ticket gratuita creada exitosamente.",
+                "ticket_id": ticket.id,
+                "unique_code": ticket.unique_code
+            }, status=status.HTTP_201_CREATED)
+        return Response({
+            "message": "boleta creada. Procede al pago.",
+            "ticket_id": ticket.id,
+            "config_type_id": config_type_id,
+            "amount": amount,
+            "total_a_pagar": f"{float(config_type.price) * amount:.2f}"
+        }, status=status.HTTP_201_CREATED)
 class TicketTypeViewSet(viewsets.ModelViewSet):
     """
     API completa para tipos de tickets comunes (templates reutilizables entre events).
@@ -348,16 +419,52 @@ class PayUConfirmationView(APIView):
         status = request.data.get("state_pol")
         transaction_id = request.data.get("transaction_id")
 
+        from rest_framework import status as drf_status
+        response_data = {
+            "message": "Pago recibido, pero no se pudo procesar el ticket.",
+            "reference_code": reference_code,
+            "transaction_id": transaction_id,
+            "status": "error"
+        }
         if status == "4":  # Aprobado en PayU
-            # Extraer ticket_id de reference_code (e.g., ticket-123-...)
+            from .models import Ticket
             try:
-                ticket_id = int(reference_code.split('-')[1])
-                ticket = get_object_or_404(ticket, id=ticket_id)
-                if ticket.status == 'comprada':  # Pendiente
-                    ticket.status = 'usada'  # O 'pagada', ajusta según lógica
+                ticket = get_object_or_404(Ticket, unique_code=reference_code)
+                if ticket.status == 'comprada' or ticket.status == 'pendiente':
+                    ticket.status = 'pagada'
                     ticket.save()
-                    # Opcional: Enviar email de confirmación
-            except (ValueError, IndexError):
-                pass  # Referencia inválida
-
-        return Response({"status": "OK"}, status=status.HTTP_200_OK)
+                    response_data = {
+                        "message": "Pago confirmado exitosamente.",
+                        "ticket_id": ticket.id,
+                        "reference_code": reference_code,
+                        "transaction_id": transaction_id,
+                        "status": ticket.status
+                    }
+                else:
+                    response_data = {
+                        "message": "El ticket ya fue procesado o no está en estado válido.",
+                        "ticket_id": ticket.id,
+                        "reference_code": reference_code,
+                        "transaction_id": transaction_id,
+                        "status": ticket.status
+                    }
+            except Exception:
+                response_data = {
+                    "message": "No se encontró el ticket con ese código de referencia.",
+                    "reference_code": reference_code,
+                    "transaction_id": transaction_id,
+                    "status": "error"
+                }
+        elif status == "6":
+            response_data["message"] = "Pago rechazado por PayU."
+            response_data["status"] = "rechazado"
+        elif status == "7":
+            response_data["message"] = "Pago pendiente de aprobación."
+            response_data["status"] = "pendiente"
+        elif status == "5":
+            response_data["message"] = "Pago expirado."
+            response_data["status"] = "expirado"
+        elif status == "8":
+            response_data["message"] = "Pago cancelado."
+            response_data["status"] = "cancelado"
+        return Response(response_data, status=drf_status.HTTP_200_OK)

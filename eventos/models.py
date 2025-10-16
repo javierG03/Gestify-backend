@@ -1,3 +1,16 @@
+# Auditoría de accesos a tickets
+from django.contrib.auth import get_user_model
+from django.db import models
+
+class TicketAccessLog(models.Model):
+    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='access_logs')
+    accessed_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True)
+    access_time = models.DateTimeField(auto_now_add=True)
+    ip_address = models.CharField(max_length=45, blank=True, null=True)
+    device_info = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"Acceso a ticket {self.ticket.id} por {self.accessed_by} en {self.access_time}"
 from django.db import models
 from usuarios.models import CustomUser
 from django.conf import settings
@@ -89,3 +102,26 @@ class Ticket(models.Model):
             self.config_type.capacity_sold += self.amount
             self.config_type.save()
         super().save(*args, **kwargs)
+
+    def get_qr_base64(self):
+        """
+        Genera el QR en base64 usando el unique_code del ticket.
+        """
+        import qrcode
+        import base64
+        from io import BytesIO
+        if not self.unique_code:
+            return None
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(self.unique_code)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        return img_str
