@@ -1,7 +1,7 @@
 # admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, TipoDocumento
+from .models import CustomUser, DocumentType
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -19,7 +19,6 @@ class CustomUserAdmin(UserAdmin):
             "username", "email", "first_name", "last_name", "phone", "birth_date",
             "document_type", "document", "country", "city", "password"
         )}),
-        ("Auditoría", {"fields": ("created_at", "updated_at")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
 
@@ -40,7 +39,7 @@ class CustomUserAdmin(UserAdmin):
         return ", ".join(group.name for group in obj.groups.all())
     get_groups.short_description = "Roles"
 
-@admin.register(TipoDocumento)
-class TipoDocumentoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'codigo')
-    search_fields = ('nombre',)
+@admin.register(DocumentType)
+class DocumentTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code')
+    search_fields = ('name', 'code')

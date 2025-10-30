@@ -1,0 +1,50 @@
+[
+  {
+    "model": "usuarios.documenttype",
+    "pk": 1,
+    "fields": {
+      "name": "Cédula de Ciudadanía",
+      "code": "CC"
+    }
+  },
+  {
+    "model": "usuarios.documenttype",
+    "pk": 2,
+    "fields": {
+      "name": "Cédula de Extranjería",
+      "code": "CE"
+    }
+  },
+  {
+    "model": "usuarios.documenttype",
+    "pk": 3,
+    "fields": {
+      "name": "Pasaporte",
+      "code": "PA"
+    }
+  },
+  {
+    "model": "usuarios.documenttype",
+    "pk": 4,
+    "fields": {
+      "name": "NIT",
+      "code": "NIT"
+    }
+  },
+  {
+    "model": "usuarios.documenttype",
+    "pk": 5,
+    "fields": {
+      "name": "Tarjeta de Identidad",
+      "code": "TI"
+    }
+  },
+  {
+    "model": "usuarios.documenttype",
+    "pk": 6,
+    "fields": {
+      "name": "Permiso Especial de Permanencia",
+      "code": "PEP"
+    }
+  }
+]
