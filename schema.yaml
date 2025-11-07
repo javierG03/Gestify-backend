@@ -7,6 +7,9 @@ paths:
   /api/events/:
     get:
       operationId: events_list
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       tags:
       - events
       security:
@@ -19,23 +22,26 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Evento'
+                  $ref: '#/components/schemas/Event'
           description: ''
     post:
       operationId: events_create
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       tags:
       - events
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
         required: true
       security:
       - tokenAuth: []
@@ -44,11 +50,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                $ref: '#/components/schemas/Event'
           description: ''
   /api/events/{id}/:
     get:
       operationId: events_retrieve
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       parameters:
       - in: path
         name: id
@@ -65,10 +74,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                $ref: '#/components/schemas/Event'
           description: ''
     put:
       operationId: events_update
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       parameters:
       - in: path
         name: id
@@ -81,13 +93,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
         required: true
       security:
       - tokenAuth: []
@@ -96,10 +108,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                $ref: '#/components/schemas/Event'
           description: ''
     patch:
       operationId: events_partial_update
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       parameters:
       - in: path
         name: id
@@ -112,13 +127,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedEvento'
+              $ref: '#/components/schemas/PatchedEvent'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedEvento'
+              $ref: '#/components/schemas/PatchedEvent'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedEvento'
+              $ref: '#/components/schemas/PatchedEvent'
       security:
       - tokenAuth: []
       responses:
@@ -126,10 +141,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                $ref: '#/components/schemas/Event'
           description: ''
     delete:
       operationId: events_destroy
+      description: |-
+        API para gestionar events con tipos de boletos y compras.
+        Soporta listing, creación (admin), y acciones como cancelar, listar tipos de ticket por event y comprar.
       parameters:
       - in: path
         name: id
@@ -143,9 +161,43 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/events/{id}/buy/:
+    post:
+      operationId: events_buy_create
+      description: Inicia el proceso de compra de un ticket.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketActionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketActionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketActionRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyTicketResponse'
+          description: ''
   /api/events/{id}/cancel/:
     post:
       operationId: events_cancel_create
+      description: Cancela un evento y todos sus tickets asociados (solo admin).
       parameters:
       - in: path
         name: id
@@ -153,31 +205,32 @@ paths:
           type: integer
         required: true
       tags:
-      - events
+      - Events
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/Event'
         required: true
       security:
       - tokenAuth: []
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Evento'
-          description: ''
-  /api/events/{id}/inscription/:
-    post:
-      operationId: events_inscription_create
+          description: Evento cancelado exitosamente.
+        '400':
+          description: Error - El evento no se puede cancelar.
+        '404':
+          description: No encontrado.
+  /api/events/{id}/inscritos/:
+    get:
+      operationId: events_inscritos_list
+      description: Lista los inscritos (tickets) para un evento específico.
       parameters:
       - in: path
         name: id
@@ -185,32 +238,22 @@ paths:
           type: integer
         required: true
       tags:
-      - events
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Evento'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Evento'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Evento'
-        required: true
+      - Events
       security:
       - tokenAuth: []
-      - {}
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventInscrito'
           description: ''
   /api/events/{id}/pay/:
     post:
       operationId: events_pay_create
+      description: Prepara los datos para la pasarela de pago PayU.
       parameters:
       - in: path
         name: id
@@ -218,19 +261,46 @@ paths:
           type: integer
         required: true
       tags:
-      - events
+      - Pagos
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/TicketActionRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/TicketActionRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Evento'
+              $ref: '#/components/schemas/TicketActionRequest'
         required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayTicketResponse'
+          description: ''
+  /api/events/{id}/types/:
+    get:
+      operationId: events_types_list
+      description: Lista tipos de boletos disponibles para un event específico.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: pk
+        schema:
+          type: integer
+        description: ID del event
+        required: true
+      tags:
+      - Events
       security:
       - tokenAuth: []
       - {}
@@ -239,18 +309,232 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Evento'
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketTypeEvent'
           description: ''
-  /api/events/payu/confirmation/:
-    post:
-      operationId: events_payu_confirmation_create
+  /api/events/my/:
+    get:
+      operationId: events_my_list
+      description: Lista los eventos para los cuales el usuario autenticado tiene
+        tickets.
       tags:
-      - events
+      - Mis Eventos
       security:
       - tokenAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MyEventsResponse'
+          description: ''
+  /api/events/payu/confirmation/:
+    post:
+      operationId: events_payu_confirmation_create
+      description: Endpoint para confirmación de pagos PayU (solo POST).
+      tags:
+      - Pagos
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: Respuesta del servidor a la confirmación de PayU.
+  /api/tickets/validate/:
+    post:
+      operationId: tickets_validate_create
+      description: Valida un ticket usando su código QR (unique_code).
+      tags:
+      - Tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketValidationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketValidationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketValidationRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: Ticket válido
+        '400':
+          description: Ticket ya usado o pendiente de pago
+        '404':
+          description: Ticket no encontrado
+  /api/tipos-boletas/:
+    get:
+      operationId: tipos_boletas_list
+      description: Lista todos los tipos de tickets disponibles para usar en events
+        (público).
+      tags:
+      - Tipos de tickets
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TicketType'
+          description: ''
+    post:
+      operationId: tipos_boletas_create
+      description: Crea un nuevo tipo de ticket común (solo admins).
+      tags:
+      - Tipos de tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+            examples:
+              EjemploGA:
+                value:
+                  nombre: GA
+                  descripcion: Admisión General...
+                summary: Ejemplo GA
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketType'
+              examples:
+                EjemploGA:
+                  value:
+                    nombre: GA
+                    descripcion: Admisión General...
+                  summary: Ejemplo GA
+          description: ''
+        '400':
+          description: Error de validación
+  /api/tipos-boletas/{id}/:
+    get:
+      operationId: tipos_boletas_retrieve
+      description: Recupera un tipo de ticket por ID (público).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Tipos de tickets
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketType'
+          description: ''
+    put:
+      operationId: tipos_boletas_update
+      description: Actualiza un tipo de ticket por ID (solo admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Tipos de tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TicketType'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketType'
+          description: ''
+    patch:
+      operationId: tipos_boletas_partial_update
+      description: Actualización parcial de un tipo de ticket por ID (solo admin).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Tipos de tickets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTicketType'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketType'
+          description: ''
+    delete:
+      operationId: tipos_boletas_destroy
+      description: 'Elimina un tipo de ticket por ID (solo admin). Cuidado: Puede
+        afectar events existentes.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Tipos de tickets
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No Content
   /api/users/:
     get:
       operationId: users_list
@@ -418,33 +702,78 @@ paths:
   /api/users/change-password/:
     post:
       operationId: users_change_password_create
+      description: Cambia la contraseña del usuario autenticado.
       tags:
-      - users
+      - Autenticación
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChangePassword'
+        required: true
       security:
       - tokenAuth: []
       responses:
         '200':
-          description: No response body
+          description: Contraseña cambiada exitosamente
+        '400':
+          description: Error de validación (ej. contraseña antigua incorrecta)
   /api/users/login/:
     post:
       operationId: users_login_create
+      description: Inicia sesión de un usuario.
       tags:
-      - users
+      - Autenticación
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
       security:
       - tokenAuth: []
       responses:
         '200':
-          description: No response body
+          description: Token de autenticación
+        '400':
+          description: Credenciales inválidas
   /api/users/register/:
     post:
       operationId: users_register_create
+      description: Registra un nuevo usuario.
       tags:
-      - users
+      - Autenticación
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
       security:
       - tokenAuth: []
       responses:
-        '200':
-          description: No response body
+        '201':
+          description: Usuario creado
+        '400':
+          description: Error de validación
 components:
   schemas:
     AssignRole:
@@ -455,19 +784,135 @@ components:
           writeOnly: true
       required:
       - role
+    BuyTicketResponse:
+      type: object
+      description: Describe la respuesta de BuyTicketAPIView.
+      properties:
+        message:
+          type: string
+        ticket_id:
+          type: integer
+        config_type_id:
+          type: integer
+        amount:
+          type: integer
+        total_a_pagar:
+          type: string
+        unique_code:
+          type: string
+      required:
+      - message
+      - ticket_id
+    CategoryEnum:
+      enum:
+      - musica
+      - deporte
+      - educacion
+      - tecnologia
+      - arte
+      - otros
+      type: string
+      description: |-
+        * `musica` - Música
+        * `deporte` - Deporte
+        * `educacion` - Educación
+        * `tecnologia` - Tecnología
+        * `arte` - Arte
+        * `otros` - Otros
+    ChangePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        new_password:
+          type: string
+          writeOnly: true
+      required:
+      - new_password
+      - old_password
+    ConfigType:
+      type: object
+      description: |-
+        Serializer para una configuración individual de tipo de Ticket en ticket_type.
+        Tipos explícitos para parsing correcto de números; validaciones post-parsing.
+      properties:
+        ticket_type_id:
+          type: integer
+          minimum: 1
+          description: ID de un tipo de boleta existente.
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          default: '0.00'
+          description: Precio específico por evento(default 0 para gratuito).
+        maximun_capacity:
+          type: integer
+          minimum: 1
+          description: Capacidad máxima para este tipo de boleta (>0).
+      required:
+      - maximun_capacity
+      - ticket_type_id
     CustomUser:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        name:
+        username:
           type: string
+          maxLength: 150
+        first_name:
+          type: string
+          description: Nombres
+          maxLength: 150
+        last_name:
+          type: string
+          description: Apellidos
           maxLength: 150
         email:
           type: string
           format: email
           maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          description: Teléfono de contacto
+          maxLength: 20
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: Fecha de nacimiento
+        document_type:
+          type: string
+          readOnly: true
+        document:
+          type: string
+          nullable: true
+          description: Número de documento
+          maxLength: 30
+        country:
+          type: string
+          nullable: true
+          description: País de residencia
+          maxLength: 50
+        city:
+          type: string
+          nullable: true
+          description: Ciudad de residencia
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Fecha de creación del usuario
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Fecha de última actualización del usuario
         password:
           type: string
           writeOnly: true
@@ -480,77 +925,254 @@ components:
         eventos_inscritos:
           type: array
           items:
-            $ref: '#/components/schemas/SimpleEvento'
+            $ref: '#/components/schemas/SimpleEvent'
           readOnly: true
       required:
+      - created_at
+      - document_type
       - email
       - eventos_inscritos
+      - first_name
       - id
-      - name
+      - last_name
       - password
       - role
-    EstadoEnum:
-      enum:
-      - activo
-      - cancelado
-      type: string
-      description: |-
-        * `activo` - Activo
-        * `cancelado` - Cancelado
-    Evento:
+      - updated_at
+      - username
+    Event:
       type: object
+      description: |-
+        Serializer principal para eventos, incluyendo tipos disponibles y Tickets vendidas.
+        Requiere 'ticket_type' al crear para configurar al menos un tipo de Ticket.
       properties:
         id:
           type: integer
           readOnly: true
-        inscritos:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInscripcion'
-          readOnly: true
-        nombre:
+        event_name:
           type: string
           maxLength: 200
-        descripcion:
+        description:
           type: string
-        fecha:
+        date:
           type: string
           format: date
-        ubicacion:
+          description: Fecha principal del evento (legacy, usar start_datetime y end_datetime)
+        start_datetime:
           type: string
-          maxLength: 200
-        aforo:
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
+        city:
+          type: string
+        department:
+          type: string
+        country:
+          type: string
+          readOnly: true
+          default: Colombia
+        status:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        image:
+          type: string
+          format: uri
+        organizer:
+          type: string
+        types_of_tickets_available:
+          type: object
+          additionalProperties: {}
+          description: |-
+            Query y serializa directamente las instancias de TicketTypeEvent para este evento.
+            Esto evita el AttributeError al no usar ManyToMany directo (que retorna TipoTicket).
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ticket'
+          readOnly: true
+        maximun_capacity_remaining:
           type: integer
-          maximum: 2147483647
-          minimum: 0
-        precio:
+          description: Calcula aforo desde TicketTypeEvent para consistencia y eficiencia.
+          readOnly: true
+        ticket_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigType'
+          writeOnly: true
+          description: 'Array de configuraciones para tipos de Tickets. Ej: [{''ticket_type_id'':
+            1, ''price'': 50.00, ''maximun_capacity'': 100}]'
+      required:
+      - category
+      - city
+      - country
+      - date
+      - department
+      - description
+      - end_datetime
+      - event_name
+      - id
+      - image
+      - maximun_capacity_remaining
+      - organizer
+      - start_datetime
+      - status
+      - ticket_type
+      - tickets
+      - types_of_tickets_available
+    EventInscrito:
+      type: object
+      description: Serializer para la lista de inscritos (tickets) de un evento.
+      properties:
+        ticket_id:
+          type: integer
+        user:
+          $ref: '#/components/schemas/CustomUser'
+        ticket_type:
+          type: string
+        amount:
+          type: integer
+        status:
+          type: string
+        unique_code:
+          type: string
+        date_of_purchase:
+          type: string
+          format: date-time
+        price_paid:
+          type: string
+      required:
+      - amount
+      - date_of_purchase
+      - price_paid
+      - status
+      - ticket_id
+      - ticket_type
+      - unique_code
+      - user
+    MyEventsResponse:
+      type: object
+      description: Describe la respuesta para la vista 'Mis Eventos'.
+      properties:
+        event:
+          type: string
+        event_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        city:
+          type: string
+        country:
+          type: string
+        status:
+          type: string
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/MyTicket'
+      required:
+      - city
+      - country
+      - date
+      - event
+      - event_id
+      - status
+      - tickets
+    MyTicket:
+      type: object
+      description: Describe un ticket individual dentro de la lista de 'Mis Eventos'.
+      properties:
+        ticket_id:
+          type: integer
+        type:
+          type: string
+        amount:
+          type: integer
+        status:
+          type: string
+        unique_code:
+          type: string
+        qr_base64:
+          type: string
+          nullable: true
+        date_of_purchase:
+          type: string
+          format: date-time
+        price_paid:
           type: string
           format: decimal
           pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-        estado:
-          $ref: '#/components/schemas/EstadoEnum'
+          nullable: true
       required:
-      - aforo
-      - descripcion
-      - fecha
-      - id
-      - inscritos
-      - nombre
-      - precio
-      - ubicacion
+      - amount
+      - date_of_purchase
+      - price_paid
+      - qr_base64
+      - status
+      - ticket_id
+      - type
+      - unique_code
     PatchedCustomUser:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        name:
+        username:
           type: string
+          maxLength: 150
+        first_name:
+          type: string
+          description: Nombres
+          maxLength: 150
+        last_name:
+          type: string
+          description: Apellidos
           maxLength: 150
         email:
           type: string
           format: email
           maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          description: Teléfono de contacto
+          maxLength: 20
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: Fecha de nacimiento
+        document_type:
+          type: string
+          readOnly: true
+        document:
+          type: string
+          nullable: true
+          description: Número de documento
+          maxLength: 30
+        country:
+          type: string
+          nullable: true
+          description: País de residencia
+          maxLength: 50
+        city:
+          type: string
+          nullable: true
+          description: Ciudad de residencia
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Fecha de creación del usuario
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Fecha de última actualización del usuario
         password:
           type: string
           writeOnly: true
@@ -563,40 +1185,126 @@ components:
         eventos_inscritos:
           type: array
           items:
-            $ref: '#/components/schemas/SimpleEvento'
+            $ref: '#/components/schemas/SimpleEvent'
           readOnly: true
-    PatchedEvento:
+    PatchedEvent:
       type: object
+      description: |-
+        Serializer principal para eventos, incluyendo tipos disponibles y Tickets vendidas.
+        Requiere 'ticket_type' al crear para configurar al menos un tipo de Ticket.
       properties:
         id:
           type: integer
           readOnly: true
-        inscritos:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInscripcion'
-          readOnly: true
-        nombre:
+        event_name:
           type: string
           maxLength: 200
-        descripcion:
+        description:
           type: string
-        fecha:
+        date:
           type: string
           format: date
-        ubicacion:
+          description: Fecha principal del evento (legacy, usar start_datetime y end_datetime)
+        start_datetime:
           type: string
-          maxLength: 200
-        aforo:
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
+        city:
+          type: string
+        department:
+          type: string
+        country:
+          type: string
+          readOnly: true
+          default: Colombia
+        status:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        image:
+          type: string
+          format: uri
+        organizer:
+          type: string
+        types_of_tickets_available:
+          type: object
+          additionalProperties: {}
+          description: |-
+            Query y serializa directamente las instancias de TicketTypeEvent para este evento.
+            Esto evita el AttributeError al no usar ManyToMany directo (que retorna TipoTicket).
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ticket'
+          readOnly: true
+        maximun_capacity_remaining:
           type: integer
-          maximum: 2147483647
-          minimum: 0
-        precio:
+          description: Calcula aforo desde TicketTypeEvent para consistencia y eficiencia.
+          readOnly: true
+        ticket_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigType'
+          writeOnly: true
+          description: 'Array de configuraciones para tipos de Tickets. Ej: [{''ticket_type_id'':
+            1, ''price'': 50.00, ''maximun_capacity'': 100}]'
+    PatchedTicketType:
+      type: object
+      description: Serializer para tipos de boletos comunes (e.g., GA, VIP).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket_name:
           type: string
-          format: decimal
-          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-        estado:
-          $ref: '#/components/schemas/EstadoEnum'
+          maxLength: 50
+        description:
+          type: string
+          description: Benefits or details of ticket type.
+    PayTicketResponse:
+      type: object
+      description: Describe la respuesta de PayTicketAPIView.
+      properties:
+        sandbox:
+          type: boolean
+        merchantId:
+          type: string
+        accountId:
+          type: string
+        description:
+          type: string
+        referenceCode:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        signature:
+          type: string
+        buyerEmail:
+          type: string
+          format: email
+        confirmationUrl:
+          type: string
+          format: uri
+        responseUrl:
+          type: string
+          format: uri
+      required:
+      - accountId
+      - amount
+      - buyerEmail
+      - confirmationUrl
+      - currency
+      - description
+      - merchantId
+      - referenceCode
+      - responseUrl
+      - sandbox
+      - signature
     RemoveRole:
       type: object
       properties:
@@ -604,31 +1312,171 @@ components:
           type: string
       required:
       - role
-    SimpleEvento:
+    SimpleEvent:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        nombre:
+        event_name:
           type: string
           maxLength: 200
-        fecha:
+        date:
           type: string
           format: date
-        estado:
-          $ref: '#/components/schemas/EstadoEnum'
+          description: Fecha principal del evento (legacy, usar start_datetime y end_datetime)
+        status:
+          $ref: '#/components/schemas/SimpleEventStatusEnum'
       required:
-      - fecha
+      - date
+      - event_name
       - id
-      - nombre
-    UserInscripcion:
+    SimpleEventStatusEnum:
+      enum:
+      - programado
+      - activo
+      - cancelado
+      - finalizado
+      type: string
+      description: |-
+        * `programado` - Programado
+        * `activo` - Activo
+        * `cancelado` - Cancelado
+        * `finalizado` - Finalizado
+    Ticket:
+      type: object
+      description: Serializer para Tickets individuales compradas por usuarios.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        user_id:
+          type: integer
+          writeOnly: true
+        event:
+          type: string
+          readOnly: true
+        config_type:
+          allOf:
+          - $ref: '#/components/schemas/TicketTypeEvent'
+          readOnly: true
+        amount:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Number of tickets purchased.
+        date_of_purchase:
+          type: string
+          format: date-time
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/TicketStatusEnum'
+        unique_code:
+          type: string
+          readOnly: true
+      required:
+      - config_type
+      - date_of_purchase
+      - event
+      - id
+      - unique_code
+      - user
+    TicketActionRequest:
+      type: object
+      description: Describe el request para comprar o pagar un ticket.
+      properties:
+        config_type_id:
+          type: integer
+          description: ID del TicketTypeEvent.
+        amount:
+          type: integer
+          default: 1
+      required:
+      - config_type_id
+    TicketStatusEnum:
+      enum:
+      - comprada
+      - usada
+      - pendiente
+      - cancelada
+      type: string
+      description: |-
+        * `comprada` - Comprada
+        * `usada` - Usada
+        * `pendiente` - Pendiente por pagar
+        * `cancelada` - Cancelada
+    TicketType:
+      type: object
+      description: Serializer para tipos de boletos comunes (e.g., GA, VIP).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket_name:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          description: Benefits or details of ticket type.
+      required:
+      - id
+      - ticket_name
+    TicketTypeEvent:
+      type: object
+      description: Serializer para configuraciones específicas por evento (incluye
+        aforo restante).
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        ticket_type:
+          allOf:
+          - $ref: '#/components/schemas/TicketType'
+          readOnly: true
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          description: Specfic price for this event.
+        maximun_capacity:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          description: Maximun capacity for this event.
+        capacity_sold:
+          type: integer
+          readOnly: true
+        remaining_capacity:
+          type: integer
+          readOnly: true
+      required:
+      - capacity_sold
+      - id
+      - maximun_capacity
+      - price
+      - remaining_capacity
+      - ticket_type
+    TicketValidationRequest:
+      type: object
+      description: Serializer para el request de validación de tickets.
+      properties:
+        unique_code:
+          type: string
+          description: El código único escaneado del QR.
+          maxLength: 100
+      required:
+      - unique_code
+    User:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
-        name:
+        username:
           type: string
           maxLength: 150
         email:
@@ -638,7 +1486,76 @@ components:
       required:
       - email
       - id
-      - name
+      - username
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+    UserRegister:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        first_name:
+          type: string
+          description: Nombres
+          maxLength: 150
+        last_name:
+          type: string
+          description: Apellidos
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          nullable: true
+          description: Teléfono de contacto
+          maxLength: 20
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          description: Fecha de nacimiento
+        document_type:
+          type: integer
+          nullable: true
+          description: Tipo de documento
+        document:
+          type: string
+          nullable: true
+          description: Número de documento
+          maxLength: 30
+        country:
+          type: string
+          nullable: true
+          description: País de residencia
+          maxLength: 50
+        city:
+          type: string
+          nullable: true
+          description: Ciudad de residencia
+          maxLength: 100
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+      required:
+      - email
+      - first_name
+      - last_name
+      - password
+      - username
   securitySchemes:
     tokenAuth:
       type: apiKey

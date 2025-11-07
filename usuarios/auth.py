@@ -5,12 +5,24 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import Group
 from .models import CustomUser
-from .serializers import CustomUserSerializer, UserRegisterSerializer
+from .serializers import CustomUserSerializer, UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 class CustomUserRegisterView(APIView):
     permission_classes = []
+
+    @extend_schema(
+        tags=["Autenticación"],
+        description="Registra un nuevo usuario.",
+        request=UserRegisterSerializer, # ⬅️ Le dice qué JSON espera recibir
+        responses={
+            201: OpenApiResponse(description="Usuario creado"),
+            400: OpenApiResponse(description="Error de validación")
+        }
+    )
+    
     def post(self, request):
         serializer = CustomUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -21,6 +33,17 @@ class CustomUserRegisterView(APIView):
     
 class CustomUserLoginView(APIView):
     permission_classes = []
+
+    @extend_schema(
+        tags=["Autenticación"],
+        description="Inicia sesión de un usuario.",
+        request=UserLoginSerializer,  # ⬅️ Le dice qué JSON espera recibir
+        responses={
+            200: OpenApiResponse(description="Token de autenticación"),
+            400: OpenApiResponse(description="Credenciales inválidas")
+        }
+    )
+
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -50,6 +73,17 @@ class CustomUserLoginView(APIView):
     
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Autenticación"],
+        description="Cambia la contraseña del usuario autenticado.",
+        request=ChangePasswordSerializer, # ⬅️ Esto es lo que recibe
+        responses={
+            200: OpenApiResponse(description="Contraseña cambiada exitosamente"),
+            400: OpenApiResponse(description="Error de validación (ej. contraseña antigua incorrecta)")
+        }
+    )
+
     def post(self, request):
         user = request.user
         old_password = request.data.get('old_password')

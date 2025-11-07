@@ -11,7 +11,7 @@ User = get_user_model()
 class SimpleEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['id', 'nombre', 'fecha', 'estado']
+        fields = ['id', 'event_name', 'date', 'status']
 
 class CustomUserSerializer(serializers.ModelSerializer):
     def validate_document(self, value):
@@ -37,6 +37,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return value
     role = serializers.SerializerMethodField()
     eventos_inscritos = serializers.SerializerMethodField()
+    @extend_schema_field(SimpleEventSerializer(many=True))
     def get_eventos_inscritos(self, obj):
         from eventos.models import Ticket
         eventos = Ticket.objects.filter(user=obj).select_related('event').values_list('event', flat=True).distinct()

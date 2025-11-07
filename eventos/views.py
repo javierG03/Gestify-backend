@@ -2,8 +2,12 @@
 from usuarios.serializers import CustomUserSerializer
 from django.shortcuts import render, get_object_or_404
 from .serializers import (
-    EventSerializer, TicketTypeEventSerializer, TicketSerializer, TicketTypeSerializer
+    EventSerializer, TicketTypeEventSerializer, TicketSerializer, TicketTypeSerializer, EventInscritoSerializer, TicketValidationRequestSerializer, MyEventsResponseSerializer,
+    TicketActionRequestSerializer,
+    BuyTicketResponseSerializer,
+    PayTicketResponseSerializer
 )
+
 from .models import Event, TicketType, TicketTypeEvent, Ticket
 from rest_framework import viewsets, status
 from rest_framework.authentication import TokenAuthentication
@@ -21,6 +25,12 @@ from decimal import Decimal
 class EventInscritosAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Events"],
+        description="Lista los inscritos (tickets) para un evento específico.",
+        responses={200: EventInscritoSerializer(many=True)} # ⬅️ Así le dices qué devuelve
+    )
 
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
@@ -41,6 +51,12 @@ class EventInscritosAPIView(APIView):
 class MyEventsAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Mis Eventos"],
+        description="Lista los eventos para los cuales el usuario autenticado tiene tickets.",
+        responses={200: MyEventsResponseSerializer(many=True)}
+    )
 
     def get(self, request):
         user_tickets = Ticket.objects.filter(user=request.user).select_related('event', 'config_type__ticket_type')
@@ -98,6 +114,114 @@ class EventViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
         return [perm() for perm in permission_classes]
 
+    @extend_schema(
+        description="Cancela un evento y todos sus tickets asociados (solo admin).",
+        tags=['Events'],
+        responses={
+            200: OpenApiResponse( # 👈 Envuelve el ejemplo
+                description="Evento cancelado exitosamente.",
+                examples=[
+                    OpenApiExample(
+                        'Respuesta Exitosa',
+                        value={'status': 'evento cancelado', 'tickets_cancelados': 50, 'cupos_liberados': 45}
+                    )
+                ]
+            ),
+            400: OpenApiResponse( # 👈 Envuelve el ejemplo
+                description="Error - El evento no se puede cancelar.",
+                examples=[
+                    OpenApiExample(
+                        'Error - Ya cancelado',
+                        value={'error': 'Este evento ya está cancelado.'}
+                    )
+                ]
+            ),
+            404: OpenApiResponse(description="No encontrado.") # 👈 Simple para 404
+        }
+    )
+
+    @action(detail=True, methods=['post'])
+    def cancelar(self, request, pk=None):
+        """
+        Endpoint para cancelar un evento.
+        - Cambia el estado del Event a 'cancelado'.
+        - Cambia el estado de todos los Tickets a 'cancelada'.
+        - Resta el 'amount' de los tickets 'comprada' del 'capacity_sold' 
+          en sus respectivos TicketTypeEvent.
+        """
+        
+        event = self.get_object() 
+
+        if event.status == 'cancelado':
+            return Response(
+                {'error': 'Este evento ya está cancelado.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    
+        if event.start_datetime and event.start_datetime < timezone.now():
+            return Response(
+                {'error': 'No se puede cancelar un evento que ya ha comenzado o finalizado.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    
+        try:
+            with transaction.atomic():
+                tickets_a_cancelar = event.tickets.exclude(status='cancelada')
+                tickets_comprados = tickets_a_cancelar.filter(status='comprada')
+
+                cupos_a_liberar = tickets_comprados.values(
+                    'config_type' 
+                ).annotate(
+                    total_a_restar=Sum('amount') 
+                ).values('config_type', 'total_a_restar') 
+
+                cupos_liberados_total = 0
+                for item in cupos_a_liberar:
+                    TicketTypeEvent.objects.filter(id=item['config_type']).update(
+                        capacity_sold=F('capacity_sold') - item['total_a_restar']
+                    )
+                    cupos_liberados_total += item['total_a_restar']
+
+                count_tickets_cancelados = tickets_a_cancelar.update(status='cancelada')
+
+                event.status = 'cancelado'
+                event.save()
+
+                return Response(
+                    {
+                        'status': 'evento cancelado',
+                        'tickets_cancelados': count_tickets_cancelados,
+                        'cupos_liberados': cupos_liberados_total
+                    },
+                    status=status.HTTP_200_OK
+                )
+
+        except Exception as e:
+            return Response(
+                {'error': f'Error interno al cancelar el evento: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+    @extend_schema(
+    description="Lista tipos de boletos disponibles para un event específico.",
+    tags=['Events'],
+    parameters=[OpenApiParameter(name='pk', type=int, location='path', description='ID del event')],
+    responses={200: TicketTypeEventSerializer(many=True)}
+    )
+    
+    @action(detail=True, methods=['get'])
+    def ticket_types_available(self, request, pk=None):
+        event = self.get_object()
+
+        if event.status != "activo":
+            return Response({"error": "No se pueden consultar tipos para events inactivos."}, status=status.HTTP_400_BAD_REQUEST)
+        types = TicketTypeEvent.objects.select_related('ticket_type').filter(event=event)
+        serializer = self.get_serializer(types, many=True)
+        return Response(serializer.data)
+
+    
 # Endpoint para validar entrada por QR
 class TicketValidationView(APIView):
     """
@@ -106,7 +230,20 @@ class TicketValidationView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        tags=["Tickets"],
+        description="Valida un ticket usando su código QR (unique_code).",
+        request=TicketValidationRequestSerializer, # ⬅️ Esto es lo que recibe
+        responses={
+            200: OpenApiResponse(description="Ticket válido"),
+            400: OpenApiResponse(description="Ticket ya usado o pendiente de pago"),
+            404: OpenApiResponse(description="Ticket no encontrado")
+        }
+    )
+
     def post(self, request):
+
+
         unique_code = request.data.get('unique_code')
         if not unique_code:
             return Response({'valid': False, 'error': 'No se recibió el código.'}, status=400)
@@ -148,21 +285,7 @@ class TicketValidationView(APIView):
             'unique_code': ticket.unique_code
         }, status=200)
 
-    @extend_schema(
-        description="Lista tipos de boletos disponibles para un event específico.",
-        tags=['Events'],
-        parameters=[OpenApiParameter(name='pk', type=int, location='path', description='ID del event')],
-        responses={200: TicketTypeEventSerializer(many=True)}
-    )
-    @action(detail=True, methods=['get'])
-    def ticket_types_available(self, request, pk=None):
-        event = self.get_object()
-        if event.status != "activo":
-            return Response({"error": "No se pueden consultar tipos para events inactivos."}, status=status.HTTP_400_BAD_REQUEST)
-        types = TicketTypeEvent.objects.select_related('ticket_type').filter(event=event)
-        serializer = self.get_serializer(types, many=True)
-        return Response(serializer.data)
-
+    
     @extend_schema(
         description="Inicia compra de tickets para un event (crea ticket pendiente o gratuita).",
         tags=['Events'],
@@ -185,6 +308,13 @@ class TicketValidationView(APIView):
 class PayTicketAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Pagos"],
+        description="Prepara los datos para la pasarela de pago PayU.",
+        request=TicketActionRequestSerializer,
+        responses={200: PayTicketResponseSerializer}
+    )
 
     def post(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
@@ -235,33 +365,17 @@ class PayTicketAPIView(APIView):
             "responseUrl": "https://tu-frontend.com/pago-exitoso"
         }, status=status.HTTP_200_OK)
 
-    @extend_schema(
-        description="Cancela un event y notifica inscritos (actualiza tickets si aplica).",
-        tags=['Events'],
-        responses={200: OpenApiExample('Event cancelado')}
-    )
-    @action(detail=True, methods=['post'])
-    def cancelar(self, request, pk=None):
-        event = self.get_object()
-        event.status = "cancelado"
-        event.save()
-        # Actualizar tickets a canceladas
-        event.tickets.update(status='cancelada')
-        # Aquí enviar notificaciones
-        return Response({'status': 'Evento cancelado'}, status=status.HTTP_200_OK)
-
-    def destroy(self, request, *args, **kwargs):
-        event = self.get_object()
-        event_name = event.event_name
-        event.delete()
-        return Response(
-            {"message": f"El evento '{event_name}' fue eliminado exitosamente."},
-            status=status.HTTP_200_OK
-        )
 
 class BuyTicketAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Tickets"],
+        description="Inicia el proceso de compra de un ticket.",
+        request=TicketActionRequestSerializer,
+        responses={201: BuyTicketResponseSerializer}
+    )
 
     def post(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
@@ -335,32 +449,29 @@ class TicketTypeViewSet(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     @extend_schema(
-    description="Crea un nuevo tipo de ticket común (solo admins). Use 'nombre' de choices como 'GA', 'VIP', etc.",
-    tags=['Tipos de tickets'],
-    request=TicketTypeSerializer,
-    responses={
-        201: TicketTypeSerializer,
-        400: OpenApiExample(  # Simplificado: OpenApiExample directo para error 400
-            'Ejemplo de error de validación',
-            value={
-                "nombre": ["Este campo es requerido."],
-                "price_base": ["Asegúrate de que este valor tenga como máximo 10 dígitos y 2 decimales."]
-            },
-            description="Respuesta típica para input inválido (e.g., campos faltantes o tipos incorrectos)."
-        )
-    },
-    examples=[
-        OpenApiExample(
-            'Ejemplo GA',
-            value={
-                "nombre": "GA",
-                "descripcion": "Admisión General - Acceso básico sin asiento asignado.",
-                "price_base": "0.00"
-            },
-            description="Crear tipo Admisión General (gratuito)."
-        )
-    ]
-)
+        description="Crea un nuevo tipo de ticket común (solo admins).",
+        tags=['Tipos de tickets'],
+        request=TicketTypeSerializer,
+        responses={
+            201: TicketTypeSerializer,
+            400: OpenApiResponse( # ⬅️ 1. Envuelve con OpenApiResponse
+                description="Error de validación",
+                examples=[       # ⬅️ 2. Pasa los ejemplos como una lista
+                    OpenApiExample(
+                        'Ejemplo de error',
+                        value={"nombre": ["Este campo es requerido."]}
+                    )
+                ]
+            )
+        },
+        examples=[ # ⬅️ 'examples' para el request va aquí
+            OpenApiExample(
+                'Ejemplo GA',
+                value={"nombre": "GA", "descripcion": "Admisión General..."}
+            )
+        ]
+    )   
+
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
@@ -411,8 +522,46 @@ class PayUConfirmationView(APIView):
     @extend_schema(
         description="Endpoint para confirmación de pagos PayU (solo POST).",
         tags=['Pagos'],
-        request=None,  # PayU envía JSON fijo
-        responses={200: OpenApiExample('OK - Pago procesado')}
+        # 'request=None' está bien porque PayU envía un JSON que no controlamos
+        request=None,
+        responses={
+            200: OpenApiResponse( # ✅ 1. Envuelve con OpenApiResponse
+                description="Respuesta del servidor a la confirmación de PayU.",
+                examples=[       # ✅ 2. Pasa los ejemplos como una lista
+                    OpenApiExample(
+                        'Ejemplo: Pago Aprobado',
+                        value={
+                            "message": "Pago confirmado exitosamente.",
+                            "ticket_id": 101,
+                            "reference_code": "ref-12345",
+                            "transaction_id": "txn-abcde",
+                            "status": "pagada"
+                        },
+                        description="Cuando PayU reporta 'state_pol' = 4."
+                    ),
+                    OpenApiExample(
+                        'Ejemplo: Pago Rechazado',
+                        value={
+                            "message": "Pago rechazado por PayU.",
+                            "reference_code": "ref-67890",
+                            "transaction_id": "txn-fghij",
+                            "status": "rechazado"
+                        },
+                        description="Cuando PayU reporta 'state_pol' = 6."
+                    ),
+                    OpenApiExample(
+                        'Ejemplo: Ticket no encontrado',
+                        value={
+                            "message": "No se encontró el ticket con ese código de referencia.",
+                            "reference_code": "ref-invalid",
+                            "transaction_id": "txn-klmno",
+                            "status": "error"
+                        },
+                        description="Si el 'reference_sale' no coincide con ningún 'unique_code'."
+                    )
+                ]
+            )
+        }
     )
     def post(self, request):
         reference_code = request.data.get("reference_sale")
