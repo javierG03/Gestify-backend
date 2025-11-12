@@ -358,6 +358,7 @@ class MyEventsResponseSerializer(serializers.Serializer):
     city = serializers.CharField()
     country = serializers.CharField()
     status = serializers.CharField()
+    image = serializers.URLField(required=False, allow_null=True)
     tickets = MyTicketSerializer(many=True)
 
 

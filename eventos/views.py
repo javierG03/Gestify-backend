@@ -1,6 +1,17 @@
 # Endpoint para listar inscritos (tickets) de un evento
-from usuarios.serializers import CustomUserSerializer
+import os
+import hashlib
+from decimal import Decimal
+from datetime import datetime, date
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+from django.db.models import F, Sum
+from django.db import transaction
+
+from usuarios.serializers import CustomUserSerializer
+from usuarios.permissions import IsAdminGroup
+
 from .serializers import (
     EventSerializer, TicketTypeEventSerializer, TicketSerializer, TicketTypeSerializer, EventInscritoSerializer, TicketValidationRequestSerializer, MyEventsResponseSerializer,
     TicketActionRequestSerializer,
@@ -9,18 +20,15 @@ from .serializers import (
 )
 
 from .models import Event, TicketType, TicketTypeEvent, Ticket
+
 from rest_framework import viewsets, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, authentication_classes, permission_classes
 from rest_framework.views import APIView
-from usuarios.permissions import IsAdminGroup
+
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, OpenApiResponse, OpenApiTypes
-import os
-import hashlib
-from django.utils import timezone
-from decimal import Decimal
 
 class EventInscritosAPIView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -61,28 +69,55 @@ class MyEventsAPIView(APIView):
     def get(self, request):
         user_tickets = Ticket.objects.filter(user=request.user).select_related('event', 'config_type__ticket_type')
         events_dict = {}
+        
         for ticket in user_tickets:
-            event_id = ticket.event.id
+            event = ticket.event
+            event_id = event.id
+            
+            #Usar end_datetime → start_datetime → date
+            event_date = event.end_datetime or event.start_datetime or event.date
+            
+            #Cambiar estado a "usada" si el evento ya pasó
+            if event_date and ticket.status == 'comprada':
+                now = timezone.now()
+                
+                # Convertir a datetime si es solo una fecha
+                if isinstance(event_date, date) and not isinstance(event_date, datetime):
+                    # Es solo una fecha, crear un datetime al final del día
+                    event_datetime = datetime.combine(event_date, datetime.max.time())
+                    event_datetime = timezone.make_aware(event_datetime)
+                else:
+                    # Ya es datetime
+                    event_datetime = event_date if timezone.is_aware(event_date) else timezone.make_aware(event_date)
+                
+                # Si el evento pasó, cambiar estado a "usada"
+                if event_datetime < now:
+                    ticket.status = 'usada'
+                    ticket.save()
+            
             if event_id not in events_dict:
                 events_dict[event_id] = {
-                    'event': ticket.event.event_name,
+                    'event': event.event_name,
                     'event_id': event_id,
-                    'date': ticket.event.date,
-                    'city': ticket.event.city,
-                    'country': ticket.event.country,
-                    'status': ticket.event.status,
+                    'date': event_date,
+                    'city': event.city,
+                    'country': event.country,
+                    'status': event.status,
+                    'image': event.image.url if event.image else None,
                     'tickets': []
                 }
+            
             events_dict[event_id]['tickets'].append({
                 'ticket_id': ticket.id,
                 'type': ticket.config_type.ticket_type.ticket_name,
                 'amount': ticket.amount,
-                'status': ticket.status,
+                'status': ticket.status, 
                 'unique_code': ticket.unique_code,
                 'qr_base64': ticket.get_qr_base64(),
                 'date_of_purchase': ticket.date_of_purchase,
                 'price_paid': ticket.config_type.price if hasattr(ticket.config_type, 'price') else None
             })
+        
         return Response(list(events_dict.values()), status=status.HTTP_200_OK)
 class EventViewSet(viewsets.ModelViewSet):
     """
@@ -306,6 +341,10 @@ class TicketValidationView(APIView):
 
 # APIView independiente para pago
 class PayTicketAPIView(APIView):
+    """
+    API para preparar datos de pago en PayU.
+    POST /api/events/{id}/pay/
+    """
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -317,39 +356,59 @@ class PayTicketAPIView(APIView):
     )
 
     def post(self, request, pk):
+        # Obtener evento y tipo de ticket
         event = get_object_or_404(Event, pk=pk)
         config_type_id = request.data.get('config_type_id')
         config_type = get_object_or_404(TicketTypeEvent, id=config_type_id, event=event)
+        
+        # Validaciones
         if event.status != "activo":
-            return Response({"error": "No se puede pagar para event inactivo."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "No se puede pagar para evento inactivo."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
         if config_type.price == 0:
-            return Response({"error": "Este tipo de ticket es gratuito."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Este tipo de ticket es gratuito."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        # Datos de PayU
+        # Obtener credenciales de PayU
         api_key = os.getenv("PAYU_API_KEY")
         merchant_id = os.getenv("PAYU_MERCHANT_ID")
         account_id = os.getenv("PAYU_ACCOUNT_ID")
         sandbox = os.getenv("PAYU_SANDBOX", "1")
-        # Convertir sandbox a booleano correctamente
-        if str(sandbox).lower() in ["true", "1"]:
-            sandbox_bool = True
-        else:
-            sandbox_bool = False
-        # Buscar el ticket pendiente del usuario para este evento y tipo
+        sandbox_bool = str(sandbox).lower() in ["true", "1"]
+
+        # Buscar ticket pendiente
         ticket = Ticket.objects.filter(
             user=request.user,
             event=event,
             config_type=config_type,
             status__in=["pendiente", "comprada"]
         ).order_by('-date_of_purchase').first()
+        
         if not ticket:
-            return Response({"error": "No existe ticket pendiente para este usuario y tipo."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "No existe ticket pendiente para este usuario y tipo."}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         reference_code = ticket.unique_code
 
-        # Firma
-        amount = str(config_type.price * int(request.data.get('amount', 1)))  # Multiplica por amount
+        # ✅ IMPORTANTE: amount es CANTIDAD, no monto
+        quantity = int(request.data.get('amount', 1))
+        amount = str(int(config_type.price * quantity))
+        
+        # Generar firma
         signature_str = f"{api_key}~{merchant_id}~{reference_code}~{amount}~COP"
         signature = hashlib.md5(signature_str.encode('utf-8')).hexdigest()
+
+        # ✅ URLs dinámicas desde settings/env
+        from django.conf import settings
+        backend_base_url = settings.BACKEND_BASE_URL or request.build_absolute_uri('/')[:-1]
+        confirmation_url = f"{backend_base_url}/api/events/payu/confirmation/"
+        response_url = f"{settings.FRONTEND_BASE_URL}/pago-exitoso"
 
         return Response({
             "sandbox": sandbox_bool,
@@ -361,8 +420,8 @@ class PayTicketAPIView(APIView):
             "currency": "COP",
             "signature": signature,
             "buyerEmail": request.user.email,
-            "confirmationUrl": "https://tuservidor.com/api/payu/confirmacion/",
-            "responseUrl": "https://tu-frontend.com/pago-exitoso"
+            "confirmationUrl": confirmation_url,  # ✅ DINÁMICO
+            "responseUrl": response_url,          # ✅ DINÁMICO
         }, status=status.HTTP_200_OK)
 
 
@@ -517,17 +576,21 @@ class TicketTypeViewSet(viewsets.ModelViewSet):
 
 class PayUConfirmationView(APIView):
     """
-    Vista para confirmar pagos de PayU. Actualiza status de ticket al recibir notificación.
+    Webhook para confirmar pagos de PayU.
+    ⚠️ IMPORTANTE: Sin autenticación (PayU no envía token)
     """
+    # ✅ QUITAR la autenticación y permisos
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    
     @extend_schema(
-        description="Endpoint para confirmación de pagos PayU (solo POST).",
+        description="Webhook para confirmación de pagos PayU (sin autenticación).",
         tags=['Pagos'],
-        # 'request=None' está bien porque PayU envía un JSON que no controlamos
         request=None,
         responses={
-            200: OpenApiResponse( # ✅ 1. Envuelve con OpenApiResponse
+            200: OpenApiResponse(
                 description="Respuesta del servidor a la confirmación de PayU.",
-                examples=[       # ✅ 2. Pasa los ejemplos como una lista
+                examples=[
                     OpenApiExample(
                         'Ejemplo: Pago Aprobado',
                         value={
@@ -535,7 +598,7 @@ class PayUConfirmationView(APIView):
                             "ticket_id": 101,
                             "reference_code": "ref-12345",
                             "transaction_id": "txn-abcde",
-                            "status": "pagada"
+                            "status": "comprada"
                         },
                         description="Cuando PayU reporta 'state_pol' = 4."
                     ),
@@ -548,40 +611,45 @@ class PayUConfirmationView(APIView):
                             "status": "rechazado"
                         },
                         description="Cuando PayU reporta 'state_pol' = 6."
-                    ),
-                    OpenApiExample(
-                        'Ejemplo: Ticket no encontrado',
-                        value={
-                            "message": "No se encontró el ticket con ese código de referencia.",
-                            "reference_code": "ref-invalid",
-                            "transaction_id": "txn-klmno",
-                            "status": "error"
-                        },
-                        description="Si el 'reference_sale' no coincide con ningún 'unique_code'."
                     )
                 ]
             )
         }
     )
+    
     def post(self, request):
+        """
+        Procesa confirmación de PayU SIN requerin autenticación.
+        """
         reference_code = request.data.get("reference_sale")
-        status = request.data.get("state_pol")
+        state_pol = request.data.get("state_pol")
         transaction_id = request.data.get("transaction_id")
-
+        
+        print(f"\n🔔 PayU Confirmation recibida:")
+        print(f"   Reference: {reference_code}")
+        print(f"   State: {state_pol}")
+        print(f"   Transaction ID: {transaction_id}\n")
+        
         from rest_framework import status as drf_status
+        
         response_data = {
             "message": "Pago recibido, pero no se pudo procesar el ticket.",
             "reference_code": reference_code,
             "transaction_id": transaction_id,
             "status": "error"
         }
-        if status == "4":  # Aprobado en PayU
-            from .models import Ticket
+        
+        # ========== PAGO APROBADO (state_pol = 4) ==========
+        if state_pol == "4":
+            print("✅ Pago APROBADO")
             try:
                 ticket = get_object_or_404(Ticket, unique_code=reference_code)
-                if ticket.status == 'comprada' or ticket.status == 'pendiente':
-                    ticket.status = 'pagada'
+                if ticket.status in ['comprada', 'pendiente']:
+                    ticket.status = 'comprada'
                     ticket.save()
+                    
+                    print(f"✅ Ticket {reference_code} actualizado a COMPRADA\n")
+                    
                     response_data = {
                         "message": "Pago confirmado exitosamente.",
                         "ticket_id": ticket.id,
@@ -590,30 +658,49 @@ class PayUConfirmationView(APIView):
                         "status": ticket.status
                     }
                 else:
+                    print(f"⚠️ Ticket ya procesado. Status: {ticket.status}\n")
                     response_data = {
-                        "message": "El ticket ya fue procesado o no está en estado válido.",
+                        "message": "El ticket ya fue procesado.",
                         "ticket_id": ticket.id,
                         "reference_code": reference_code,
                         "transaction_id": transaction_id,
                         "status": ticket.status
                     }
-            except Exception:
+            except Ticket.DoesNotExist:
+                print(f"❌ Ticket no encontrado: {reference_code}\n")
                 response_data = {
-                    "message": "No se encontró el ticket con ese código de referencia.",
+                    "message": "No se encontró el ticket.",
                     "reference_code": reference_code,
                     "transaction_id": transaction_id,
                     "status": "error"
                 }
-        elif status == "6":
-            response_data["message"] = "Pago rechazado por PayU."
+            except Exception as e:
+                print(f"❌ Error: {str(e)}\n")
+                response_data = {
+                    "message": f"Error: {str(e)}",
+                    "reference_code": reference_code,
+                    "transaction_id": transaction_id,
+                    "status": "error"
+                }
+        
+        elif state_pol == "6":
+            print("❌ Pago RECHAZADO\n")
+            response_data["message"] = "Pago rechazado."
             response_data["status"] = "rechazado"
-        elif status == "7":
-            response_data["message"] = "Pago pendiente de aprobación."
+        
+        elif state_pol == "7":
+            print("⏳ Pago PENDIENTE\n")
+            response_data["message"] = "Pago pendiente."
             response_data["status"] = "pendiente"
-        elif status == "5":
+        
+        elif state_pol == "5":
+            print("⏱️ Pago EXPIRADO\n")
             response_data["message"] = "Pago expirado."
             response_data["status"] = "expirado"
-        elif status == "8":
+        
+        elif state_pol == "8":
+            print("🚫 Pago CANCELADO\n")
             response_data["message"] = "Pago cancelado."
             response_data["status"] = "cancelado"
+        
         return Response(response_data, status=drf_status.HTTP_200_OK)
