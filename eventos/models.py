@@ -1,44 +1,73 @@
-from django.db import models
-# Modelo para Departamento
-class Departamento(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-
-    class Meta:
-        verbose_name = "Departamento"
-        verbose_name_plural = "Departamentos"
-        ordering = ["nombre"]
-
-    def __str__(self):
-        return self.nombre
-
-# Modelo para Ciudad
-class Ciudad(models.Model):
-    nombre = models.CharField(max_length=100)
-    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name="ciudades")
-
-    class Meta:
-        verbose_name = "Ciudad"
-        verbose_name_plural = "Ciudades"
-        unique_together = ("nombre", "departamento")
-        ordering = ["nombre"]
-
-    def __str__(self):
-        return f"{self.nombre} ({self.departamento.nombre})"
-
-# Auditoría de accesos a tickets
+"""
+eventos/models.py
+Modelos principales del módulo de eventos. Clean code, docstrings y auditoría.
+"""
 
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
+class EventChangeLog(models.Model):
+    """Auditoría de cambios importantes en eventos."""
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='change_logs')
+    changed_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True, help_text="Usuario que realizó el cambio")
+    change_type = models.CharField(max_length=50, help_text="Tipo de cambio: nombre, fecha, estado, etc.")
+    field_changed = models.CharField(max_length=50, help_text="Campo modificado")
+    old_value = models.TextField(blank=True, null=True, help_text="Valor anterior")
+    new_value = models.TextField(blank=True, null=True, help_text="Nuevo valor")
+    timestamp = models.DateTimeField(auto_now_add=True, help_text="Fecha y hora del cambio")
+
+    class Meta:
+        verbose_name = "Event Change Log"
+        verbose_name_plural = "Event Change Logs"
+        ordering = ["-timestamp"]
+        db_table = "events_change_log"
+
+    def __str__(self):
+        return f"{self.event.event_name} - {self.change_type} - {self.field_changed} ({self.timestamp})"
+
+class Department(models.Model):
+    """Departamento normalizado para eventos y usuarios."""
+    name = models.CharField(max_length=100, unique=True, help_text="Nombre del departamento")
+
+    class Meta:
+        verbose_name = "Department"
+        verbose_name_plural = "Departments"
+        ordering = ["name"]
+        db_table = "events_department"
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    """Ciudad normalizada, asociada a un departamento."""
+    name = models.CharField(max_length=100, help_text="Nombre de la ciudad")
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="cities", help_text="Departamento al que pertenece la ciudad")
+
+    class Meta:
+        verbose_name = "City"
+        verbose_name_plural = "Cities"
+        unique_together = ("name", "department")
+        ordering = ["name"]
+        db_table = "events_city"
+
+    def __str__(self):
+        return f"{self.name} ({self.department.name})"
 
 class TicketAccessLog(models.Model):
+    """Auditoría de accesos a tickets."""
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, related_name='access_logs')
     accessed_by = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True)
     access_time = models.DateTimeField(auto_now_add=True)
     ip_address = models.CharField(max_length=45, blank=True, null=True)
     device_info = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        db_table = "events_ticket_access_log"
+
     def __str__(self):
         return f"Acceso a ticket {self.ticket.id} por {self.accessed_by} en {self.access_time}"
+
 from usuarios.models import CustomUser
 from django.conf import settings
 
@@ -46,11 +75,11 @@ from django.conf import settings
 class TicketType(models.Model):
     ticket_name = models.CharField(max_length=50)
     description = models.TextField(blank=True, help_text="Benefits or details of ticket type.")
- 
 
     class Meta:
         verbose_name = "Ticket type"
         verbose_name_plural = "Ticket Types"
+        db_table = "events_ticket_type"
 
     def __str__(self):
         return self.ticket_name
@@ -61,9 +90,10 @@ class Event(models.Model):
     date = models.DateField(help_text="Fecha principal del evento (legacy, usar start_datetime y end_datetime)")
     start_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de inicio del evento")
     end_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de finalización del evento")
-    department = models.CharField(max_length=100, help_text="Departamento del evento")
-    city = models.CharField(max_length=100, help_text="Ciudad del evento")
-    country = models.CharField(max_length=20, default="Colombia", editable=False)
+    country = models.CharField(max_length=50, default="Colombia", help_text="País donde se realiza el evento")
+    location = models.ForeignKey('City', on_delete=models.SET_NULL, blank=True, null=True, help_text="Ciudad del evento (solo Colombia)")
+    city_text = models.CharField(max_length=100, blank=True, null=True, help_text="Ciudad libre (otros países)")
+    department_text = models.CharField(max_length=100, blank=True, null=True, help_text="Departamento/Región libre (otros países)")
     status = models.CharField(max_length=50, choices=(
         ("programado", "Programado"),
         ("activo", "Activo"),
@@ -79,8 +109,11 @@ class Event(models.Model):
         ("otros", "Otros")
     ]
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default="otros", help_text="Categoría del evento")
-    image = models.ImageField(upload_to="event_images/", blank=True, null=True, help_text="Imagen del evento")
+    image = models.URLField(blank=True, null=True, help_text="URL de la imagen del evento (almacenada en Supabase)")
     organizer = models.CharField(max_length=200, blank=True, null=True, help_text="Nombre del organizador")
+    min_age = models.PositiveIntegerField(blank=True, null=True, help_text="Edad mínima requerida para asistir al evento. Dejar vacío si no hay restricción.")
+    max_capacity = models.PositiveIntegerField(blank=True, null=True, help_text="Aforo máximo permitido para el evento.")
+    sales_open_datetime = models.DateTimeField(blank=True, null=True, help_text="Fecha y hora en que se habilitan las ventas de tickets.")
 
 
     # Relación con tipos de boletos disponibles para este evento
@@ -97,6 +130,7 @@ class Event(models.Model):
             ("cancelar_evento", "Puede cancelar evento"),
             ("inscribirse_evento", "Puede inscribirse a un evento"),            
         ]
+        db_table = "events_event"
     
     def __str__(self):
         return self.event_name
@@ -104,6 +138,20 @@ class Event(models.Model):
     def tickets_solds(self):
             """Método helper para contar boletos totales vendidos."""
             return sum(ticket.amount for ticket in self.tickets.all())
+
+    def clean(self):
+        super().clean()
+        if self.event_name and self.location and self.start_datetime and self.end_datetime:
+            qs = Event.objects.filter(
+                event_name=self.event_name,
+                location=self.location,
+                start_datetime=self.start_datetime,
+                end_datetime=self.end_datetime
+            )
+            if self.pk:
+                qs = qs.exclude(pk=self.pk)
+            if qs.exists():
+                raise ValidationError("Ya existe un evento con el mismo nombre, lugar y fecha/hora.")
 
 # Intermediario para configurar capacidades y precios por tipo por evento
 class TicketTypeEvent(models.Model):
@@ -116,6 +164,7 @@ class TicketTypeEvent(models.Model):
     class Meta:
         unique_together = ('event', 'ticket_type')  # Un tipo por evento
         verbose_name = "Settings of ticket type per event"
+        db_table = "events_ticket_type_event"
 
     def __str__(self):
         return f"{self.ticket_type.ticket_name} para {self.event.event_name}"
@@ -138,21 +187,71 @@ class Ticket(models.Model):
     class Meta:
         verbose_name = "ticket per user"
         verbose_name_plural = "Tickets per users"
+        db_table = "events_ticket"
 
     def __str__(self):
         return f"Boleta {self.unique_code} para {self.event.event_name} ({self.config_type.ticket_type.ticket_name})"
 
     def save(self, *args, **kwargs):
-        # Lógica para actualizar aforo_vendido en TipoBoletaEvento al comprar
-        if self.status == "comprada" and not self.pk:  # Nueva compra
-            self.config_type.capacity_sold += self.amount
-            self.config_type.save()
+        previous: "Ticket | None" = None
+        if self.pk:
+            try:
+                previous = Ticket.objects.select_related("config_type").get(pk=self.pk)
+            except Ticket.DoesNotExist:
+                previous = None
+
         super().save(*args, **kwargs)
+
+        if previous and previous.config_type_id != self.config_type_id:
+            if previous.status == "comprada":
+                previous.config_type.capacity_sold = max(0, previous.config_type.capacity_sold - previous.amount)
+                previous.config_type.save(update_fields=["capacity_sold"])
+            if self.status == "comprada":
+                self.config_type.refresh_from_db(fields=["capacity_sold", "maximun_capacity"])
+                self.config_type.capacity_sold = min(
+                    self.config_type.maximun_capacity,
+                    self.config_type.capacity_sold + self.amount,
+                )
+                self.config_type.save(update_fields=["capacity_sold"])
+            return
+
+        if previous:
+            if previous.status == "comprada" and (
+                self.status != "comprada"
+                or previous.amount != self.amount
+            ):
+                previous.config_type.capacity_sold = max(
+                    0,
+                    previous.config_type.capacity_sold - previous.amount,
+                )
+                previous.config_type.save(update_fields=["capacity_sold"])
+
+            if self.status == "comprada" and (
+                previous.status != "comprada"
+                or previous.amount != self.amount
+            ):
+                self.config_type.refresh_from_db(fields=["capacity_sold", "maximun_capacity"])
+                self.config_type.capacity_sold = min(
+                    self.config_type.maximun_capacity,
+                    self.config_type.capacity_sold + self.amount,
+                )
+                self.config_type.save(update_fields=["capacity_sold"])
+            return
+
+        if self.status == "comprada":
+            self.config_type.refresh_from_db(fields=["capacity_sold", "maximun_capacity"])
+            self.config_type.capacity_sold = min(
+                self.config_type.maximun_capacity,
+                self.config_type.capacity_sold + self.amount,
+            )
+            self.config_type.save(update_fields=["capacity_sold"])
 
     def get_qr_base64(self):
         """
-        Genera el QR en base64 usando el unique_code del ticket.
+        Genera el QR en base64 usando el unique_code del ticket SOLO si está pagado.
         """
+        if self.status != "comprada":
+            return None
         import qrcode
         import base64
         from io import BytesIO
@@ -169,5 +268,5 @@ class Ticket(models.Model):
         img = qr.make_image(fill_color="black", back_color="white")
         buffered = BytesIO()
         img.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
         return img_str

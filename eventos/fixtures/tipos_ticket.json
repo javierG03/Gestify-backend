@@ -1,0 +1,34 @@
+[
+  {
+    "model": "eventos.tickettype",
+    "pk": 1,
+    "fields": {
+      "ticket_name": "General",
+      "description": "Acceso general al evento. Sin asiento asignado."
+    }
+  },
+  {
+    "model": "eventos.tickettype",
+    "pk": 2,
+    "fields": {
+      "ticket_name": "VIP",
+      "description": "Acceso VIP con beneficios adicionales y asiento preferencial."
+    }
+  },
+  {
+    "model": "eventos.tickettype",
+    "pk": 3,
+    "fields": {
+      "ticket_name": "Preferencial",
+      "description": "Acceso preferencial con ubicación destacada."
+    }
+  },
+  {
+    "model": "eventos.tickettype",
+    "pk": 4,
+    "fields": {
+      "ticket_name": "Gratuito",
+      "description": "Ticket sin costo para eventos gratuitos."
+    }
+  }
+]
