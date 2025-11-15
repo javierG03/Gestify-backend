@@ -6,8 +6,9 @@ import logging
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import extend_schema
-from rest_framework import generics, status
+from drf_spectacular.types import OpenApiTypes  
+from drf_spectacular.utils import extend_schema, OpenApiTypes
+from rest_framework import generics, status, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import RetrieveAPIView
@@ -16,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from usuarios.permissions import IsStaffOrAdmin
+from usuarios.serializers import EmptySerializer, MessageSerializer
 
 from ..models import Ticket, TicketAccessLog
 from ..serializers import TicketAccessLogSerializer, TicketSerializer
@@ -23,6 +25,27 @@ from ..serializers import TicketAccessLogSerializer, TicketSerializer
 
 logger = logging.getLogger(__name__)
 
+
+class TicketValidationRequestSerializer(serializers.Serializer):
+    unique_code = serializers.CharField()
+
+class TicketValidationResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+    status = serializers.CharField()
+    ticket = TicketSerializer() 
+
+class TicketValidationSuccessResponseSerializer(serializers.Serializer):
+        valid = serializers.BooleanField()
+        message = serializers.CharField()
+        ticket_id = serializers.IntegerField()
+        event = serializers.CharField()
+        event_id = serializers.IntegerField()
+        user = serializers.CharField()
+        user_id = serializers.IntegerField()
+        ticket_type = serializers.CharField()
+        amount = serializers.IntegerField()
+        date_of_purchase = serializers.DateTimeField()
+        unique_code = serializers.UUIDField()
 
 class TicketDetailAPIView(RetrieveAPIView):
     """Devuelve el detalle de un ticket por su ID."""
@@ -54,7 +77,11 @@ class ResendTicketEmailAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["Tickets"], operation_id="resend_ticket_email")
+    @extend_schema(
+        tags=["Tickets"],
+        request=EmptySerializer,
+        responses=MessageSerializer 
+    )
     def post(self, request, pk: int) -> Response:
         ticket = get_object_or_404(
             Ticket.objects.select_related("user", "event", "config_type__ticket_type"),
@@ -89,11 +116,13 @@ class ResendTicketEmailAPIView(APIView):
 
 class MyTicketsAPIView(APIView):
     """Lista los tickets pertenecientes al usuario autenticado."""
-
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["Tickets"], operation_id="my_tickets")
+    @extend_schema(
+        tags=["Tickets"],
+        responses=TicketSerializer(many=True) 
+    )
     def get(self, request) -> Response:
         tickets = Ticket.objects.filter(user=request.user).select_related(
             "event", "config_type__ticket_type"
@@ -102,7 +131,7 @@ class MyTicketsAPIView(APIView):
         return Response(serializer.data)
 
 
-class TicketAccessLogListView(generics.ListAPIView):
+class TicketAccessLogListView(generics.ListAPIView):# Devuelve un 200 OK
     """Auditoría de accesos asociados a un ticket."""
 
     authentication_classes = [TokenAuthentication]
@@ -130,7 +159,12 @@ class TicketValidationAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, IsStaffOrAdmin]
 
-    @extend_schema(tags=["Tickets"], operation_id="validate_ticket")
+    @extend_schema(
+        tags=["Tickets"], 
+        operation_id="validate_ticket", 
+        request=TicketValidationRequestSerializer,
+        responses=TicketValidationSuccessResponseSerializer,
+    )
     def post(self, request) -> Response:
         unique_code = request.data.get("unique_code")
         if not unique_code:

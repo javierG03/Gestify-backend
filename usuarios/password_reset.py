@@ -6,6 +6,8 @@ from rest_framework import serializers, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
+from .serializers import MessageSerializer, EmailSerializer, PasswordResetConfirmSerializer
 
 from usuarios.validators import StrongPasswordValidator
 from .email_service import create_password_reset_token, send_password_reset_email
@@ -23,6 +25,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
     password_confirm = serializers.CharField(write_only=True)
 
+    
     def validate(self, data):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError({'password_confirm': 'Las contraseñas no coinciden.'})
@@ -31,6 +34,12 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
 class PasswordResetRequestView(APIView):
     permission_classes = [AllowAny]
+
+    @extend_schema(
+        tags=["Autenticación"],
+        request=EmailSerializer,  
+        responses=MessageSerializer 
+    )
     def post(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -50,6 +59,12 @@ class PasswordResetRequestView(APIView):
 
 class PasswordResetConfirmView(APIView):
     permission_classes = [AllowAny]
+
+    @extend_schema(
+        tags=["Autenticación"],
+        request=PasswordResetConfirmSerializer,
+        responses=MessageSerializer
+    )
     def post(self, request):
         serializer = PasswordResetConfirmSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

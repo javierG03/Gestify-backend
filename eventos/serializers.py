@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import json
 
 from django.db.models import Sum
@@ -10,6 +10,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from usuarios.models import CustomUser
+from usuarios.serializers import CustomUserSerializer
 
 from .models import (
     City,
@@ -80,7 +81,7 @@ class TicketSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id", "date_of_purchase", "event", "unique_code", "qr_base64"]
 
-    def get_qr_base64(self, obj):
+    def get_qr_base64(self, obj) -> Optional[str]:
         if hasattr(obj, "get_qr_base64"):
             return obj.get_qr_base64()
         return None
@@ -162,7 +163,7 @@ class EventSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({"ticket_type": "Debe ser una lista de configuraciones."})
         return super().to_internal_value(parsed_data)
 
-    def get_ticket_type(self, obj):
+    def get_ticket_type(self, obj) -> List[Dict[str, Any]]:
         # Solo para lectura, retorna la configuración de tickets
         types = (
             TicketTypeEvent.objects.select_related("ticket_type")
@@ -360,3 +361,74 @@ class TicketAccessLogSerializer(serializers.ModelSerializer):
             "device_info",
         ]
         read_only_fields = fields
+    
+# --- INICIO DE NUEVOS SERIALIZERS PARA SPECTACULAR ---
+
+class AttendeeTicketSerializer(serializers.Serializer):
+    """Serializador para un ticket en la lista de asistentes (EventInscritosAPIView)."""
+    ticket_id = serializers.IntegerField()
+    user = CustomUserSerializer()
+    ticket_type = serializers.CharField()
+    amount = serializers.IntegerField()
+    status = serializers.CharField()
+    unique_code = serializers.UUIDField()
+    date_of_purchase = serializers.DateTimeField()
+    price_paid = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+
+class MyTicketDetailSerializer(serializers.Serializer):
+    """Serializador para un ticket en la lista de 'mis eventos' (MyEventsAPIView)."""
+    ticket_id = serializers.IntegerField()
+    type = serializers.CharField()
+    amount = serializers.IntegerField()
+    status = serializers.CharField()
+    unique_code = serializers.UUIDField()
+    qr_base64 = serializers.CharField(allow_null=True)
+    date_of_purchase = serializers.DateTimeField()
+    price_paid = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+
+class MyEventSerializer(serializers.Serializer):
+    """Serializador para un evento en la lista de 'mis eventos' (MyEventsAPIView)."""
+    event = serializers.CharField()
+    event_id = serializers.IntegerField()
+    date = serializers.DateField()
+    location = serializers.CharField(allow_null=True)
+    country = serializers.CharField()
+    city_text = serializers.CharField()
+    department_text = serializers.CharField()
+    status = serializers.CharField()
+    tickets = MyTicketDetailSerializer(many=True)
+
+
+class BuyTicketRequestSerializer(serializers.Serializer):
+    """Serializador para el *request* de BuyTicketAPIView."""
+    config_type_id = serializers.IntegerField(help_text="ID de la configuración (TicketTypeEvent) a comprar.")
+    amount = serializers.IntegerField(default=1, help_text="Cantidad de boletos a comprar.")
+
+
+class PayUPaymentDataSerializer(serializers.Serializer):
+    """Serializador para la data de PayU (BuyTicketAPIView response)."""
+    sandbox = serializers.BooleanField()
+    merchantId = serializers.CharField()
+    accountId = serializers.CharField()
+    description = serializers.CharField()
+    referenceCode = serializers.CharField()
+    amount = serializers.CharField()
+    currency = serializers.CharField()
+    signature = serializers.CharField()
+    buyerEmail = serializers.EmailField()
+    confirmationUrl = serializers.URLField()
+    responseUrl = serializers.URLField()
+
+
+class BuyTicketResponseSerializer(serializers.Serializer):
+    """Serializador para la *respuesta* de BuyTicketAPIView."""
+    message = serializers.CharField()
+    ticket_id = serializers.IntegerField()
+    config_type_id = serializers.IntegerField()
+    amount = serializers.IntegerField()
+    total_a_pagar = serializers.CharField()
+    payment = PayUPaymentDataSerializer()
+
+# --- FIN DE NUEVOS SERIALIZERS ---

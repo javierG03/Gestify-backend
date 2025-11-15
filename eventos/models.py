@@ -7,6 +7,27 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
+
+class EventStatusChoices(models.TextChoices):
+    PROGRAMADO = "programado", "Programado"
+    ACTIVO = "activo", "Activo"
+    CANCELADO = "cancelado", "Cancelado"
+    FINALIZADO = "finalizado", "Finalizado"
+
+class EventCategoryChoices(models.TextChoices):
+    MUSICA = "musica", "Música"
+    DEPORTE = "deporte", "Deporte"
+    EDUCACION = "educacion", "Educación"
+    TECNOLOGIA = "tecnologia", "Tecnología"
+    ARTE = "arte", "Arte"
+    OTROS = "otros", "Otros"
+
+class TicketStatusChoices(models.TextChoices):
+    COMPRADA = "comprada", "Comprada"
+    USADA = "usada", "Usada"
+    PENDIENTE = "pendiente", "Pendiente por pagar"
+    CANCELADA = "cancelada", "Cancelada"
+
 class EventChangeLog(models.Model):
     """Auditoría de cambios importantes en eventos."""
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='change_logs')
@@ -94,12 +115,7 @@ class Event(models.Model):
     location = models.ForeignKey('City', on_delete=models.SET_NULL, blank=True, null=True, help_text="Ciudad del evento (solo Colombia)")
     city_text = models.CharField(max_length=100, blank=True, null=True, help_text="Ciudad libre (otros países)")
     department_text = models.CharField(max_length=100, blank=True, null=True, help_text="Departamento/Región libre (otros países)")
-    status = models.CharField(max_length=50, choices=(
-        ("programado", "Programado"),
-        ("activo", "Activo"),
-        ("cancelado", "Cancelado"),
-        ("finalizado", "Finalizado")
-    ), default="programado")
+    status = models.CharField(max_length=50, choices=EventCategoryChoices.choices,default=EventCategoryChoices.OTROS, help_text="Categoría del evento")
     CATEGORY_CHOICES = [
         ("musica", "Música"),
         ("deporte", "Deporte"),
@@ -178,8 +194,7 @@ class Ticket(models.Model):
     date_of_purchase = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=20,
-        choices=[("comprada", "Comprada"), ("usada", "Usada"), ("pendiente", "Pendiente por pagar"), ("cancelada", "Cancelada")],
-        default="pendiente"
+        choices=TicketStatusChoices.choices, default=TicketStatusChoices.PENDIENTE
     )
     # Campo para código QR o ID único si se integra con escaneo
     unique_code = models.CharField(max_length=100, unique=True, blank=True)

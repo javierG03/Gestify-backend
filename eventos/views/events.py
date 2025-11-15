@@ -23,7 +23,15 @@ from usuarios.permissions import IsAdminGroup
 from usuarios.serializers import CustomUserSerializer
 
 from ..models import Event, Ticket, TicketTypeEvent
-from ..serializers import EventSerializer, TicketSerializer, TicketTypeEventSerializer
+from ..serializers import (
+    EventSerializer, 
+    TicketSerializer, 
+    TicketTypeEventSerializer, 
+    AttendeeTicketSerializer, 
+    MyEventSerializer, 
+    BuyTicketRequestSerializer, 
+    BuyTicketResponseSerializer,
+)
 
 
 def _validate_user_age_for_event(user, event) -> Optional[Dict[str, str]]:
@@ -50,7 +58,12 @@ class EventInscritosAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, IsAdminGroup]
 
-    @extend_schema(tags=["Eventos"], operation_id="event_attendees")
+    @extend_schema(
+            tags=["Eventos"], 
+            operation_id="event_attendees", 
+            responses=AttendeeTicketSerializer(many=True),
+    )
+
     def get(self, request, pk: int) -> Response:
         event = get_object_or_404(Event, pk=pk)
         tickets = Ticket.objects.filter(event=event).select_related("user", "config_type__ticket_type")
@@ -77,7 +90,13 @@ class MyEventsAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["Eventos"], operation_id="my_events")
+
+
+    @extend_schema(
+            tags=["Eventos"], 
+            operation_id="my_events",
+            responses=MyEventSerializer(many=True),
+    )
     def get(self, request) -> Response:
         user_tickets = Ticket.objects.filter(user=request.user).select_related(
             "event", "config_type__ticket_type"
@@ -222,7 +241,14 @@ class BuyTicketAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["Pagos"], operation_id="buy_ticket")
+    @extend_schema(
+            tags=["Pagos"], 
+            operation_id="buy_ticket",
+            request=BuyTicketRequestSerializer,
+        responses={
+            201: BuyTicketResponseSerializer,
+        },
+    )
     def post(self, request, pk: int) -> Response:
         event = get_object_or_404(Event, pk=pk)
         if event.status != "activo":

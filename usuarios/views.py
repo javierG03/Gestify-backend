@@ -6,7 +6,7 @@ Vistas principales del m처dulo de usuarios. Clean code, docstrings y organizaci�
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.core.exceptions import ImproperlyConfigured
-from rest_framework import generics, status
+from rest_framework import generics, status, serializers
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from drf_spectacular.utils import extend_schema
 from .serializers import (
-    CustomUserSerializer, AssignRoleSerializer, RemoveRoleSerializer,
+    CustomUserSerializer, AssignRoleSerializer, EmptySerializer, RemoveRoleSerializer,
     UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
 )
 from .models import CustomUser, UserToken
@@ -232,6 +232,8 @@ class ChangePasswordView(generics.GenericAPIView):
 class VerifyEmailView(generics.GenericAPIView):
     """Verifica el correo electr처nico del usuario."""
     permission_classes = [AllowAny]
+    serializer_class = EmptySerializer
+
     @extend_schema(tags=["Autenticaci처n"], operation_id="verify_email", description="Verificaci처n de correo electr처nico")
     def get(self, request):
         token_value = request.GET.get('token')

@@ -10,15 +10,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django_ratelimit.decorators import ratelimit
 
 from drf_spectacular.utils import extend_schema
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+
+from usuarios.serializers import EmptySerializer
 from .models import PaymentTransaction
-from .serializers import PaymentTransactionSerializer
+from .serializers import PaymentTransactionSerializer, PayUDataResponseSerializer
 from .services import (
     generate_payu_signature,
     get_payu_config,
@@ -103,7 +105,11 @@ class PayUInitPaymentView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @extend_schema(tags=["Pagos"])
+    @extend_schema(
+        tags=["Pagos"],
+        request=EmptySerializer,  
+        responses=PayUDataResponseSerializer 
+    )
     @ratelimit(key='ip', rate='5/m', block=True)
     def post(self, request, ticket_id):
         try:
@@ -189,14 +195,27 @@ class PayUInitPaymentView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PayUConfirmationAPIView(APIView):
+    """Endpoint para recibir confirmación de pago de PayU."""
+
     authentication_classes = []
     permission_classes = [AllowAny]
-    """Endpoint para recibir confirmación de pago de PayU."""
+    
+    @extend_schema(
+        tags=["Pagos - Webhooks"],
+        request=EmptySerializer,  
+        responses=EmptySerializer  
+    )
     def post(self, request):
         return _handle_payu_notification(request, source="confirmation")
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PayUWebhookAPIView(APIView):
     """Endpoint para recibir notificaciones automáticas de PayU (webhook)."""
+
+    @extend_schema(
+        tags=["Pagos - Webhooks"],
+        request=EmptySerializer,  
+        responses=EmptySerializer 
+    )
     def post(self, request):
         return _handle_payu_notification(request, source="webhook")

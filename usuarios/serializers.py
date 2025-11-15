@@ -11,6 +11,7 @@ from eventos.models import Event, City
 from drf_spectacular.utils import extend_schema_field
 from .models import CustomUser
 from .utils import assign_user_to_group
+from typing import List, Optional
 
 User = get_user_model()
 
@@ -22,17 +23,17 @@ class SimpleEventSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     department_name = serializers.SerializerMethodField()
     city_name = serializers.SerializerMethodField()
-    role = serializers.SerializerMethodField()
-    eventos_inscritos = serializers.SerializerMethodField()
+    # role = serializers.SerializerMethodField()
+    #eventos_inscritos = serializers.SerializerMethodField()
 
-    def get_department_name(self, obj):
+    def get_department_name(self, obj) -> Optional[str]:
         return obj.department.name if obj.department else None
-    def get_city_name(self, obj):
+    def get_city_name(self, obj) -> Optional[str]:
         return obj.city.name if obj.city else None
-    def get_eventos_inscritos(self, obj):
-        tickets = obj.user_tickets.values_list('event_id', flat=True).distinct()
-        return list(tickets)
-    def get_role(self, obj):
+    #def get_eventos_inscritos(self, obj):
+    #    tickets = obj.user_tickets.values_list('event_id', flat=True).distinct()
+    #    return list(tickets)
+    def get_role(self, obj) -> Optional[str]:
         return [g.name for g in obj.groups.all()]
 
     def validate(self, data):
@@ -64,7 +65,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if value and (datetime.date.today().year - value.year) < 14:
             raise serializers.ValidationError("El usuario debe tener al menos 14 años.")
         return value
-    role = serializers.SerializerMethodField()
+    #role = serializers.SerializerMethodField()
     eventos_inscritos = serializers.SerializerMethodField()
     @extend_schema_field(SimpleEventSerializer(many=True))
     def get_eventos_inscritos(self, obj):
@@ -182,3 +183,22 @@ class UserLoginSerializer(serializers.Serializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
     new_password = serializers.CharField(write_only=True)
+
+class MessageSerializer(serializers.Serializer):
+    """Serializador genérico para un mensaje de respuesta."""
+    message = serializers.CharField()
+
+class EmailSerializer(serializers.Serializer):
+    """Serializador para un solo campo de email."""
+    email = serializers.EmailField()
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    """Serializador para confirmar el reseteo de contraseña."""
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(write_only=True)
+    new_password_confirm = serializers.CharField(write_only=True)
+
+class EmptySerializer(serializers.Serializer):
+    """Un serializador vacío para silenciar advertencias."""
+    pass

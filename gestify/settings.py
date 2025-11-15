@@ -14,7 +14,7 @@ from pathlib import Path
 import environ
 import os
 from dotenv import load_dotenv
-from django.core.exceptions import ImproperlyConfiguredload_dotenv()
+from django.core.exceptions import ImproperlyConfigured
 
 load_dotenv()
 
@@ -213,6 +213,11 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'Documentación de mi API con Swagger y DRF',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'ENUM_NAME_OVERRIDES': {
+        'EventStatusEnum': 'eventos.models.EventStatusChoices',
+        'TicketStatusEnum': 'eventos.models.TicketStatusChoices',
+        'EventCategoryEnum': 'eventos.models.EventCategoryChoices',
+    },
 }
 
 # Password validation
