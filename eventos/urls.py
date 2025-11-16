@@ -8,6 +8,7 @@ from .views import (
     TicketTypeViewSet,
     TicketValidationAPIView,
     BuyTicketAPIView,
+    MyCreatedEventsAPIView,
     MyEventsAPIView,
     EventInscritosAPIView,
     DepartmentListView,
@@ -37,6 +38,7 @@ urlpatterns = [
     path('events/<int:pk>/cancel/', EventViewSet.as_view({'post': 'cancelar'}), name='event-cancel'),
     path('events/<int:pk>/attendees/', EventInscritosAPIView.as_view(), name='event-attendees'),
     path('events/my-events/', MyEventsAPIView.as_view(), name='event-my-events'),
+    path('organizer/my-events/', MyCreatedEventsAPIView.as_view(), name='organizer-my-events'),
     # --- Tickets del usuario ---
     path('tickets/my-tickets/', MyTicketsAPIView.as_view(), name='my-tickets'),
     # --- Ticket Detail ---

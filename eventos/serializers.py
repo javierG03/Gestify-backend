@@ -179,6 +179,7 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = [
             "id",
+            'creator',
             "event_name",
             "description",
             "date",
@@ -203,6 +204,7 @@ class EventSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             "id",
+            'creator',
             "tickets",
             "types_of_tickets_available",
             "maximun_capacity_remaining",
