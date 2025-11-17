@@ -128,6 +128,17 @@ class ConfigTypeSerializer(serializers.Serializer):
         if not TicketType.objects.filter(id=value).exists():
             raise serializers.ValidationError("El tipo de ticket indicado no existe.")
         return value
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ["id", "name"]
+
+class CitySerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only=True)
+
+    class Meta:
+        model = City
+        fields = ["id", "name", "department"]
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -146,7 +157,7 @@ class EventSerializer(serializers.ModelSerializer):
     location = serializers.PrimaryKeyRelatedField(
         queryset=City.objects.all(), required=False, allow_null=True
     )
-    
+    location_details = CitySerializer(source='location', read_only=True)
     city_text = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     department_text = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
@@ -201,6 +212,7 @@ class EventSerializer(serializers.ModelSerializer):
             "end_datetime",
             "country",
             "location",
+            "location_details",
             "city_text",
             "department_text",
             "status",
@@ -223,6 +235,7 @@ class EventSerializer(serializers.ModelSerializer):
             "tickets",
             "types_of_tickets_available",
             "maximun_capacity_remaining",
+            "location_details",
         ]
 
     def validate(self, data: Dict[str, Any]) -> Dict[str, Any]:
@@ -347,12 +360,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class CitySerializer(serializers.ModelSerializer):
-    department = DepartmentSerializer(read_only=True)
-
-    class Meta:
-        model = City
-        fields = ["id", "name", "department"]
 
 
 class TicketAccessLogSerializer(serializers.ModelSerializer):

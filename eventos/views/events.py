@@ -205,11 +205,11 @@ class EventViewSet(viewsets.ModelViewSet):
     @extend_schema(tags=["Eventos"], operation_id="event_ticket_types")
     def ticket_types_available(self, request, pk=None):
         event = self.get_object()
-        if event.status != "activo":
-            return Response(
-                {"error": "No se pueden consultar tipos para eventos inactivos."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        #if event.status != "activo":
+        #    return Response(
+        #        {"error": "No se pueden consultar tipos para eventos inactivos."},
+        #        status=status.HTTP_400_BAD_REQUEST,
+        #    )
         types = TicketTypeEvent.objects.select_related("ticket_type").filter(event=event)
         serializer = TicketTypeEventSerializer(types, many=True)
         return Response(serializer.data)
