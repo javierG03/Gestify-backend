@@ -67,6 +67,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
     user = UserSummarySerializer(read_only=True)
     event = serializers.StringRelatedField(read_only=True)
+    event_id = serializers.ReadOnlyField(source='event.id') #<-- Esto lo usa la app web
     config_type = TicketTypeEventSerializer(read_only=True)
     qr_base64 = serializers.SerializerMethodField()
     user_id = serializers.PrimaryKeyRelatedField(
@@ -415,6 +416,8 @@ class MyEventSerializer(serializers.Serializer):
     department_text = serializers.CharField()
     status = serializers.CharField()
     tickets = MyTicketDetailSerializer(many=True)
+    image = serializers.CharField(allow_null=True)
+    category = serializers.CharField(allow_null=True)
 
 
 class BuyTicketRequestSerializer(serializers.Serializer):

@@ -115,6 +115,8 @@ class MyEventsAPIView(APIView):
                     "department_text": event.department_text,
                     "status": event.status,
                     "tickets": [],
+                    "image": event.image,
+                    "category": event.category,
                 }
             events_data[event.id]["tickets"].append(
                 {
