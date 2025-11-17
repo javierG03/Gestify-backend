@@ -135,9 +135,18 @@ class EventSerializer(serializers.ModelSerializer):
     image_file = serializers.ImageField(write_only=True, required=False)
     """Serializer principal de eventos incluyendo tipos de ticket."""
 
+    # Campo de ESCRITURA (para tu formulario web)
+    ticket_type_json = serializers.CharField(
+        write_only=True, 
+        required=False, 
+        allow_blank=True, 
+        allow_null=True
+    )
+
     location = serializers.PrimaryKeyRelatedField(
         queryset=City.objects.all(), required=False, allow_null=True
     )
+    
     city_text = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     department_text = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
@@ -149,19 +158,24 @@ class EventSerializer(serializers.ModelSerializer):
     ticket_type = serializers.SerializerMethodField()
 
     def to_internal_value(self, data):
-        parsed_data = data.copy() if hasattr(data, "copy") else dict(data)
-        if "ticket_type" in parsed_data:
-            raw_value = parsed_data.get("ticket_type")
-            if isinstance(raw_value, str):
-                try:
-                    parsed_data["ticket_type"] = json.loads(raw_value)
-                except json.JSONDecodeError as exc:
-                    raise serializers.ValidationError({"ticket_type": "Formato JSON inválido."}) from exc
-            elif raw_value in (None, ""):
-                parsed_data["ticket_type"] = []
-            elif not isinstance(raw_value, list):
-                raise serializers.ValidationError({"ticket_type": "Debe ser una lista de configuraciones."})
-        return super().to_internal_value(parsed_data)
+        # 1. Lee el string JSON del *nuevo* campo 'ticket_type_json'
+        raw_value = data.get("ticket_type_json", None)
+        
+        parsed_ticket_list = []
+        if isinstance(raw_value, str) and raw_value:
+            try:
+                parsed_ticket_list = json.loads(raw_value)
+            except json.JSONDecodeError as exc:
+                # El frontend envió un JSON malformado
+                raise serializers.ValidationError({"ticket_type_json": "Formato JSON inválido."}) from exc
+        
+        # 2. Llama al método original de DRF
+        internal_value = super().to_internal_value(data)
+        
+        # 3. Añade la lista parseada a los datos internos
+        #    Usaremos 'ticket_configs_list' como una clave interna segura
+        internal_value['ticket_configs_list'] = parsed_ticket_list
+        return internal_value
 
     def get_ticket_type(self, obj) -> List[Dict[str, Any]]:
         # Solo para lectura, retorna la configuración de tickets
@@ -201,6 +215,7 @@ class EventSerializer(serializers.ModelSerializer):
             "types_of_tickets_available",
             "maximun_capacity_remaining",
             "ticket_type",
+            "ticket_type_json",
         ]
         read_only_fields = [
             "id",
@@ -228,7 +243,7 @@ class EventSerializer(serializers.ModelSerializer):
                 {"end_datetime": "La fecha y hora de fin no puede estar en el pasado."}
             )
 
-        ticket_configs: List[Dict[str, Any]] = data.get("ticket_type", [])
+        ticket_configs: List[Dict[str, Any]] = data.get("ticket_configs_list", [])
         type_ids = [cfg["ticket_type_id"] for cfg in ticket_configs]
         if len(type_ids) != len(set(type_ids)):
             raise serializers.ValidationError(
@@ -256,7 +271,6 @@ class EventSerializer(serializers.ModelSerializer):
                     "city_text": "Debe indicar ciudad y departamento/estado para eventos fuera de Colombia."
                 })
         return data
-
     def get_types_of_tickets_available(self, obj: Event) -> List[Dict[str, Any]]:
         types = (
             TicketTypeEvent.objects.select_related("ticket_type")
@@ -280,14 +294,7 @@ class EventSerializer(serializers.ModelSerializer):
         from rest_framework.exceptions import ValidationError as DRFValidationError
 
         # Obtener ticket_type desde self.initial_data
-        ticket_configs = self.initial_data.get("ticket_type")
-        if isinstance(ticket_configs, str):
-            try:
-                ticket_configs = json.loads(ticket_configs)
-            except Exception:
-                ticket_configs = []
-        elif not isinstance(ticket_configs, list):
-            ticket_configs = []
+        ticket_configs = validated_data.pop("ticket_configs_list", [])
 
         image_file = validated_data.pop("image_file", None)
         if image_file:
@@ -312,7 +319,7 @@ class EventSerializer(serializers.ModelSerializer):
     def update(self, instance: Event, validated_data: Dict[str, Any]) -> Event:
         from .supabase_service import upload_image_to_supabase
 
-        ticket_configs = validated_data.pop("ticket_type", None)
+        ticket_configs = validated_data.pop("ticket_configs_list", None)
         image_file = validated_data.pop("image_file", None)
 
         if image_file:

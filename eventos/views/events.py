@@ -367,6 +367,5 @@ class MyCreatedEventsAPIView(APIView):
         created_events = Event.objects.filter(creator=request.user).order_by('-start_datetime')
         
         # Serializa los eventos
-        serializer = MyEventSerializer(created_events, many=True, context={'request': request}) 
-        
+        serializer = EventSerializer(created_events, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
