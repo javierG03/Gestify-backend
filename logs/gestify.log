@@ -8043,3 +8043,1129 @@ Traceback (most recent call last):
     ip = request.META['REMOTE_ADDR']
 AttributeError: 'PayUInitPaymentView' object has no attribute 'META'
 ERROR 2025-11-17 23:29:37,089 basehttp "POST /api/payments/ticket/46/pay/ HTTP/1.1" 500 122069
+INFO 2025-11-17 23:42:07,051 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-17 23:42:07,878 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 23:45:09,121 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-17 23:45:09,817 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 23:45:31,040 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-17 23:45:31,632 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 23:45:54,069 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-17 23:45:54,651 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 23:47:33,176 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-17 23:47:33,730 autoreload Watching for file changes with StatReloader
+INFO 2025-11-17 23:47:38,171 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:47:38,236 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:47:38,350 basehttp "GET /api/events/ HTTP/1.1" 200 30954
+INFO 2025-11-17 23:47:38,465 basehttp "GET /api/events/ HTTP/1.1" 200 30954
+INFO 2025-11-17 23:47:39,600 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:47:39,669 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:47:39,690 basehttp "GET /api/events/ HTTP/1.1" 200 30954
+INFO 2025-11-17 23:47:39,834 basehttp "GET /api/events/ HTTP/1.1" 200 30954
+INFO 2025-11-17 23:47:40,350 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:47:40,360 basehttp "GET /api/events/5/ HTTP/1.1" 200 2458
+INFO 2025-11-17 23:47:40,431 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:47:40,440 basehttp "GET /api/events/5/ HTTP/1.1" 200 2458
+INFO 2025-11-17 23:47:48,520 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 554
+INFO 2025-11-17 23:47:48,523 basehttp "OPTIONS /api/payments/ticket/47/pay/ HTTP/1.1" 200 0
+INFO 2025-11-17 23:47:48,608 basehttp "POST /api/payments/ticket/47/pay/ HTTP/1.1" 200 425
+INFO 2025-11-17 23:57:48,042 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:57:48,137 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:57:48,154 basehttp "GET /api/events/ HTTP/1.1" 200 31460
+INFO 2025-11-17 23:57:48,279 basehttp "GET /api/events/ HTTP/1.1" 200 31460
+INFO 2025-11-17 23:57:49,508 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:57:49,572 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:57:49,587 basehttp "GET /api/events/ HTTP/1.1" 200 31460
+INFO 2025-11-17 23:57:49,696 basehttp "GET /api/events/ HTTP/1.1" 200 31460
+INFO 2025-11-17 23:57:50,387 basehttp "GET /api/events/5/ HTTP/1.1" 200 2964
+INFO 2025-11-17 23:57:50,453 basehttp "GET /api/events/5/ HTTP/1.1" 200 2964
+INFO 2025-11-17 23:57:50,496 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:57:50,565 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:57:53,075 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-17 23:57:53,080 basehttp "OPTIONS /api/payments/ticket/48/pay/ HTTP/1.1" 200 0
+INFO 2025-11-17 23:57:53,255 basehttp "POST /api/payments/ticket/48/pay/ HTTP/1.1" 200 426
+INFO 2025-11-17 23:58:57,655 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:58:57,708 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-17 23:58:57,842 basehttp "GET /api/events/ HTTP/1.1" 200 31966
+INFO 2025-11-17 23:58:58,092 basehttp "GET /api/events/ HTTP/1.1" 200 31966
+INFO 2025-11-17 23:58:59,697 basehttp "GET /api/events/5/ HTTP/1.1" 200 3470
+INFO 2025-11-17 23:58:59,711 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:58:59,785 basehttp "GET /api/events/5/ HTTP/1.1" 200 3470
+INFO 2025-11-17 23:58:59,788 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-17 23:59:07,715 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-17 23:59:07,720 basehttp "OPTIONS /api/payments/ticket/49/pay/ HTTP/1.1" 200 0
+INFO 2025-11-17 23:59:07,787 basehttp "POST /api/payments/ticket/49/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:03:16,471 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:03:16,543 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:03:16,552 basehttp "GET /api/events/ HTTP/1.1" 200 32472
+INFO 2025-11-18 00:03:16,693 basehttp "GET /api/events/ HTTP/1.1" 200 32472
+INFO 2025-11-18 00:03:17,990 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:03:18,057 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:03:18,064 basehttp "GET /api/events/ HTTP/1.1" 200 32472
+INFO 2025-11-18 00:03:18,285 basehttp "GET /api/events/ HTTP/1.1" 200 32472
+INFO 2025-11-18 00:03:18,705 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:03:18,713 basehttp "GET /api/events/5/ HTTP/1.1" 200 3976
+INFO 2025-11-18 00:03:18,783 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:03:18,788 basehttp "GET /api/events/5/ HTTP/1.1" 200 3976
+INFO 2025-11-18 00:03:20,798 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-18 00:03:20,803 basehttp "OPTIONS /api/payments/ticket/50/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:03:20,884 basehttp "POST /api/payments/ticket/50/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:04:09,471 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:04:09,477 basehttp "GET /api/events/5/ HTTP/1.1" 200 4482
+INFO 2025-11-18 00:04:09,567 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:04:09,574 basehttp "GET /api/events/5/ HTTP/1.1" 200 4482
+INFO 2025-11-18 00:04:12,145 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-18 00:04:12,148 basehttp "OPTIONS /api/payments/ticket/51/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:04:12,217 basehttp "POST /api/payments/ticket/51/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:08:18,389 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:18,465 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:18,474 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:18,593 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:19,534 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:19,601 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:19,621 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:19,737 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:20,526 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:08:20,535 basehttp "GET /api/events/5/ HTTP/1.1" 200 4988
+INFO 2025-11-18 00:08:20,604 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:08:20,622 basehttp "GET /api/events/5/ HTTP/1.1" 200 4988
+WARNING 2025-11-18 00:08:22,022 log Not Found: /api/api/events/5/buy/
+WARNING 2025-11-18 00:08:22,022 basehttp "POST /api/api/events/5/buy/ HTTP/1.1" 404 11137
+INFO 2025-11-18 00:08:42,896 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:42,994 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:43,017 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:43,225 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:44,051 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:44,120 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:08:44,138 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:44,270 basehttp "GET /api/events/ HTTP/1.1" 200 33484
+INFO 2025-11-18 00:08:44,892 basehttp "GET /api/events/5/ HTTP/1.1" 200 4988
+INFO 2025-11-18 00:08:44,969 basehttp "GET /api/events/5/ HTTP/1.1" 200 4988
+INFO 2025-11-18 00:08:44,993 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:08:45,063 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:08:47,889 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-18 00:08:47,892 basehttp "OPTIONS /api/payments/ticket/52/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:08:47,959 basehttp "POST /api/payments/ticket/52/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:10:18,985 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:10:19,050 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:10:19,057 basehttp "GET /api/events/ HTTP/1.1" 200 33990
+INFO 2025-11-18 00:10:19,172 basehttp "GET /api/events/ HTTP/1.1" 200 33990
+INFO 2025-11-18 00:10:20,399 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:10:20,466 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:10:20,483 basehttp "GET /api/events/ HTTP/1.1" 200 33990
+INFO 2025-11-18 00:10:20,607 basehttp "GET /api/events/ HTTP/1.1" 200 33990
+INFO 2025-11-18 00:10:21,061 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:10:21,064 basehttp "GET /api/events/5/ HTTP/1.1" 200 5494
+INFO 2025-11-18 00:10:21,125 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:10:21,249 basehttp "GET /api/events/5/ HTTP/1.1" 200 5494
+INFO 2025-11-18 00:10:29,004 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-18 00:10:29,007 basehttp "OPTIONS /api/payments/ticket/53/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:10:29,075 basehttp "POST /api/payments/ticket/53/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:17:31,589 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:17:31,656 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:17:31,681 basehttp "GET /api/events/ HTTP/1.1" 200 34496
+INFO 2025-11-18 00:17:31,790 basehttp "GET /api/events/ HTTP/1.1" 200 34496
+INFO 2025-11-18 00:17:32,933 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:17:33,004 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:17:33,028 basehttp "GET /api/events/ HTTP/1.1" 200 34496
+INFO 2025-11-18 00:17:33,153 basehttp "GET /api/events/ HTTP/1.1" 200 34496
+INFO 2025-11-18 00:17:33,712 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:17:33,778 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:17:33,826 basehttp "GET /api/events/5/ HTTP/1.1" 200 6000
+INFO 2025-11-18 00:17:33,906 basehttp "GET /api/events/5/ HTTP/1.1" 200 6000
+INFO 2025-11-18 00:17:35,897 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 554
+INFO 2025-11-18 00:17:35,900 basehttp "OPTIONS /api/payments/ticket/54/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:17:35,967 basehttp "POST /api/payments/ticket/54/pay/ HTTP/1.1" 200 425
+INFO 2025-11-18 00:19:49,460 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 559
+INFO 2025-11-18 00:19:49,463 basehttp "OPTIONS /api/payments/ticket/55/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:19:49,637 basehttp "POST /api/payments/ticket/55/pay/ HTTP/1.1" 200 429
+INFO 2025-11-18 00:19:55,580 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:19:55,647 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:19:55,662 basehttp "GET /api/events/ HTTP/1.1" 200 35533
+INFO 2025-11-18 00:19:55,784 basehttp "GET /api/events/ HTTP/1.1" 200 35533
+INFO 2025-11-18 00:19:56,609 basehttp "GET /api/events/5/ HTTP/1.1" 200 7037
+INFO 2025-11-18 00:19:56,685 basehttp "GET /api/events/5/ HTTP/1.1" 200 7037
+INFO 2025-11-18 00:19:56,709 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:19:56,778 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:20:00,831 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 554
+INFO 2025-11-18 00:20:00,836 basehttp "OPTIONS /api/payments/ticket/56/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:20:00,903 basehttp "POST /api/payments/ticket/56/pay/ HTTP/1.1" 200 425
+INFO 2025-11-18 00:20:02,967 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:20:03,034 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:20:03,044 basehttp "GET /api/events/ HTTP/1.1" 200 36039
+INFO 2025-11-18 00:20:03,208 basehttp "GET /api/events/ HTTP/1.1" 200 36039
+INFO 2025-11-18 00:20:04,372 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:20:04,435 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:20:04,453 basehttp "GET /api/events/ HTTP/1.1" 200 36039
+INFO 2025-11-18 00:20:04,568 basehttp "GET /api/events/ HTTP/1.1" 200 36039
+INFO 2025-11-18 00:20:11,733 basehttp "GET /api/events/5/ HTTP/1.1" 200 7543
+INFO 2025-11-18 00:20:11,813 basehttp "GET /api/events/5/ HTTP/1.1" 200 7543
+INFO 2025-11-18 00:20:11,841 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:20:11,913 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:20:13,773 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 554
+INFO 2025-11-18 00:20:13,776 basehttp "OPTIONS /api/payments/ticket/57/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:20:13,961 basehttp "POST /api/payments/ticket/57/pay/ HTTP/1.1" 200 425
+INFO 2025-11-18 00:20:21,678 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:20:21,694 basehttp "GET /api/events/5/ HTTP/1.1" 200 8049
+INFO 2025-11-18 00:20:21,763 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:20:21,787 basehttp "GET /api/events/5/ HTTP/1.1" 200 8049
+INFO 2025-11-18 00:23:08,762 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:23:08,770 basehttp "GET /api/events/5/ HTTP/1.1" 200 8049
+INFO 2025-11-18 00:23:08,841 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:23:08,863 basehttp "GET /api/events/5/ HTTP/1.1" 200 8049
+INFO 2025-11-18 00:23:35,117 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 556
+INFO 2025-11-18 00:23:35,122 basehttp "OPTIONS /api/payments/ticket/58/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:23:35,210 basehttp "POST /api/payments/ticket/58/pay/ HTTP/1.1" 200 426
+INFO 2025-11-18 00:29:01,864 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:01,969 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:01,969 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:01,989 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:01,991 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:02,015 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:02,051 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:02,070 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:02,070 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:02,079 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:02,085 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:02,097 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:11,955 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:29:12,032 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:29:12,038 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:12,164 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:15,295 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:15,399 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:15,413 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:15,415 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:15,419 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:15,482 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:15,518 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:15,518 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:15,524 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:15,525 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:15,530 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:15,591 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:25,868 basehttp "OPTIONS /api/events/5/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:29:25,869 basehttp "OPTIONS /api/events/5/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:29:25,942 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:25,964 basehttp "GET /api/events/5/ HTTP/1.1" 200 8555
+INFO 2025-11-18 00:29:26,025 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:26,057 basehttp "GET /api/events/5/ HTTP/1.1" 200 8555
+INFO 2025-11-18 00:29:29,907 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3172
+INFO 2025-11-18 00:29:29,972 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3172
+INFO 2025-11-18 00:29:49,380 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:49,494 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:49,495 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:49,506 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:49,522 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:49,524 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:49,591 basehttp "GET /api/events/ HTTP/1.1" 200 37051
+INFO 2025-11-18 00:29:49,611 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:49,614 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:29:49,622 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:29:49,630 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:29:49,632 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:30:21,968 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:30:22,068 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:30:22,084 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:30:22,087 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:30:22,093 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:30:22,117 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:30:22,156 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:30:22,164 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:30:22,178 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:30:22,184 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:30:22,187 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:30:22,198 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:30:32,178 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:30:32,243 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:30:54,126 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:30:54,194 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:13,103 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:13,268 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:17,883 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:31:17,993 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:17,999 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:31:18,003 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:18,007 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:18,019 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:18,067 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:31:18,091 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:18,096 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:31:18,096 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:18,101 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:18,106 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:19,693 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:19,709 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:19,772 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:19,801 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:21,925 basehttp "OPTIONS /api/events/5/attendees/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:31:22,099 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 14267
+INFO 2025-11-18 00:31:45,540 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:45,609 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:46,346 basehttp "OPTIONS /api/tickets/58/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:31:46,346 basehttp "OPTIONS /api/tickets/58/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:31:46,415 basehttp "GET /api/tickets/58/ HTTP/1.1" 200 502
+INFO 2025-11-18 00:31:46,491 basehttp "GET /api/tickets/58/ HTTP/1.1" 200 502
+INFO 2025-11-18 00:31:46,501 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:46,685 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:49,827 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:49,904 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3169
+INFO 2025-11-18 00:31:50,218 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:31:50,320 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:50,320 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:50,336 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:50,342 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:31:50,352 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:50,396 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:31:50,416 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:50,416 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:50,429 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:31:50,429 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:31:50,437 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:55,531 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:55,537 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:55,618 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:55,641 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:31:56,673 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 14267
+INFO 2025-11-18 00:31:58,093 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:31:58,097 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:32:01,495 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 14267
+INFO 2025-11-18 00:32:15,742 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:32:15,848 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 00:32:21,532 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:32:21,572 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:32:21,634 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:32:21,657 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:33:26,807 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:33:26,908 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:33:26,908 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:33:26,927 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:33:26,927 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:33:26,927 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:33:26,981 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:33:27,003 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:33:27,005 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:33:27,005 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:33:27,013 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:33:27,014 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:33:32,402 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:33:32,464 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 00:33:32,470 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:33:32,578 basehttp "GET /api/events/ HTTP/1.1" 200 37048
+INFO 2025-11-18 00:33:34,644 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:33:34,653 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 00:33:34,716 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:33:34,735 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 00:33:46,009 basehttp "OPTIONS /api/events/2/buy/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:33:46,071 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 549
+INFO 2025-11-18 00:33:46,074 basehttp "OPTIONS /api/payments/ticket/59/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 00:33:46,136 basehttp "POST /api/payments/ticket/59/pay/ HTTP/1.1" 200 420
+INFO 2025-11-18 00:36:03,810 basehttp "POST /api/users/login/ HTTP/1.1" 200 145
+INFO 2025-11-18 00:36:03,886 basehttp "GET /api/users/profile/ HTTP/1.1" 200 899
+INFO 2025-11-18 00:36:05,467 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 00:36:05,581 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:05,597 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:05,599 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:05,608 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:36:05,641 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 00:36:05,677 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:05,684 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:05,684 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:05,693 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:05,694 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:36:05,833 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:06,126 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 00:36:06,200 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 00:36:13,680 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 00:36:13,796 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:13,810 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:36:13,810 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:13,815 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:13,839 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 00:36:13,881 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:13,897 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:13,899 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 00:36:13,906 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 00:36:13,906 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:36:13,960 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 00:37:49,265 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 00:37:49,338 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 01:10:59,138 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:11:09,073 basehttp "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,075 basehttp "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,319 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:11:09,329 basehttp "OPTIONS /api/events/5/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,334 basehttp "OPTIONS /api/events/1/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,334 basehttp "OPTIONS /api/events/5/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,337 basehttp "OPTIONS /api/events/1/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,339 basehttp "OPTIONS /api/events/2/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,342 basehttp "OPTIONS /api/events/3/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,343 basehttp "OPTIONS /api/events/2/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,346 basehttp "OPTIONS /api/events/3/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,348 basehttp "OPTIONS /api/events/4/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,349 basehttp "OPTIONS /api/events/4/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:11:09,432 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:11:09,451 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:11:09,456 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:11:09,456 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:11:09,526 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:11:09,557 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:11:09,564 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:11:09,564 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:11:09,566 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:11:09,599 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:11:09,654 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:11:11,976 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:11:12,044 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:11:12,044 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:11:12,191 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:11:19,100 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:11:19,109 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:11:19,176 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:11:19,191 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:12:03,314 basehttp "OPTIONS /api/users/login/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:12:03,719 basehttp "POST /api/users/login/ HTTP/1.1" 200 145
+INFO 2025-11-18 01:12:03,724 basehttp "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:12:03,910 basehttp "GET /api/users/profile/ HTTP/1.1" 200 899
+INFO 2025-11-18 01:12:06,733 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:12:06,847 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:12:06,862 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:12:06,864 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:12:06,893 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:06,929 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:12:06,955 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:12:06,973 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:12:06,973 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:12:06,982 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:07,045 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 01:12:07,051 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 01:12:15,056 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:12:15,058 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:12:15,132 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 01:12:15,212 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 3609
+INFO 2025-11-18 01:12:17,118 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:12:17,171 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:12:17,301 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:12:17,429 basehttp "GET /api/events/ HTTP/1.1" 200 37569
+INFO 2025-11-18 01:12:19,232 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:12:19,311 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:12:19,333 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:19,508 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:32,724 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:32,730 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:12:32,802 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:12:32,824 basehttp "GET /api/events/2/ HTTP/1.1" 200 8158
+INFO 2025-11-18 01:12:34,311 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 581
+INFO 2025-11-18 01:12:34,314 basehttp "OPTIONS /api/payments/ticket/60/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:12:34,387 basehttp "POST /api/payments/ticket/60/pay/ HTTP/1.1" 200 452
+WARNING 2025-11-18 01:12:50,803 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:12:50,805 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:12:51,016 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:12:51,016 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:12:51,306 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:12:51,307 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:12:51,817 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:12:51,819 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 01:19:02,894 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 01:19:03,543 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:25:33,810 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:25:33,972 basehttp "GET /api/events/ HTTP/1.1" 200 38066
+INFO 2025-11-18 01:25:33,982 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:25:34,175 basehttp "GET /api/events/ HTTP/1.1" 200 38066
+INFO 2025-11-18 01:25:37,178 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:25:37,189 basehttp "GET /api/events/2/ HTTP/1.1" 200 8655
+INFO 2025-11-18 01:25:37,254 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:25:37,274 basehttp "GET /api/events/2/ HTTP/1.1" 200 8655
+INFO 2025-11-18 01:25:41,826 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:25:41,838 basehttp "GET /api/events/2/ HTTP/1.1" 200 8655
+INFO 2025-11-18 01:25:41,912 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:25:41,937 basehttp "GET /api/events/2/ HTTP/1.1" 200 8655
+INFO 2025-11-18 01:25:50,294 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 581
+INFO 2025-11-18 01:25:50,300 basehttp "OPTIONS /api/payments/ticket/61/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:25:50,368 basehttp "POST /api/payments/ticket/61/pay/ HTTP/1.1" 200 452
+WARNING 2025-11-18 01:26:03,974 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:26:03,975 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:26:04,500 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:26:04,501 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:26:04,797 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:26:04,798 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:26:05,317 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:26:05,318 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 01:31:55,948 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 01:31:56,642 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:36:33,247 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 01:36:33,984 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:36:47,749 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:36:55,341 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:36:55,409 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:36:55,492 basehttp "GET /api/events/ HTTP/1.1" 200 38563
+INFO 2025-11-18 01:36:55,626 basehttp "GET /api/events/ HTTP/1.1" 200 38563
+INFO 2025-11-18 01:36:57,189 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:36:57,199 basehttp "GET /api/events/2/ HTTP/1.1" 200 9152
+INFO 2025-11-18 01:36:57,269 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:36:57,289 basehttp "GET /api/events/2/ HTTP/1.1" 200 9152
+INFO 2025-11-18 01:37:00,887 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 581
+INFO 2025-11-18 01:37:00,891 basehttp "OPTIONS /api/payments/ticket/62/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:37:00,973 basehttp "POST /api/payments/ticket/62/pay/ HTTP/1.1" 200 452
+WARNING 2025-11-18 01:37:24,100 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:37:24,101 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:37:24,339 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:37:24,339 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:37:24,573 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:37:24,574 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:37:24,934 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:37:24,935 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 01:43:36,596 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 01:43:37,302 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 01:43:50,235 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:43:50,286 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 01:43:50,487 basehttp "GET /api/events/ HTTP/1.1" 200 39060
+INFO 2025-11-18 01:43:50,604 basehttp "GET /api/events/ HTTP/1.1" 200 39060
+INFO 2025-11-18 01:43:52,451 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:43:52,510 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 01:43:52,558 basehttp "GET /api/events/2/ HTTP/1.1" 200 9649
+INFO 2025-11-18 01:43:52,635 basehttp "GET /api/events/2/ HTTP/1.1" 200 9649
+INFO 2025-11-18 01:44:02,262 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 581
+INFO 2025-11-18 01:44:02,265 basehttp "OPTIONS /api/payments/ticket/63/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 01:44:02,442 basehttp "POST /api/payments/ticket/63/pay/ HTTP/1.1" 200 452
+WARNING 2025-11-18 01:44:14,511 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:44:14,512 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:44:14,812 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:44:14,813 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:44:15,118 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:44:15,119 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 01:44:15,548 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 01:44:15,549 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 01:57:22,368 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 01:57:22,998 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:05:06,495 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 02:05:07,148 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:05:14,734 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:05:20,463 basehttp "GET /api/events/ HTTP/1.1" 200 39557
+INFO 2025-11-18 02:05:20,605 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:20,606 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:05:20,614 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:05:20,615 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:05:20,646 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:20,696 basehttp "GET /api/events/ HTTP/1.1" 200 39557
+INFO 2025-11-18 02:05:20,719 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:05:20,744 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:05:20,745 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:05:20,746 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:20,792 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:21,336 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:05:21,409 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:05:21,434 basehttp "GET /api/events/ HTTP/1.1" 200 39557
+INFO 2025-11-18 02:05:21,560 basehttp "GET /api/events/ HTTP/1.1" 200 39557
+INFO 2025-11-18 02:05:23,676 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:23,685 basehttp "GET /api/events/4/ HTTP/1.1" 200 6930
+INFO 2025-11-18 02:05:23,751 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:05:23,773 basehttp "GET /api/events/4/ HTTP/1.1" 200 6930
+INFO 2025-11-18 02:05:36,475 basehttp "OPTIONS /api/events/4/buy/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:05:36,546 basehttp "POST /api/events/4/buy/ HTTP/1.1" 201 587
+INFO 2025-11-18 02:05:36,550 basehttp "OPTIONS /api/payments/ticket/64/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:05:36,619 basehttp "POST /api/payments/ticket/64/pay/ HTTP/1.1" 200 458
+WARNING 2025-11-18 02:05:49,640 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:05:49,641 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:05:49,880 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:05:49,880 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:05:50,118 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:05:50,118 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:05:50,461 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:05:50,462 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 02:16:36,032 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:16:36,105 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:16:36,112 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:36,257 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:37,262 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:37,386 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:37,388 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:37,395 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:37,409 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:37,412 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:37,454 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:37,491 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:37,503 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:37,503 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:37,510 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:37,521 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:40,264 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:40,271 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:40,343 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:40,360 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:41,822 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:41,976 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:41,979 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:41,996 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:42,010 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:42,059 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:42,069 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:42,091 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:42,091 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:42,104 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:42,109 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:42,150 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:42,772 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,773 basehttp "OPTIONS /api/departments/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,773 basehttp "OPTIONS /api/cities/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,773 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,773 basehttp "OPTIONS /api/departments/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,775 basehttp "OPTIONS /api/cities/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:42,854 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:16:42,857 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 02:16:42,857 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:42,914 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:16:42,920 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 02:16:42,944 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 02:16:42,953 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:43,008 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 02:16:44,181 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:44,299 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:44,316 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:44,316 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:44,320 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:44,348 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:44,391 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:44,411 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:44,422 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:44,424 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:44,431 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:44,439 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:45,506 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:45,513 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:45,610 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:45,627 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:16:46,553 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 16787
+INFO 2025-11-18 02:16:56,522 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:56,634 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:56,635 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:56,640 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:56,662 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:56,662 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:56,720 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:16:56,729 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:56,748 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:56,748 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:16:56,757 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:56,758 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:16:58,010 basehttp "OPTIONS /api/events/1/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:58,011 basehttp "OPTIONS /api/events/1/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:58,083 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:58,097 basehttp "GET /api/events/1/ HTTP/1.1" 200 7159
+INFO 2025-11-18 02:16:58,169 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:16:58,198 basehttp "GET /api/events/1/ HTTP/1.1" 200 7159
+INFO 2025-11-18 02:16:58,758 basehttp "OPTIONS /api/events/1/attendees/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:16:58,947 basehttp "GET /api/events/1/attendees/ HTTP/1.1" 200 12073
+INFO 2025-11-18 02:17:05,710 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:17:05,714 basehttp "GET /api/events/1/ HTTP/1.1" 200 7159
+INFO 2025-11-18 02:17:07,456 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:17:07,582 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:07,595 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:17:07,596 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:07,596 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:17:07,612 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:17:07,669 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:17:07,686 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:07,686 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:17:07,699 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:07,700 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:17:07,802 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:17:09,205 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:09,210 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:17:09,294 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:17:09,308 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:17:11,058 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 16787
+INFO 2025-11-18 02:28:14,251 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:28:15,064 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:30:03,784 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 02:30:04,491 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:30:20,730 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:30:21,299 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:33:01,524 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:33:02,314 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:34:37,098 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:34:37,900 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:35:10,314 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:35:10,947 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:37:15,093 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 02:37:15,811 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:37:17,390 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:37:18,085 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:37:19,592 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 02:37:20,226 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:37:24,277 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:37:28,783 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:37:28,889 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:28,891 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:37:28,916 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:37:28,918 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:37:28,940 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:28,997 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:37:28,997 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:29,011 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:37:29,011 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:37:29,027 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:37:29,036 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:29,579 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 4884
+INFO 2025-11-18 02:37:29,655 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 4884
+INFO 2025-11-18 02:37:35,229 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:37:35,270 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:37:35,365 basehttp "GET /api/events/ HTTP/1.1" 200 40061
+INFO 2025-11-18 02:37:35,428 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:37:36,928 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:36,937 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:37:36,997 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:37:37,020 basehttp "GET /api/events/5/ HTTP/1.1" 200 8552
+INFO 2025-11-18 02:38:05,693 basehttp "OPTIONS /api/events/5/buy/ HTTP/1.1" 200 0
+ERROR 2025-11-18 02:38:05,819 log Internal Server Error: /api/events/5/buy/
+Traceback (most recent call last):
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\eventos\views\events.py", line 318, in post
+    signature = generate_payu_signature(
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py", line 64, in generate_payu_signature
+    if state_pol:
+NameError: name 'state_pol' is not defined
+ERROR 2025-11-18 02:38:05,822 basehttp "POST /api/events/5/buy/ HTTP/1.1" 500 114201
+INFO 2025-11-18 02:38:30,625 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:38:34,518 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:38:34,570 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:38:34,752 basehttp "GET /api/events/ HTTP/1.1" 200 40567
+INFO 2025-11-18 02:38:34,908 basehttp "GET /api/events/ HTTP/1.1" 200 40567
+INFO 2025-11-18 02:38:36,976 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:38:37,049 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:38:37,081 basehttp "GET /api/events/5/ HTTP/1.1" 200 9058
+INFO 2025-11-18 02:38:37,162 basehttp "GET /api/events/5/ HTTP/1.1" 200 9058
+ERROR 2025-11-18 02:38:45,946 log Internal Server Error: /api/events/5/buy/
+Traceback (most recent call last):
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\venv\lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\eventos\views\events.py", line 318, in post
+    signature = generate_payu_signature(
+  File "C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py", line 64, in generate_payu_signature
+    if state_pol:
+NameError: name 'state_pol' is not defined
+ERROR 2025-11-18 02:38:45,949 basehttp "POST /api/events/5/buy/ HTTP/1.1" 500 114210
+INFO 2025-11-18 02:44:11,037 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:44:11,703 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:44:16,541 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:44:19,625 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:44:19,686 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:44:19,769 basehttp "GET /api/events/ HTTP/1.1" 200 41097
+INFO 2025-11-18 02:44:19,981 basehttp "GET /api/events/ HTTP/1.1" 200 41097
+INFO 2025-11-18 02:44:20,865 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:44:20,871 basehttp "GET /api/events/5/ HTTP/1.1" 200 9588
+INFO 2025-11-18 02:44:20,946 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:44:20,962 basehttp "GET /api/events/5/ HTTP/1.1" 200 9588
+INFO 2025-11-18 02:44:23,605 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:44:23,618 basehttp "GET /api/events/5/ HTTP/1.1" 200 9588
+INFO 2025-11-18 02:44:23,680 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:44:23,699 basehttp "GET /api/events/5/ HTTP/1.1" 200 9588
+INFO 2025-11-18 02:44:30,164 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 592
+INFO 2025-11-18 02:44:30,169 basehttp "OPTIONS /api/payments/ticket/67/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:44:30,248 basehttp "POST /api/payments/ticket/67/pay/ HTTP/1.1" 200 463
+WARNING 2025-11-18 02:44:45,953 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:44:45,954 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:44:46,164 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:44:46,165 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:44:46,413 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:44:46,414 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:44:46,763 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:44:46,765 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 02:54:26,482 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 02:54:27,265 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:55:51,172 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 02:55:51,807 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:56:00,386 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 02:56:07,618 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:07,748 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:07,751 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:07,751 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:56:07,780 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:07,821 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:07,838 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:07,851 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:07,851 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:07,862 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 02:56:07,874 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:07,919 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:09,691 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:56:09,761 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:56:09,778 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:09,941 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:15,583 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:15,599 basehttp "GET /api/events/1/ HTTP/1.1" 200 7159
+INFO 2025-11-18 02:56:15,659 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 02:56:15,681 basehttp "GET /api/events/1/ HTTP/1.1" 200 7159
+INFO 2025-11-18 02:56:17,659 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:56:17,723 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 02:56:17,739 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:17,865 basehttp "GET /api/events/ HTTP/1.1" 200 41628
+INFO 2025-11-18 02:56:22,816 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:22,876 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 02:56:22,920 basehttp "GET /api/events/4/ HTTP/1.1" 200 7434
+INFO 2025-11-18 02:56:23,000 basehttp "GET /api/events/4/ HTTP/1.1" 200 7434
+INFO 2025-11-18 02:56:29,963 basehttp "POST /api/events/4/buy/ HTTP/1.1" 201 587
+INFO 2025-11-18 02:56:29,968 basehttp "OPTIONS /api/payments/ticket/68/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 02:56:30,035 basehttp "POST /api/payments/ticket/68/pay/ HTTP/1.1" 200 458
+WARNING 2025-11-18 02:56:44,680 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:56:44,681 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:56:44,895 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:56:44,896 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:56:45,154 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:56:45,154 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 02:56:45,497 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 02:56:45,497 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 03:10:28,580 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 03:10:29,315 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:11:33,201 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 03:11:33,816 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:11:40,464 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:11:55,025 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:11:55,086 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:11:55,171 basehttp "GET /api/events/ HTTP/1.1" 200 42132
+INFO 2025-11-18 03:11:55,283 basehttp "GET /api/events/ HTTP/1.1" 200 42132
+INFO 2025-11-18 03:11:56,302 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:11:56,306 basehttp "GET /api/events/5/ HTTP/1.1" 200 10119
+INFO 2025-11-18 03:11:56,389 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:11:56,400 basehttp "GET /api/events/5/ HTTP/1.1" 200 10119
+INFO 2025-11-18 03:12:03,113 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 589
+INFO 2025-11-18 03:12:03,116 basehttp "OPTIONS /api/payments/ticket/69/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:12:03,182 basehttp "POST /api/payments/ticket/69/pay/ HTTP/1.1" 200 460
+WARNING 2025-11-18 03:12:18,664 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:18,665 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:18,868 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:18,869 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:19,128 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:19,130 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:19,454 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:19,455 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 03:12:36,101 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:12:38,977 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:12:39,042 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:12:39,106 basehttp "GET /api/events/5/ HTTP/1.1" 200 10625
+INFO 2025-11-18 03:12:39,189 basehttp "GET /api/events/5/ HTTP/1.1" 200 10625
+INFO 2025-11-18 03:12:43,604 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 592
+INFO 2025-11-18 03:12:43,609 basehttp "OPTIONS /api/payments/ticket/70/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:12:43,783 basehttp "POST /api/payments/ticket/70/pay/ HTTP/1.1" 200 463
+WARNING 2025-11-18 03:12:54,398 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:54,398 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:54,634 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:54,634 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:54,874 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:54,874 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+WARNING 2025-11-18 03:12:55,222 log Bad Request: /api/payments/payu/confirmation/
+WARNING 2025-11-18 03:12:55,223 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 400 27
+INFO 2025-11-18 03:14:23,084 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 03:14:23,844 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:14:25,444 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 03:14:26,177 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:21:06,427 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 03:21:07,101 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:21:43,526 basehttp "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,527 basehttp "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,731 basehttp "GET /api/events/ HTTP/1.1" 200 43169
+INFO 2025-11-18 03:21:43,753 basehttp "OPTIONS /api/events/5/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,753 basehttp "OPTIONS /api/events/1/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,756 basehttp "OPTIONS /api/events/2/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,757 basehttp "OPTIONS /api/events/3/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,757 basehttp "OPTIONS /api/events/4/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,766 basehttp "OPTIONS /api/events/3/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,766 basehttp "OPTIONS /api/events/2/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,769 basehttp "OPTIONS /api/events/4/availability/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:21:43,842 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:43,848 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:21:43,860 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:21:43,860 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:43,870 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:21:43,935 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:21:43,942 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:21:43,948 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:43,951 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:21:44,016 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:50,687 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:21:53,243 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:21:53,311 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:21:53,415 basehttp "GET /api/events/ HTTP/1.1" 200 43169
+INFO 2025-11-18 03:21:53,545 basehttp "GET /api/events/ HTTP/1.1" 200 43169
+INFO 2025-11-18 03:21:54,331 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:54,338 basehttp "GET /api/events/5/ HTTP/1.1" 200 11156
+INFO 2025-11-18 03:21:54,407 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:21:54,421 basehttp "GET /api/events/5/ HTTP/1.1" 200 11156
+INFO 2025-11-18 03:22:01,227 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 589
+INFO 2025-11-18 03:22:01,230 basehttp "OPTIONS /api/payments/ticket/71/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:22:01,301 basehttp "POST /api/payments/ticket/71/pay/ HTTP/1.1" 200 460
+INFO 2025-11-18 03:22:14,357 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 200 92
+INFO 2025-11-18 03:22:18,138 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 200 92
+INFO 2025-11-18 03:22:29,354 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 592
+INFO 2025-11-18 03:22:29,359 basehttp "OPTIONS /api/payments/ticket/72/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:22:29,432 basehttp "POST /api/payments/ticket/72/pay/ HTTP/1.1" 200 463
+INFO 2025-11-18 03:22:39,445 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 200 121
+INFO 2025-11-18 03:25:33,374 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:25:33,521 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:33,521 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:33,585 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:25:33,605 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:33,605 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:33,630 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:25:33,638 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:33,643 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:33,687 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:25:33,702 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:33,711 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:34,743 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:25:34,746 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:25:34,824 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-18 03:25:34,890 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-18 03:25:40,569 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:25:40,574 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:25:40,647 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:25:40,652 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:25:40,719 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:25:40,722 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:25:40,756 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:25:40,808 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:25:41,453 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:25:41,541 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:41,553 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:41,566 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:25:41,566 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:41,577 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:41,632 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:41,656 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:41,672 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:25:41,672 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:25:41,676 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:25:41,711 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:26:07,588 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:26:07,601 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:26:07,612 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:26:07,668 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:26:07,679 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:26:07,696 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:26:08,223 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:26:08,325 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:08,339 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:08,354 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:08,355 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:26:08,362 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:08,412 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:26:08,436 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:08,441 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:26:08,449 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:08,501 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:08,521 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:08,760 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-18 03:26:08,830 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-18 03:26:09,290 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:26:09,351 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:26:09,369 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:26:09,495 basehttp "GET /api/events/ HTTP/1.1" 200 29943
+INFO 2025-11-18 03:26:10,775 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:10,786 basehttp "GET /api/events/5/ HTTP/1.1" 200 1447
+INFO 2025-11-18 03:26:10,850 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:10,866 basehttp "GET /api/events/5/ HTTP/1.1" 200 1447
+INFO 2025-11-18 03:26:16,218 basehttp "POST /api/events/5/buy/ HTTP/1.1" 201 589
+INFO 2025-11-18 03:26:16,222 basehttp "OPTIONS /api/payments/ticket/73/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:26:16,293 basehttp "POST /api/payments/ticket/73/pay/ HTTP/1.1" 200 460
+INFO 2025-11-18 03:26:27,455 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 200 121
+INFO 2025-11-18 03:26:46,111 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:26:46,219 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:46,226 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:46,232 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:26:46,241 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:46,313 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:46,321 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:26:46,328 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:46,347 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:46,422 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:26:46,422 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:53,251 basehttp "OPTIONS /api/events/5/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:26:53,257 basehttp "OPTIONS /api/events/5/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:26:53,344 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:53,371 basehttp "GET /api/events/5/ HTTP/1.1" 200 2941
+INFO 2025-11-18 03:26:53,464 basehttp "GET /api/events/5/ HTTP/1.1" 200 2941
+INFO 2025-11-18 03:26:53,564 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:54,709 basehttp "OPTIONS /api/events/5/attendees/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:26:54,791 basehttp "GET /api/events/5/attendees/ HTTP/1.1" 200 1019
+INFO 2025-11-18 03:26:56,349 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:26:56,356 basehttp "GET /api/events/5/ HTTP/1.1" 200 2941
+INFO 2025-11-18 03:27:07,507 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:07,625 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:07,628 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:07,631 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:07,648 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:07,707 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:07,712 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:07,728 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:07,748 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:07,748 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:07,799 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:07,819 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:14,669 basehttp "OPTIONS /api/events/2/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:27:14,671 basehttp "OPTIONS /api/events/2/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:27:14,751 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:14,761 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 03:27:14,929 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:14,957 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 03:27:23,200 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:23,318 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:23,323 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:23,387 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:23,389 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:23,395 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:23,431 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:23,463 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:23,481 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:23,482 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:27:23,489 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:27:23,495 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:28,199 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:27:28,204 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:27:28,265 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:27:28,274 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:27:28,295 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:27:28,349 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:27:28,765 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:27:28,825 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:27:28,849 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:28,970 basehttp "GET /api/events/ HTTP/1.1" 200 31437
+INFO 2025-11-18 03:27:31,345 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:31,403 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 405
+INFO 2025-11-18 03:27:31,461 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 03:27:31,545 basehttp "GET /api/events/2/ HTTP/1.1" 200 7637
+INFO 2025-11-18 03:27:37,809 basehttp "OPTIONS /api/events/2/buy/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:27:37,873 basehttp "POST /api/events/2/buy/ HTTP/1.1" 201 581
+INFO 2025-11-18 03:27:37,877 basehttp "OPTIONS /api/payments/ticket/74/pay/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:27:37,943 basehttp "POST /api/payments/ticket/74/pay/ HTTP/1.1" 200 452
+INFO 2025-11-18 03:27:49,774 basehttp "POST /api/payments/payu/confirmation/ HTTP/1.1" 200 121
+INFO 2025-11-18 03:28:00,191 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:00,304 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:00,320 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:00,327 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:00,328 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:00,328 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:00,407 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:00,411 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:00,431 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:00,432 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:00,434 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:00,514 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:02,821 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:02,845 basehttp "GET /api/events/2/ HTTP/1.1" 200 9156
+INFO 2025-11-18 03:28:02,944 basehttp "GET /api/events/2/ HTTP/1.1" 200 9156
+INFO 2025-11-18 03:28:02,999 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:04,021 basehttp "OPTIONS /api/events/2/attendees/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:28:04,194 basehttp "GET /api/events/2/attendees/ HTTP/1.1" 200 12386
+INFO 2025-11-18 03:28:04,857 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:04,863 basehttp "GET /api/events/2/ HTTP/1.1" 200 9156
+INFO 2025-11-18 03:28:08,142 basehttp "GET /api/events/2/attendees/ HTTP/1.1" 200 12386
+INFO 2025-11-18 03:28:09,737 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:09,753 basehttp "GET /api/events/2/ HTTP/1.1" 200 9156
+INFO 2025-11-18 03:28:10,306 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:10,356 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:10,489 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:10,622 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:10,824 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:10,832 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:10,836 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:10,891 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:10,900 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:10,905 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:11,401 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:11,515 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:11,527 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:11,532 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:11,539 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:11,556 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:11,695 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:11,721 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:11,723 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:11,723 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:11,724 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:11,738 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:11,795 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:11,840 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:12,378 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:12,451 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:13,549 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:13,627 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:13,948 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:14,063 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:14,064 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:14,086 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:14,086 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:14,086 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:14,161 basehttp "GET /api/events/1/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:14,164 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:14,170 basehttp "GET /api/events/5/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:14,185 basehttp "GET /api/events/4/availability/ HTTP/1.1" 200 272
+INFO 2025-11-18 03:28:14,185 basehttp "GET /api/events/2/availability/ HTTP/1.1" 200 406
+INFO 2025-11-18 03:28:14,276 basehttp "GET /api/events/3/availability/ HTTP/1.1" 200 265
+INFO 2025-11-18 03:28:14,562 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:14,579 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:14,629 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:14,644 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:14,678 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:14,737 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:14,915 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:14,984 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:15,015 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:15,156 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:44,193 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:44,382 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2891
+INFO 2025-11-18 03:28:47,887 basehttp "OPTIONS /api/tickets/73/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:28:47,888 basehttp "OPTIONS /api/tickets/73/ HTTP/1.1" 200 0
+INFO 2025-11-18 03:28:47,965 basehttp "GET /api/tickets/73/ HTTP/1.1" 200 1494
+INFO 2025-11-18 03:28:48,056 basehttp "GET /api/tickets/73/ HTTP/1.1" 200 1494
+INFO 2025-11-18 03:28:48,064 basehttp "GET /api/events/5/ HTTP/1.1" 200 2941
+INFO 2025-11-18 03:28:48,149 basehttp "GET /api/events/5/ HTTP/1.1" 200 2941
+INFO 2025-11-18 03:28:50,637 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:50,646 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:50,698 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:50,706 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:50,745 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:50,798 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:51,107 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:51,171 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:51,188 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:51,314 basehttp "GET /api/events/ HTTP/1.1" 200 32956
+INFO 2025-11-18 03:28:52,553 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:52,559 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:52,564 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:28:52,622 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 335
+INFO 2025-11-18 03:28:52,626 basehttp "GET /api/departments/ HTTP/1.1" 200 118
+INFO 2025-11-18 03:28:52,633 basehttp "GET /api/cities/ HTTP/1.1" 200 276
+INFO 2025-11-18 03:34:24,353 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 03:34:25,349 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:35:30,806 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\views.py changed, reloading.
+INFO 2025-11-18 03:35:31,346 autoreload Watching for file changes with StatReloader
+INFO 2025-11-18 03:35:42,415 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
+INFO 2025-11-18 03:35:43,093 autoreload Watching for file changes with StatReloader
