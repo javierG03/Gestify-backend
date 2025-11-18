@@ -22,8 +22,8 @@ class SimpleEventSerializer(serializers.ModelSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     department_name = serializers.SerializerMethodField()
-    city_name = serializers.SerializerMethodField()
-    # role = serializers.SerializerMethodField()
+    city_name = serializers.SerializerMethodField() # <--- cambios para la tabla de super usuario
+    role = serializers.SerializerMethodField()
     #eventos_inscritos = serializers.SerializerMethodField()
 
     def get_department_name(self, obj) -> Optional[str]:
