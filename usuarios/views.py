@@ -15,9 +15,9 @@ from rest_framework.authtoken.models import Token
 from drf_spectacular.utils import extend_schema
 from .serializers import (
     CustomUserSerializer, AssignRoleSerializer, EmptySerializer, RemoveRoleSerializer,
-    UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
+    UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer, DocumentTypeSerializer
 )
-from .models import CustomUser, UserToken
+from .models import CustomUser, UserToken, DocumentType
 from .permissions import IsAdminGroup, IsSelfOrAdmin
 from .email_service import (
     send_confirmation_email,
@@ -256,3 +256,14 @@ class VerifyEmailView(generics.GenericAPIView):
             return HttpResponse('¡Correo verificado exitosamente! Tu cuenta está activa.')
         except CustomUser.DoesNotExist:
             return HttpResponse('Usuario no encontrado.', status=404)
+
+
+class DocumentTypeListView(ListAPIView):
+    """Lista todos los tipos de documentos disponibles."""
+    serializer_class = DocumentTypeSerializer
+    queryset = DocumentType.objects.all()
+    permission_classes = [AllowAny]
+
+    @extend_schema(tags=["Documentos"])
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
