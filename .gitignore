@@ -1,2 +1,33 @@
+# --- Python ---
+_pycache_/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# --- Django ---
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+/static
+
+# --- Entornos Virtuales ---
+env/
+venv/
 .env
-venv
+.venv/
+
+# --- IDEs y Sistema Operativo ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+logs/
+*.log
+
+.gitignore

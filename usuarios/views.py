@@ -4,7 +4,6 @@ Vistas principales del módulo de usuarios. Clean code, docstrings y organizaci�
 """
 
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import generics, status, serializers
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
@@ -17,7 +16,7 @@ from .serializers import (
     CustomUserSerializer, AssignRoleSerializer, EmptySerializer, RemoveRoleSerializer,
     UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
 )
-from .models import CustomUser, UserToken
+from .models import CustomUser, UserToken, DocumentType
 from .permissions import IsAdminGroup, IsSelfOrAdmin
 from .email_service import (
     send_confirmation_email,
@@ -238,21 +237,93 @@ class VerifyEmailView(generics.GenericAPIView):
     def get(self, request):
         token_value = request.GET.get('token')
         if not token_value:
-            return HttpResponse('Token de verificación no proporcionado.', status=400)
+            return Response({'error': 'Token de verificación no proporcionado.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user_token = UserToken.objects.get(token=token_value, token_type=UserToken.TokenType.EMAIL_VERIFICATION)
         except UserToken.DoesNotExist:
-            return HttpResponse('Token inválido o expirado.', status=400)
+            return Response({'error': 'Token inválido o expirado.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Si el usuario ya está verificado, es éxito
+        if user_token.user.is_email_verified:
+            return Response({'message': '¡Tu correo ya fue verificado anteriormente!'}, status=status.HTTP_200_OK)
+        
+        # Verificar si el token es válido
+        if not user_token.is_valid():
+            user_token.mark_used()
+            return Response({'error': 'Token inválido o expirado. Solicita un nuevo link de verificación.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
-            if not user_token.is_valid():
-                user_token.mark_used()
-                return HttpResponse('Token inválido o expirado.', status=400)
             user = user_token.user
             user.is_active = True
             user.is_email_verified = True
             user.save(update_fields=['is_active', 'is_email_verified'])
             user_token.mark_used()
             send_confirmation_email(user)
-            return HttpResponse('¡Correo verificado exitosamente! Tu cuenta está activa.')
+            return Response({'message': '¡Correo verificado exitosamente! Tu cuenta está activa.'}, status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist:
-            return HttpResponse('Usuario no encontrado.', status=404)
+            return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+class DocumentTypeListView(generics.ListAPIView):
+    """Lista todos los tipos de documentos disponibles."""
+    queryset = DocumentType.objects.all().order_by("name")
+    serializer_class = serializers.ModelSerializer
+    permission_classes = [AllowAny]
+
+    def get_serializer_class(self):
+        """Define un serializador simple para DocumentType."""
+        class DocumentTypeSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = DocumentType
+                fields = ['id', 'name', 'code']
+        return DocumentTypeSerializer
+
+    @extend_schema(tags=["Catálogos"], operation_id="document_type_list")
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+
+class DebugEmailView(generics.GenericAPIView):
+    """
+    SOLO PARA DESARROLLO: Prueba la configuración de emails.
+    """
+    permission_classes = [AllowAny]
+    serializer_class = EmptySerializer
+
+    @extend_schema(
+        tags=["Debug"],
+        operation_id="debug_email",
+        description="[SOLO DESARROLLO] Prueba el envío de emails"
+    )
+    def post(self, request):
+        from django.core.mail import send_mail
+        from django.conf import settings
+
+        email = request.data.get('email', 'gestifycol@gmail.com')
+        
+        debug_info = {
+            'EMAIL_BACKEND': settings.EMAIL_BACKEND,
+            'EMAIL_HOST': settings.EMAIL_HOST,
+            'EMAIL_PORT': settings.EMAIL_PORT,
+            'EMAIL_USE_TLS': settings.EMAIL_USE_TLS,
+            'EMAIL_HOST_USER': settings.EMAIL_HOST_USER,
+            'DEFAULT_FROM_EMAIL': settings.DEFAULT_FROM_EMAIL,
+            'TEST_EMAIL': email,
+        }
+
+        try:
+            result = send_mail(
+                'Test Email from Gestify Debug',
+                'Este es un email de prueba desde Gestify. Si recibiste esto, los emails están funcionando correctamente.',
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=False
+            )
+            debug_info['status'] = 'success'
+            debug_info['message'] = f'Email enviado exitosamente ({result} message sent)'
+            return Response(debug_info, status=status.HTTP_200_OK)
+        except Exception as e:
+            debug_info['status'] = 'error'
+            debug_info['error'] = str(e)
+            debug_info['error_type'] = type(e).__name__
+            return Response(debug_info, status=status.HTTP_400_BAD_REQUEST)
+

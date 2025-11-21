@@ -9171,3 +9171,333 @@ INFO 2025-11-18 03:35:42,415 autoreload C:\Users\juanc\Documents\GestiFy\Gestify
 INFO 2025-11-18 03:35:43,093 autoreload Watching for file changes with StatReloader
 INFO 2025-11-21 00:16:17,639 autoreload Watching for file changes with StatReloader
 INFO 2025-11-21 00:18:37,598 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 01:30:11,773 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 01:30:26,754 basehttp "OPTIONS /api/users/register/ HTTP/1.1" 200 0
+WARNING 2025-11-21 01:30:26,953 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:30:26,954 basehttp "POST /api/users/register/ HTTP/1.1" 400 166
+WARNING 2025-11-21 01:32:16,601 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:32:16,603 basehttp "POST /api/users/register/ HTTP/1.1" 400 48
+WARNING 2025-11-21 01:32:18,997 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:32:18,998 basehttp "POST /api/users/register/ HTTP/1.1" 400 48
+WARNING 2025-11-21 01:32:19,967 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:32:19,968 basehttp "POST /api/users/register/ HTTP/1.1" 400 48
+WARNING 2025-11-21 01:32:25,949 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:32:25,950 basehttp "POST /api/users/register/ HTTP/1.1" 400 48
+INFO 2025-11-21 01:32:58,647 basehttp "GET /api/docs/ HTTP/1.1" 200 4639
+INFO 2025-11-21 01:33:01,360 basehttp "GET /api/schema/ HTTP/1.1" 200 120318
+INFO 2025-11-21 01:36:45,238 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-21 01:37:32,776 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:37:32,777 log Not Found: /api/catalogs/document-types/
+WARNING 2025-11-21 01:37:32,778 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11148
+WARNING 2025-11-21 01:37:32,779 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 404 11157
+WARNING 2025-11-21 01:38:17,231 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:38:17,244 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11148
+WARNING 2025-11-21 01:38:17,256 log Not Found: /api/catalogs/document-types/
+WARNING 2025-11-21 01:38:17,264 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 404 11157
+WARNING 2025-11-21 01:38:17,318 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:38:17,318 log Not Found: /api/catalogs/document-types/
+WARNING 2025-11-21 01:38:17,320 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 404 11157
+WARNING 2025-11-21 01:38:17,321 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11148
+WARNING 2025-11-21 01:38:50,740 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:38:50,744 log Not Found: /api/catalogs/document-types/
+WARNING 2025-11-21 01:38:50,745 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11148
+WARNING 2025-11-21 01:38:50,751 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 404 11157
+WARNING 2025-11-21 01:38:50,776 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:38:50,779 log Not Found: /api/catalogs/document-types/
+WARNING 2025-11-21 01:38:50,782 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 404 11157
+WARNING 2025-11-21 01:38:50,783 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11148
+INFO 2025-11-21 01:43:07,417 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 01:43:08,577 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 01:43:39,567 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 01:43:40,741 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 01:43:52,248 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/urls.py changed, reloading.
+INFO 2025-11-21 01:43:53,545 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-21 01:49:44,304 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:49:44,305 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11436
+INFO 2025-11-21 01:50:36,743 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-21 01:51:22,341 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:51:22,342 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11436
+INFO 2025-11-21 01:51:30,792 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+WARNING 2025-11-21 01:51:57,464 log Not Found: /api/catalogs/departments/
+WARNING 2025-11-21 01:51:57,465 basehttp "GET /api/catalogs/departments/ HTTP/1.1" 404 11436
+INFO 2025-11-21 01:52:19,775 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:52:29,536 basehttp "GET /api/cities/?department_id=2 HTTP/1.1" 200 70
+INFO 2025-11-21 01:53:36,138 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:53:36,148 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:53:36,196 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:53:36,198 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:53:41,227 basehttp "GET /api/cities/?department_id=17 HTTP/1.1" 200 64
+INFO 2025-11-21 01:54:09,739 basehttp "GET /api/cities/?department_id=9 HTTP/1.1" 200 2
+INFO 2025-11-21 01:54:13,426 basehttp "GET /api/cities/?department_id=19 HTTP/1.1" 200 73
+INFO 2025-11-21 01:55:16,436 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:55:16,437 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:16,499 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:55:16,524 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:25,379 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:55:25,393 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:25,428 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:55:25,436 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:33,327 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:33,327 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:55:33,382 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:55:33,391 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:56:09,570 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:56:09,587 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:56:09,646 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:56:09,658 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+WARNING 2025-11-21 01:56:35,517 log Bad Request: /api/users/register/
+WARNING 2025-11-21 01:56:35,518 basehttp "POST /api/users/register/ HTTP/1.1" 400 399
+INFO 2025-11-21 01:56:39,750 basehttp "GET /api/cities/?department_id=18 HTTP/1.1" 200 72
+INFO 2025-11-21 01:59:08,709 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:59:08,758 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 01:59:08,828 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 01:59:08,844 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:01:41,948 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:01:41,969 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:01:42,016 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:01:42,079 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:02:19,370 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:02:19,389 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:02:19,435 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:02:19,465 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:02:58,385 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:02:58,403 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:02:58,439 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:02:58,460 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+WARNING 2025-11-21 02:06:45,238 log Bad Request: /api/users/register/
+WARNING 2025-11-21 02:06:45,239 basehttp "POST /api/users/register/ HTTP/1.1" 400 267
+INFO 2025-11-21 02:06:50,217 basehttp "GET /api/cities/?department_id=18 HTTP/1.1" 200 72
+INFO 2025-11-21 02:07:36,507 basehttp "POST /api/users/register/ HTTP/1.1" 201 74
+INFO 2025-11-21 02:08:23,228 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:08:24,451 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:09:32,654 basehttp "OPTIONS /api/users/login/ HTTP/1.1" 200 0
+WARNING 2025-11-21 02:09:34,531 log Unauthorized: /api/users/login/
+WARNING 2025-11-21 02:09:34,531 basehttp "POST /api/users/login/ HTTP/1.1" 401 31
+INFO 2025-11-21 02:10:35,145 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:10:35,177 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:10:35,230 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:10:35,247 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:14:27,226 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 200 57
+WARNING 2025-11-21 02:14:27,271 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:14:27,271 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:22,174 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:22,176 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:22,220 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:22,221 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:34,618 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:34,619 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:34,666 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:34,667 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:34,748 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:34,749 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:15:34,783 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:15:34,784 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:16:22,438 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:16:22,439 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:16:22,493 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:16:22,495 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:18:08,165 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:18:08,166 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:18:08,733 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:18:08,734 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:19:26,549 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:19:26,550 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+WARNING 2025-11-21 02:19:26,620 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:19:26,621 basehttp "GET /api/users/verify-email/?token=cyBJ20wmRqMv4pLchOy2SJtbu2a9T95H0Om0nXk9_NE HTTP/1.1" 400 27
+INFO 2025-11-21 02:21:05,538 basehttp "POST /api/users/login/ HTTP/1.1" 200 156
+INFO 2025-11-21 02:21:05,647 basehttp "GET /api/users/profile/ HTTP/1.1" 200 694
+INFO 2025-11-21 02:22:01,102 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:22:01,161 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:22:01,172 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:22:01,246 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:22:20,181 basehttp "GET /api/cities/?department_id=18 HTTP/1.1" 200 72
+INFO 2025-11-21 02:22:37,913 basehttp "POST /api/users/register/ HTTP/1.1" 201 74
+INFO 2025-11-21 02:23:19,979 basehttp "GET /api/users/verify-email/?token=p9xE214_6JIfSzm_tWZRogmXPt23m-qCKtmi9vazjaQ HTTP/1.1" 200 57
+WARNING 2025-11-21 02:23:20,037 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:23:20,038 basehttp "GET /api/users/verify-email/?token=p9xE214_6JIfSzm_tWZRogmXPt23m-qCKtmi9vazjaQ HTTP/1.1" 400 27
+INFO 2025-11-21 02:23:39,625 basehttp "POST /api/users/login/ HTTP/1.1" 200 153
+INFO 2025-11-21 02:23:39,724 basehttp "GET /api/users/profile/ HTTP/1.1" 200 691
+INFO 2025-11-21 02:23:42,514 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:23:42,514 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:23:42,579 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:23:42,592 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:29:53,948 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:29:53,960 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:29:54,014 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:29:54,022 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:30:41,775 basehttp "GET /api/cities/?department_id=18 HTTP/1.1" 200 72
+INFO 2025-11-21 02:30:43,271 basehttp "GET /api/cities/?department_id=17 HTTP/1.1" 200 64
+INFO 2025-11-21 02:31:03,493 basehttp "POST /api/users/register/ HTTP/1.1" 201 74
+INFO 2025-11-21 02:31:26,679 basehttp "GET /api/users/verify-email/?token=FwLahjG33mx6tnXFtQOJ1Ow3zCdQgrOsLKyZFs9cOC8 HTTP/1.1" 200 57
+WARNING 2025-11-21 02:31:26,745 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:31:26,746 basehttp "GET /api/users/verify-email/?token=FwLahjG33mx6tnXFtQOJ1Ow3zCdQgrOsLKyZFs9cOC8 HTTP/1.1" 400 27
+INFO 2025-11-21 02:34:47,838 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:34:49,040 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:34:54,373 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:34:55,641 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:35:01,855 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:35:03,034 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:35:57,004 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:35:57,006 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:35:57,076 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:35:57,080 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:36:22,527 basehttp "GET /api/cities/?department_id=16 HTTP/1.1" 200 2
+INFO 2025-11-21 02:36:25,971 basehttp "GET /api/cities/?department_id=8 HTTP/1.1" 200 2
+INFO 2025-11-21 02:36:28,101 basehttp "GET /api/cities/?department_id=10 HTTP/1.1" 200 67
+INFO 2025-11-21 02:36:45,827 basehttp "POST /api/users/register/ HTTP/1.1" 201 74
+INFO 2025-11-21 02:37:03,016 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 200 71
+WARNING 2025-11-21 02:37:03,074 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:37:03,075 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 400 39
+WARNING 2025-11-21 02:37:18,435 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:37:18,437 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 400 39
+WARNING 2025-11-21 02:37:18,495 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:37:18,497 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 400 39
+INFO 2025-11-21 02:40:28,292 basehttp "GET /api/users/verify-email/?token=8KmadWsQQKjlJjw8nUowjegSL554mOgRdAlMg1cN-PQ HTTP/1.1" 200 71
+WARNING 2025-11-21 02:40:42,850 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:40:42,851 basehttp "GET /api/users/verify-email/?token=8KmadWsQQKjlJjw8nUowjegSL554mOgRdAlMg1cN-PQ HTTP/1.1" 400 39
+WARNING 2025-11-21 02:40:58,952 log Bad Request: /api/users/verify-email/
+WARNING 2025-11-21 02:40:58,953 basehttp "GET /api/users/verify-email/?token=8KmadWsQQKjlJjw8nUowjegSL554mOgRdAlMg1cN-PQ HTTP/1.1" 400 39
+INFO 2025-11-21 02:42:14,529 basehttp "GET /api/users/verify-email/?token=M_tnL1D_hmo-2xYRQzFPr56qqbJnVWJmNH-JAOVHr3w HTTP/1.1" 200 71
+INFO 2025-11-21 02:42:29,943 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:42:31,124 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:43:45,871 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 200 58
+INFO 2025-11-21 02:44:39,440 basehttp "GET /api/users/verify-email/?token=Ic2_CYwQIyDDCJyVzyYm4RqLu4fe8FVeRlO1kOKNxUs HTTP/1.1" 200 71
+INFO 2025-11-21 02:44:39,494 basehttp "GET /api/users/verify-email/?token=Ic2_CYwQIyDDCJyVzyYm4RqLu4fe8FVeRlO1kOKNxUs HTTP/1.1" 200 58
+INFO 2025-11-21 02:45:25,013 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 200 58
+INFO 2025-11-21 02:45:25,072 basehttp "GET /api/users/verify-email/?token=BfRMrlCVXCC60vrxk9h46XeEhJVSCePYcmx_GhR7Xlg HTTP/1.1" 200 58
+INFO 2025-11-21 02:46:15,712 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 02:46:16,853 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:46:23,115 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/urls.py changed, reloading.
+INFO 2025-11-21 02:46:24,401 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:46:29,623 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/urls.py changed, reloading.
+INFO 2025-11-21 02:46:30,852 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 02:46:31,979 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:46:31,980 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:46:32,046 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:46:32,047 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:46:53,803 basehttp "GET /api/cities/?department_id=17 HTTP/1.1" 200 64
+INFO 2025-11-21 02:47:12,503 basehttp "POST /api/users/register/ HTTP/1.1" 201 74
+INFO 2025-11-21 02:47:31,764 basehttp "GET /api/users/verify-email/?token=X852O9cbNEJdWh5pyNjZViQHKhDtIcgO64X1ma7mcbY HTTP/1.1" 200 71
+INFO 2025-11-21 02:47:31,824 basehttp "GET /api/users/verify-email/?token=X852O9cbNEJdWh5pyNjZViQHKhDtIcgO64X1ma7mcbY HTTP/1.1" 200 58
+WARNING 2025-11-21 02:47:53,026 log Unauthorized: /api/users/login/
+WARNING 2025-11-21 02:47:53,027 basehttp "POST /api/users/login/ HTTP/1.1" 401 31
+WARNING 2025-11-21 02:47:59,578 log Unauthorized: /api/users/login/
+WARNING 2025-11-21 02:47:59,579 basehttp "POST /api/users/login/ HTTP/1.1" 401 31
+INFO 2025-11-21 02:48:09,216 basehttp "POST /api/users/login/ HTTP/1.1" 200 149
+INFO 2025-11-21 02:48:09,293 basehttp "GET /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 02:48:54,338 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:48:54,338 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:48:54,413 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:48:54,414 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:48:55,503 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-21 02:48:55,508 basehttp "OPTIONS /api/events/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-21 02:48:55,569 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:48:55,664 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:06,043 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:06,102 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:09,843 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:09,843 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:49:09,900 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:49:09,908 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:17,340 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:49:17,348 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:49:17,472 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 02:49:17,473 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 02:54:47,787 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:54:47,788 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:54:47,835 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:54:47,851 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:54:47,881 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:54:47,900 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:54:47,927 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 02:54:47,986 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 02:59:14,270 basehttp "PATCH /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 02:59:14,365 basehttp "GET /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 03:17:00,771 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:17:00,785 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:17:00,815 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:17:00,837 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:17:00,866 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:17:00,924 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:17:00,948 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:17:00,970 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:18:24,639 basehttp "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:18:24,773 basehttp "PATCH /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 03:18:24,895 basehttp "GET /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 03:19:22,720 autoreload /home/gantrive/Escritorio/getify/Gestify-backend/usuarios/views.py changed, reloading.
+INFO 2025-11-21 03:19:23,857 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 03:19:31,772 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:19:31,772 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:19:31,820 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:19:31,833 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:19:31,861 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:19:31,874 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:19:31,898 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:19:31,957 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:20:32,356 basehttp "PATCH /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 03:20:32,446 basehttp "GET /api/users/profile/ HTTP/1.1" 200 679
+INFO 2025-11-21 03:23:14,694 basehttp "POST /api/users/login/ HTTP/1.1" 200 149
+INFO 2025-11-21 03:23:14,762 basehttp "GET /api/users/profile/ HTTP/1.1" 200 674
+INFO 2025-11-21 03:23:19,071 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:23:19,074 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:23:19,177 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:23:19,179 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:23:29,014 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:23:29,025 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:23:29,077 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:23:29,083 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:32,557 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:32,644 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:51,649 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:51,702 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:57,574 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:24:57,613 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:26:31,882 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:26:31,926 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:26:57,387 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:26:57,431 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:27:17,924 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:27:17,970 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:27:25,708 basehttp "POST /api/users/login/ HTTP/1.1" 200 156
+INFO 2025-11-21 03:27:25,807 basehttp "GET /api/users/profile/ HTTP/1.1" 200 694
+INFO 2025-11-21 03:27:42,173 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:27:42,221 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:01,145 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:28:04,212 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:28:04,253 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:28:04,369 basehttp "GET /api/departments/ HTTP/1.1" 200 906
+INFO 2025-11-21 03:28:04,456 basehttp "GET /api/catalogs/document-types/ HTTP/1.1" 200 297
+INFO 2025-11-21 03:28:08,847 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:08,900 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:35,047 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:35,100 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:38,506 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:28:38,552 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:29:30,333 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:29:30,380 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:29:38,837 basehttp "POST /api/users/login/ HTTP/1.1" 200 156
+INFO 2025-11-21 03:29:38,899 basehttp "GET /api/users/profile/ HTTP/1.1" 200 694
+INFO 2025-11-21 03:32:06,803 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:32:06,828 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:32:06,879 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:32:06,923 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:36:27,300 basehttp "POST /api/users/login/ HTTP/1.1" 200 156
+INFO 2025-11-21 03:36:27,374 basehttp "GET /api/users/profile/ HTTP/1.1" 200 695
+INFO 2025-11-21 03:36:30,391 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:36:30,399 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:30,456 basehttp "GET /api/cities/ HTTP/1.1" 200 1380
+INFO 2025-11-21 03:36:30,472 basehttp "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:31,740 basehttp "OPTIONS /api/organizer/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:31,740 basehttp "OPTIONS /api/organizer/my-events/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:31,806 basehttp "GET /api/organizer/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:31,897 basehttp "GET /api/organizer/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:33,703 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:33,769 basehttp "GET /api/events/my-events/ HTTP/1.1" 200 2
+INFO 2025-11-21 03:36:35,266 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:35,269 basehttp "OPTIONS /api/ticket-types/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:35,343 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 396
+INFO 2025-11-21 03:36:35,439 basehttp "GET /api/ticket-types/ HTTP/1.1" 200 396
+INFO 2025-11-21 03:36:44,474 basehttp "OPTIONS /api/users/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:44,474 basehttp "OPTIONS /api/users/ HTTP/1.1" 200 0
+INFO 2025-11-21 03:36:44,945 basehttp "GET /api/users/ HTTP/1.1" 200 12661
+INFO 2025-11-21 03:36:45,362 basehttp "GET /api/users/ HTTP/1.1" 200 12661

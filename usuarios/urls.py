@@ -10,6 +10,8 @@ from .views import (
     CustomUserRegisterView,
     CustomUserLoginView,
     ChangePasswordView,
+    DocumentTypeListView,
+    DebugEmailView,
 )
 from usuarios.password_reset import PasswordResetRequestView, PasswordResetConfirmView
 
@@ -30,5 +32,11 @@ urlpatterns = [
 
     # Endpoint para edición de perfil propio
     path('users/profile/', UserProfileUpdateView.as_view(), name='user-profile-update'),
+    
+    # Catálogos
+    path('catalogs/document-types/', DocumentTypeListView.as_view(), name='document-type-list'),
+    
+    # Debug (SOLO DESARROLLO)
+    path('debug/test-email/', DebugEmailView.as_view(), name='debug-email'),
 ]
 
