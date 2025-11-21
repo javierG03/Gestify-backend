@@ -14,10 +14,10 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from drf_spectacular.utils import extend_schema
 from .serializers import (
-    CustomUserSerializer, AssignRoleSerializer, EmptySerializer, RemoveRoleSerializer,
+    CustomUserSerializer, AssignRoleSerializer, DocumentTypeSerializer, EmptySerializer, RemoveRoleSerializer,
     UserRegisterSerializer, UserLoginSerializer, ChangePasswordSerializer
 )
-from .models import CustomUser, UserToken
+from .models import CustomUser, DocumentType, UserToken
 from .permissions import IsAdminGroup, IsSelfOrAdmin
 from .email_service import (
     send_confirmation_email,
@@ -256,3 +256,7 @@ class VerifyEmailView(generics.GenericAPIView):
             return HttpResponse('¡Correo verificado exitosamente! Tu cuenta está activa.')
         except CustomUser.DoesNotExist:
             return HttpResponse('Usuario no encontrado.', status=404)
+
+class DocumentTypeListView(generics.ListAPIView):
+    serializer_class = DocumentTypeSerializer
+    permission_classes = [AllowAny]  # Público para el registro

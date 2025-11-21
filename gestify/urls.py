@@ -22,10 +22,14 @@ from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from usuarios.views import DocumentTypeListView
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/catalogs/document-types/", DocumentTypeListView.as_view(), name="document-types-list"),
     path("api/", include("usuarios.urls"), name="urls de usuarios"),
     path("api/", include("eventos.urls"), name="urls de eventos"),
     path("api/payments/", include("payments.urls"), name="urls de payments"),

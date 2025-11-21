@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from eventos.models import Event, City
 from drf_spectacular.utils import extend_schema_field
-from .models import CustomUser
+from .models import CustomUser, DocumentType
 from .utils import assign_user_to_group
 from typing import List, Optional
 
@@ -202,3 +202,8 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 class EmptySerializer(serializers.Serializer):
     """Un serializador vacío para silenciar advertencias."""
     pass
+
+class DocumentTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentType
+        fields = '__all__'
