@@ -9169,3 +9169,5 @@ INFO 2025-11-18 03:35:30,806 autoreload C:\Users\juanc\Documents\GestiFy\Gestify
 INFO 2025-11-18 03:35:31,346 autoreload Watching for file changes with StatReloader
 INFO 2025-11-18 03:35:42,415 autoreload C:\Users\juanc\Documents\GestiFy\Gestify-backend\payments\services.py changed, reloading.
 INFO 2025-11-18 03:35:43,093 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 00:16:17,639 autoreload Watching for file changes with StatReloader
+INFO 2025-11-21 00:18:37,598 autoreload Watching for file changes with StatReloader
