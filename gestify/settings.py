@@ -153,7 +153,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = get_env(
     "CORS_ALLOWED_ORIGINS",
-    default=["http://localhost:5173", "http://127.0.0.1:5173"],
+    default=["http://localhost:5173","http://34.201.149.202", "http://127.0.0.1:5173"],
     cast="list",
 )
 
@@ -170,6 +170,13 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://34.201.149.202',
+    'http://127.0.0.1',
+    'http://localhost'
+]
+
 ROOT_URLCONF = "gestify.urls"
 
 TEMPLATES = [
@@ -258,9 +265,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ========== MEDIA FILES (User Uploads) ==========
-import os
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
