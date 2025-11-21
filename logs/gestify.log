@@ -1,5 +1,0 @@
-INFO 2025-11-15 01:03:01,004 autoreload Watching for file changes with StatReloader
-WARNING 2025-11-21 02:57:18,608 log Forbidden: /api/users/login/
-WARNING 2025-11-21 02:58:06,599 log Bad Request: /api/users/register/
-WARNING 2025-11-21 03:03:51,031 log Bad Request: /api/users/register/
-WARNING 2025-11-21 13:26:15,378 log Not Found: /

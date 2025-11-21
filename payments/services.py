@@ -56,9 +56,12 @@ def get_payu_config() -> Dict[str, str | bool]:
     }
 
 
-def generate_payu_signature(api_key: str, merchant_id: str, reference_code: str, amount: str, currency: str = "COP") -> str:
+def generate_payu_signature(api_key: str, merchant_id: str, reference_code: str, amount: str, currency: str = "COP", state_pol: str | None = None) -> str:
     """Genera la firma de seguridad para PayU."""
     signature_str = f"{api_key}~{merchant_id}~{reference_code}~{amount}~{currency}"
+    if state_pol:
+        signature_str = f"{signature_str}~{state_pol}"
+    #print(f"[DEBUG PAYU] Generando firma (el 'candado') con: {signature_str}")
     return hashlib.md5(signature_str.encode("utf-8")).hexdigest()
 
 
@@ -68,16 +71,33 @@ def validate_payu_signature(
     amount: str,
     currency: str,
     received_signature: str,
+    state_pol: str = None,
 ) -> bool:
     """Valida la firma recibida desde PayU."""
+    # --- INICIO DE LA SOLUCIÓN ---
+    # 1. Normalizamos el string a un objeto Decimal
+    amount_decimal = normalize_amount(amount)
+    # 2. Lo formateamos a 2 decimales (igual que en la creación del pago)
+    formats_to_test = [".2f", ".1f"]
+    
+    # Si es un número entero exacto (ej: 35000.00), agregamos la prueba sin decimales por seguridad
+    if amount_decimal % 1 == 0:
+        formats_to_test.append(".0f")
 
-    expected_signature = generate_payu_signature(
-        config["api_key"],
-        config["merchant_id"],
-        reference_code,
-        amount,
-        currency=currency,
-    )
+    for fmt in formats_to_test:
+        formatted_amount = format(amount_decimal, fmt)
+
+        expected_signature = generate_payu_signature(
+            config["api_key"],
+            config["merchant_id"],
+            reference_code,
+            formatted_amount,
+            currency=currency,
+            state_pol=state_pol,
+        )
+        if expected_signature == received_signature:
+            # print(f"[DEBUG PAYU] Firma válida encontrada usando formato: {formatted_amount}")
+            return True
     return expected_signature == received_signature
 
 
