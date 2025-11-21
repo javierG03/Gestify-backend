@@ -10,7 +10,7 @@ from .tickets import (
 	TicketValidationAPIView,
 	TicketDetailAPIView,
 )
-
+from .ia_assistant import EventQAView # <-- AÑADIR ESTO
 __all__ = [
 	"EventViewSet",
 	"BuyTicketAPIView",
@@ -25,4 +25,5 @@ __all__ = [
 	"TicketTypeViewSet",
 	"DepartmentListView",
 	"CityListView",
+	"EventQAView", # <-- AÑADIR ESTO
 ]

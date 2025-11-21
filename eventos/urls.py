@@ -16,7 +16,8 @@ from .views import (
     TicketAccessLogListView,
     MyTicketsAPIView,
     ResendTicketEmailAPIView,
-    TicketDetailAPIView
+    TicketDetailAPIView,
+    EventQAView,
 )
 
 # --- Events ---
@@ -64,4 +65,5 @@ urlpatterns = [
     path('departments/', DepartmentListView.as_view(), name='department-list'),
     # --- Cities ---
     path('cities/', CityListView.as_view(), name='city-list'),
+    path('events/<int:event_id>/ask-ai/', EventQAView.as_view(), name='event-ask-ai'),
 ]
