@@ -24,3 +24,4 @@ supabase==2.0.3
 gunicorn==23.0.0
 python-dotenv==1.2.1
 google-generativeai
+whitenoise
