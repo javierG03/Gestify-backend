@@ -9,11 +9,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from eventos.models import Event, City
 from drf_spectacular.utils import extend_schema_field
-from .models import CustomUser
+from .models import CustomUser, DocumentType
 from .utils import assign_user_to_group
 from typing import List, Optional
 
 User = get_user_model()
+
+class DocumentTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentType
+        fields = ["id", "name", "code"]
 
 class SimpleEventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,18 +28,29 @@ class SimpleEventSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     department_name = serializers.SerializerMethodField()
     city_name = serializers.SerializerMethodField()
-    # role = serializers.SerializerMethodField()
-    #eventos_inscritos = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+    eventos_inscritos = serializers.SerializerMethodField()
 
     def get_department_name(self, obj) -> Optional[str]:
+        """Retorna el nombre del departamento en lugar del ID"""
         return obj.department.name if obj.department else None
+    
     def get_city_name(self, obj) -> Optional[str]:
+        """Retorna el nombre de la ciudad en lugar del ID"""
         return obj.city.name if obj.city else None
-    #def get_eventos_inscritos(self, obj):
-    #    tickets = obj.user_tickets.values_list('event_id', flat=True).distinct()
-    #    return list(tickets)
-    def get_role(self, obj) -> Optional[str]:
-        return [g.name for g in obj.groups.all()]
+
+    def get_role(self, obj) -> list:
+        """Retorna los grupos (roles) del usuario como una lista de nombres"""
+        return list(obj.groups.values_list('name', flat=True))
+    
+    @extend_schema_field(SimpleEventSerializer(many=True))
+    def get_eventos_inscritos(self, obj):
+        """Retorna los eventos inscritos del usuario"""
+        from eventos.models import Ticket
+        eventos = Ticket.objects.filter(user=obj).select_related('event').values_list('event', flat=True).distinct()
+        from eventos.models import Event
+        eventos_qs = Event.objects.filter(id__in=eventos)
+        return SimpleEventSerializer(eventos_qs, many=True).data
 
     def validate(self, data):
         # Validar ciudad-departamento solo si ambos están presentes
@@ -46,18 +62,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
                     'city': 'La ciudad seleccionada no pertenece al departamento elegido.'
                 })
         return data
+    
     def validate_document(self, value):
         if value and not value.isdigit():
             raise serializers.ValidationError("El número de documento debe ser numérico.")
         if value and len(value) < 6:
             raise serializers.ValidationError("El número de documento debe tener al menos 6 dígitos.")
         return value
+    
     def validate_phone(self, value):
         if value and not value.isdigit():
             raise serializers.ValidationError("El teléfono debe ser numérico.")
         if value and len(value) < 7:
             raise serializers.ValidationError("El teléfono debe tener al menos 7 dígitos.")
         return value
+    
     def validate_birth_date(self, value):
         import datetime
         if value and value > datetime.date.today():
@@ -65,22 +84,22 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if value and (datetime.date.today().year - value.year) < 14:
             raise serializers.ValidationError("El usuario debe tener al menos 14 años.")
         return value
-    #role = serializers.SerializerMethodField()
-    eventos_inscritos = serializers.SerializerMethodField()
-    @extend_schema_field(SimpleEventSerializer(many=True))
-    def get_eventos_inscritos(self, obj):
-        from eventos.models import Ticket
-        eventos = Ticket.objects.filter(user=obj).select_related('event').values_list('event', flat=True).distinct()
-        from eventos.models import Event
-        eventos_qs = Event.objects.filter(id__in=eventos)
-        return SimpleEventSerializer(eventos_qs, many=True).data
+    
     document_type = serializers.StringRelatedField()
 
     class Meta:
         model = CustomUser
         fields = '__all__'
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True, 'required': False},
+            'username': {'required': False},
+            'first_name': {'required': False},
+            'last_name': {'required': False},
+            'email': {'required': False},
+            'role': {'read_only': True},
+            'eventos_inscritos': {'read_only': True},
+            'department_name': {'read_only': True},
+            'city_name': {'read_only': True},
         }
 
     def create(self, validated_data):

@@ -39,6 +39,7 @@ class CustomUser(AbstractUser):
     city_text = models.CharField(max_length=100, blank=True, null=True, help_text="Ciudad libre (otros países)")
     department_text = models.CharField(max_length=100, blank=True, null=True, help_text="Departamento/Región libre (otros países)")
     is_email_verified = models.BooleanField(default=False, help_text="Indica si el email ha sido verificado")
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True, help_text="Foto de perfil del usuario")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "first_name", "last_name"]
