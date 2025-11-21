@@ -258,5 +258,7 @@ class VerifyEmailView(generics.GenericAPIView):
             return HttpResponse('Usuario no encontrado.', status=404)
 
 class DocumentTypeListView(generics.ListAPIView):
+    queryset = DocumentType.objects.all()
+
     serializer_class = DocumentTypeSerializer
     permission_classes = [AllowAny]  # Público para el registro
