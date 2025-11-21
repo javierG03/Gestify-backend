@@ -115,6 +115,8 @@ class MyEventsAPIView(APIView):
                     "department_text": event.department_text,
                     "status": event.status,
                     "tickets": [],
+                    "image": event.image,
+                    "category": event.category,
                 }
             events_data[event.id]["tickets"].append(
                 {
@@ -139,7 +141,9 @@ class EventViewSet(viewsets.ModelViewSet):
     ).select_related("location")
     serializer_class = EventSerializer
     authentication_classes = [TokenAuthentication]
-
+    def perform_create(self, serializer):
+        # Guarda el evento asignando el usuario actual como creador
+        serializer.save(creator=self.request.user)
     def get_permissions(self):
         admin_actions = {"create", "update", "partial_update", "destroy", "cancelar"}
         if getattr(self, "action", None) in admin_actions:
@@ -203,11 +207,11 @@ class EventViewSet(viewsets.ModelViewSet):
     @extend_schema(tags=["Eventos"], operation_id="event_ticket_types")
     def ticket_types_available(self, request, pk=None):
         event = self.get_object()
-        if event.status != "activo":
-            return Response(
-                {"error": "No se pueden consultar tipos para eventos inactivos."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        #if event.status != "activo":
+        #    return Response(
+        #        {"error": "No se pueden consultar tipos para eventos inactivos."},
+        #        status=status.HTTP_400_BAD_REQUEST,
+        #    )
         types = TicketTypeEvent.objects.select_related("ticket_type").filter(event=event)
         serializer = TicketTypeEventSerializer(types, many=True)
         return Response(serializer.data)
@@ -344,3 +348,26 @@ class BuyTicketAPIView(APIView):
             },
             status=status.HTTP_201_CREATED,
         )
+# ... (Después de la clase BuyTicketAPIView, al final del archivo)
+
+class MyCreatedEventsAPIView(APIView):
+    """
+    Eventos CREADOS por el usuario autenticado (Organizador).
+    """
+    authentication_classes = [TokenAuthentication]
+    # NOTA: Decide si es solo IsAuthenticated o IsAdminGroup
+    permission_classes = [IsAuthenticated] 
+
+    @extend_schema(
+        tags=["Eventos (Organizador)"], # Nuevo tag para claridad
+        operation_id="my_created_events",
+        responses=MyEventSerializer(many=True), # Reusamos el MyEventSerializer
+    )
+    def get(self, request) -> Response:
+        # Esta es la lógica que buscábamos:
+        # Filtra Eventos donde el 'creator' (Paso 1) sea el usuario logueado
+        created_events = Event.objects.filter(creator=request.user).order_by('-start_datetime')
+        
+        # Serializa los eventos
+        serializer = EventSerializer(created_events, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)

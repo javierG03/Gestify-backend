@@ -42,12 +42,14 @@ def _handle_payu_notification(request, source: str) -> Response:
         return Response({'error': 'Datos incompletos'}, status=status.HTTP_400_BAD_REQUEST)
 
     config = get_payu_config()
+    #print(f"[DEBUG PAYU] Datos RECIBIDOS de PayU ({source}): {payload}")
     reference_code = payload["reference_sale"]
     value = payload["value"]
     currency = payload["currency"]
     received_signature = payload["sign"]
-
-    if not validate_payu_signature(config, reference_code, value, currency, received_signature):
+    state_pol = str(payload.get("state_pol", ""))
+    #print(f"[DEBUG PAYU - LLAVE] Validando firma con: api_key={config['api_key']}, merchant_id={config['merchant_id']}, reference_code={reference_code}, amount={value}, currency={currency}")
+    if not validate_payu_signature(config, reference_code, value, currency, received_signature, state_pol=state_pol):
         logger.warning("Firma inválida PayU (%s) para referencia %s", source, reference_code)
         return Response({'error': 'Firma inválida'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -110,7 +112,12 @@ class PayUInitPaymentView(APIView):
         request=EmptySerializer,  
         responses=PayUDataResponseSerializer 
     )
-    @ratelimit(key='ip', rate='5/m', block=True)
+    # --- CAMBIO 2: Añade este método 'dispatch' ---
+    # (Este método aplica el rate limit a TODOS los métodos: POST, GET, etc.)
+    @method_decorator(ratelimit(key='ip', rate='5/m', method='POST', block=True))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    # --- FIN DEL CAMBIO ---
     def post(self, request, ticket_id):
         try:
             from eventos.models import Ticket
@@ -166,7 +173,7 @@ class PayUInitPaymentView(APIView):
                 payment.transaction_id = None
                 payment.updated_at = timezone.now()
                 payment.save(update_fields=["amount", "status", "currency", "buyer_email", "transaction_id", "updated_at"])
-
+            #print(f"[DEBUG PAYU - CANDADO] Generando firma con: api_key={config['api_key']}, merchant_id={config['merchant_id']}, reference_code={reference_code}, amount={amount}, currency={config['currency']}")
             signature = generate_payu_signature(
                 config['api_key'], config['merchant_id'], reference_code, amount, currency=config['currency']
             )

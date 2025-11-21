@@ -106,6 +106,14 @@ class TicketType(models.Model):
         return self.ticket_name
 
 class Event(models.Model): 
+    creator = models.ForeignKey(
+        settings.AUTH_USER_MODEL, # Apunta a tu modelo CustomUser
+        on_delete=models.SET_NULL,  # Si se borra el usuario, el evento no se borra (se pone en NULL)
+        null=True,
+        blank=True, # Lo ponemos blank/null temporalmente para migraciones
+        related_name="created_events",
+        help_text="Usuario que creó el evento."
+    )
     event_name = models.CharField(max_length=200)
     description = models.TextField()
     date = models.DateField(help_text="Fecha principal del evento (legacy, usar start_datetime y end_datetime)")
@@ -115,7 +123,7 @@ class Event(models.Model):
     location = models.ForeignKey('City', on_delete=models.SET_NULL, blank=True, null=True, help_text="Ciudad del evento (solo Colombia)")
     city_text = models.CharField(max_length=100, blank=True, null=True, help_text="Ciudad libre (otros países)")
     department_text = models.CharField(max_length=100, blank=True, null=True, help_text="Departamento/Región libre (otros países)")
-    status = models.CharField(max_length=50, choices=EventCategoryChoices.choices,default=EventCategoryChoices.OTROS, help_text="Categoría del evento")
+    status = models.CharField(max_length=50, choices=EventStatusChoices.choices,default=EventStatusChoices.PROGRAMADO, help_text="Categoría del evento")
     CATEGORY_CHOICES = [
         ("musica", "Música"),
         ("deporte", "Deporte"),

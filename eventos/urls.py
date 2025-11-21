@@ -8,6 +8,7 @@ from .views import (
     TicketTypeViewSet,
     TicketValidationAPIView,
     BuyTicketAPIView,
+    MyCreatedEventsAPIView,
     MyEventsAPIView,
     EventInscritosAPIView,
     DepartmentListView,
@@ -15,7 +16,8 @@ from .views import (
     TicketAccessLogListView,
     MyTicketsAPIView,
     ResendTicketEmailAPIView,
-    TicketDetailAPIView
+    TicketDetailAPIView,
+    EventQAView,
 )
 
 # --- Events ---
@@ -37,6 +39,7 @@ urlpatterns = [
     path('events/<int:pk>/cancel/', EventViewSet.as_view({'post': 'cancelar'}), name='event-cancel'),
     path('events/<int:pk>/attendees/', EventInscritosAPIView.as_view(), name='event-attendees'),
     path('events/my-events/', MyEventsAPIView.as_view(), name='event-my-events'),
+    path('organizer/my-events/', MyCreatedEventsAPIView.as_view(), name='organizer-my-events'),
     # --- Tickets del usuario ---
     path('tickets/my-tickets/', MyTicketsAPIView.as_view(), name='my-tickets'),
     # --- Ticket Detail ---
@@ -62,4 +65,5 @@ urlpatterns = [
     path('departments/', DepartmentListView.as_view(), name='department-list'),
     # --- Cities ---
     path('cities/', CityListView.as_view(), name='city-list'),
+    path('events/<int:event_id>/ask-ai/', EventQAView.as_view(), name='event-ask-ai'),
 ]
