@@ -16,6 +16,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+
+            echo "Conexion Exitosa"
             # 1. Ir a la carpeta del backend
             cd /home/ubuntu/Gestify_full/backend
             
