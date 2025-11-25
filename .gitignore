@@ -1,6 +1,5 @@
 .env
 .env.example
-.env
 venv
 db.sqlite3
 logs/gestify.log
