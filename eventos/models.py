@@ -114,16 +114,15 @@ class Event(models.Model):
         related_name="created_events",
         help_text="Usuario que creó el evento."
     )
-    event_name = models.CharField(max_length=200)
-    description = models.TextField()
-    date = models.DateField(help_text="Fecha principal del evento (legacy, usar start_datetime y end_datetime)")
+    event_name = models.CharField(max_length=200, help_text="Nombre del evento")
+    description = models.TextField(help_text="Descripción del evento")
     start_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de inicio del evento")
     end_datetime = models.DateTimeField(null=True, blank=True, help_text="Fecha y hora de finalización del evento")
     country = models.CharField(max_length=50, default="Colombia", help_text="País donde se realiza el evento")
     location = models.ForeignKey('City', on_delete=models.SET_NULL, blank=True, null=True, help_text="Ciudad del evento (solo Colombia)")
     city_text = models.CharField(max_length=100, blank=True, null=True, help_text="Ciudad libre (otros países)")
     department_text = models.CharField(max_length=100, blank=True, null=True, help_text="Departamento/Región libre (otros países)")
-    status = models.CharField(max_length=50, choices=EventStatusChoices.choices,default=EventStatusChoices.PROGRAMADO, help_text="Categoría del evento")
+    status = models.CharField(max_length=50, choices=EventStatusChoices.choices,default=EventStatusChoices.PROGRAMADO, help_text="Estado del evento")
     CATEGORY_CHOICES = [
         ("musica", "Música"),
         ("deporte", "Deporte"),

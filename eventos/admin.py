@@ -19,7 +19,7 @@ class TicketTypeAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class EventoAdmin(admin.ModelAdmin):
     """Admin para eventos."""
-    list_display = ['event_name', 'date', 'country', 'location', 'city_text', 'department_text', 'status']
+    list_display = ['event_name', 'country', 'location', 'city_text', 'department_text', 'status']
     inlines = [TicketTypeEventInline]
 
 admin.site.register(Ticket)

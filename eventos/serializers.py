@@ -166,8 +166,7 @@ class EventSerializer(serializers.ModelSerializer):
     types_of_tickets_available = serializers.SerializerMethodField()
     maximun_capacity_remaining = serializers.SerializerMethodField()
 
-    # Campo manual para ticket_type, procesado en to_internal_value
-    ticket_type = serializers.SerializerMethodField()
+
 
     def to_internal_value(self, data):
         # 1. Lee el string JSON del *nuevo* campo 'ticket_type_json'
@@ -189,15 +188,7 @@ class EventSerializer(serializers.ModelSerializer):
         internal_value['ticket_configs_list'] = parsed_ticket_list
         return internal_value
 
-    def get_ticket_type(self, obj) -> List[Dict[str, Any]]:
-        # Solo para lectura, retorna la configuración de tickets
-        types = (
-            TicketTypeEvent.objects.select_related("ticket_type")
-            .filter(event=obj)
-            .order_by("ticket_type__ticket_name")
-        )
-        serializer = TicketTypeEventSerializer(types, many=True, context=self.context)
-        return serializer.data
+
 
     max_capacity = serializers.IntegerField(required=False, allow_null=True)
 
@@ -208,7 +199,6 @@ class EventSerializer(serializers.ModelSerializer):
             'creator',
             "event_name",
             "description",
-            "date",
             "start_datetime",
             "end_datetime",
             "country",
@@ -227,7 +217,6 @@ class EventSerializer(serializers.ModelSerializer):
             "tickets",
             "types_of_tickets_available",
             "maximun_capacity_remaining",
-            "ticket_type",
             "ticket_type_json",
         ]
         read_only_fields = [
@@ -302,14 +291,15 @@ class EventSerializer(serializers.ModelSerializer):
         sold = Ticket.objects.filter(event=obj).aggregate(total=Sum("amount"))["total"] or 0
         return max(0, total_capacity - sold)
 
+
     def create(self, validated_data: Dict[str, Any]) -> Event:
         from .supabase_service import upload_image_to_supabase
         from django.core.exceptions import ValidationError as DjangoValidationError
         from rest_framework.exceptions import ValidationError as DRFValidationError
 
-        # Obtener ticket_type desde self.initial_data
+        # Eliminar campos que no pertenecen al modelo Event
+        validated_data.pop("ticket_type_json", None)
         ticket_configs = validated_data.pop("ticket_configs_list", [])
-
         image_file = validated_data.pop("image_file", None)
         if image_file:
             validated_data["image"] = upload_image_to_supabase(image_file, image_file.name)
@@ -333,6 +323,8 @@ class EventSerializer(serializers.ModelSerializer):
     def update(self, instance: Event, validated_data: Dict[str, Any]) -> Event:
         from .supabase_service import upload_image_to_supabase
 
+        # Eliminar campos que no pertenecen al modelo Event
+        validated_data.pop("ticket_type_json", None)
         ticket_configs = validated_data.pop("ticket_configs_list", None)
         image_file = validated_data.pop("image_file", None)
 

@@ -243,19 +243,16 @@ class VerifyEmailView(generics.GenericAPIView):
             user_token = UserToken.objects.get(token=token_value, token_type=UserToken.TokenType.EMAIL_VERIFICATION)
         except UserToken.DoesNotExist:
             return HttpResponse('Token inválido o expirado.', status=400)
-        try:
-            if not user_token.is_valid():
-                user_token.mark_used()
-                return HttpResponse('Token inválido o expirado.', status=400)
-            user = user_token.user
-            user.is_active = True
-            user.is_email_verified = True
-            user.save(update_fields=['is_active', 'is_email_verified'])
-            user_token.mark_used()
-            send_confirmation_email(user)
-            return HttpResponse('¡Correo verificado exitosamente! Tu cuenta está activa.')
-        except CustomUser.DoesNotExist:
-            return HttpResponse('Usuario no encontrado.', status=404)
+        # Solo si el token es válido, activa usuario, marca como usado y envía correo
+        if not user_token.is_valid():
+            return HttpResponse('Token inválido o expirado.', status=400)
+        user = user_token.user
+        user.is_active = True
+        user.is_email_verified = True
+        user.save(update_fields=['is_active', 'is_email_verified'])
+        user_token.mark_used()
+        send_confirmation_email(user)
+        return HttpResponse('¡Correo verificado exitosamente! Tu cuenta está activa.')
 
 class DocumentTypeListView(generics.ListAPIView):
     queryset = DocumentType.objects.all()
