@@ -19,6 +19,8 @@ from .views import (
     TicketDetailAPIView,
     EventQAView,
 )
+from .views.ia_assistant import ChatBotView
+from .views.chat_history import ChatHistoryView
 
 # --- Events ---
 event_list_create = EventViewSet.as_view({'get': 'list', 'post': 'create'})
@@ -66,4 +68,8 @@ urlpatterns = [
     # --- Cities ---
     path('cities/', CityListView.as_view(), name='city-list'),
     path('events/<int:event_id>/ask-ai/', EventQAView.as_view(), name='event-ask-ai'),
+    # --- ChatBot ---
+    path('ia/chat/', ChatBotView.as_view(), name='ia-chatbot'),
+    # --- Chat History ---
+    path('ia/chat-history/', ChatHistoryView.as_view(), name='ia-chat-history'),
 ]

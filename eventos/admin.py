@@ -4,6 +4,7 @@ Configuración del admin para el módulo de eventos. Clean code y comentarios cl
 """
 from django.contrib import admin
 from .models import TicketType, TicketTypeEvent, Ticket, Event
+from .models_chat import ChatHistory
 
 class TicketTypeEventInline(admin.TabularInline):
     model = TicketTypeEvent
@@ -23,3 +24,4 @@ class EventoAdmin(admin.ModelAdmin):
     inlines = [TicketTypeEventInline]
 
 admin.site.register(Ticket)
+admin.site.register(ChatHistory)
