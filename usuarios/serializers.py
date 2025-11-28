@@ -20,7 +20,7 @@ class SimpleEventSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(source='start_datetime', read_only=True) 
     class Meta:
         model = Event
-        fields = ["id", "event_name", "date", "status"]
+        fields = ["id", "name", "date", "status"]
 
 class CustomUserSerializer(serializers.ModelSerializer):
     department_name = serializers.SerializerMethodField()
