@@ -108,6 +108,7 @@ class MyEventsAPIView(APIView):
                 events_data[event.id] = {
                     "event": event.event_name,
                     "event_id": event.id,
+                    "date": event.start_datetime.date(),
                     "location": str(event.location) if event.location else None,
                     "country": event.country,
                     "city_text": event.city_text,
