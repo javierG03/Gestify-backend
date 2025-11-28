@@ -16,6 +16,8 @@ from typing import List, Optional
 User = get_user_model()
 
 class SimpleEventSerializer(serializers.ModelSerializer):
+   name = serializers.CharField(source='event_name', read_only=True)
+   date = serializers.DateTimeField(source='start_datetime', read_only=True) 
     class Meta:
         model = Event
         fields = ["id", "event_name", "date", "status"]
